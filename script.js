@@ -24,14 +24,14 @@ if (canvas && nameEl) {
 
   const config = {
     particleCount: 24,
-    maxSpeed: 3,
-    centerPull: 0.0065,
-    clumpPull: 0.013,
-    damping: 0.935,
-    repelRadius: 280,
-    repelStrength: 0.95,
+    maxSpeed: 7.8,
+    centerPull: 0.0048,
+    clumpPull: 0.0105,
+    damping: 0.94,
+    repelRadius: 370,
+    repelStrength: 1.2,
     separationStrength: 0.2,
-    separationPadding: 4,
+    separationPadding: 5,
   };
 
   const particles = [];
@@ -44,7 +44,7 @@ if (canvas && nameEl) {
   let center = {
     x: window.innerWidth / 2,
     y: window.innerHeight / 2,
-    radius: 170,
+    radius: 210,
   };
 
   function clamp(value, min, max) {
@@ -56,7 +56,7 @@ if (canvas && nameEl) {
     return {
       x: rect.left + rect.width / 2,
       y: rect.top + rect.height / 2,
-      radius: Math.max(rect.width * 0.82, 180),
+      radius: Math.max(rect.width * 0.92, 230),
     };
   }
 
@@ -78,18 +78,20 @@ if (canvas && nameEl) {
     const angle = Math.random() * Math.PI * 2;
     const spread = Math.sqrt(Math.random());
     const depth = Math.random();
-    const radius = 28 + depth * 30;
+    const radius = 42 + depth * 40;
 
     return {
       x: center.x + Math.cos(angle) * center.radius * spread,
       y: center.y + Math.sin(angle) * center.radius * spread,
-      vx: (Math.random() - 0.5) * 1.1,
-      vy: (Math.random() - 0.5) * 1.1,
+      vx: (Math.random() - 0.5) * 1.3,
+      vy: (Math.random() - 0.5) * 1.3,
       depth,
       radius,
       hue: 216 + Math.random() * 8,
       saturation: 20 + Math.random() * 12,
       lightness: 62 + Math.random() * 14,
+      mesh: null,
+      wobbleOffset: Math.random() * Math.PI * 2,
     };
   }
 
@@ -140,7 +142,7 @@ if (canvas && nameEl) {
     particle.vy += dyCenter * config.centerPull;
 
     const distanceToCenter = Math.hypot(dxCenter, dyCenter) || 1;
-    const normalized = clamp(distanceToCenter / center.radius, 0.45, 1.9);
+    const normalized = clamp(distanceToCenter / center.radius, 0.45, 2.4);
     particle.vx += (dxCenter / distanceToCenter) * config.clumpPull * normalized;
     particle.vy += (dyCenter / distanceToCenter) * config.clumpPull * normalized;
 
@@ -153,8 +155,8 @@ if (canvas && nameEl) {
         const falloff = 1 - distance / config.repelRadius;
         const force = config.repelStrength * falloff * falloff;
         const safeDistance = Math.max(distance, 0.0001);
-        particle.vx += (mdx / safeDistance) * force * 14;
-        particle.vy += (mdy / safeDistance) * force * 14;
+        particle.vx += (mdx / safeDistance) * force * 18;
+        particle.vy += (mdy / safeDistance) * force * 18;
       }
     }
 
@@ -165,6 +167,58 @@ if (canvas && nameEl) {
 
     particle.x += particle.vx;
     particle.y += particle.vy;
+  }
+
+  function initThreeRenderer() {
+    if (!window.THREE) {
+      return null;
+    }
+
+    const renderer = new window.THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight, false);
+
+    const scene = new window.THREE.Scene();
+    const camera = new window.THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 1, 2600);
+    camera.position.z = 880;
+
+    const ambient = new window.THREE.AmbientLight(0xc1d2ff, 0.65);
+    const key = new window.THREE.DirectionalLight(0xffffff, 1.05);
+    key.position.set(-0.8, -1, 1.8);
+    const fill = new window.THREE.PointLight(0x8fb4ff, 1.2, 2600);
+    fill.position.set(230, -160, 780);
+
+    scene.add(ambient, key, fill);
+
+    for (const particle of particles) {
+      const geometry = new window.THREE.SphereGeometry(particle.radius * 0.92, 36, 28);
+      const color = new window.THREE.Color().setHSL(
+        particle.hue / 360,
+        clamp((particle.saturation + 8) / 100, 0, 1),
+        clamp((particle.lightness + 6) / 100, 0, 1)
+      );
+
+      const material = new window.THREE.MeshPhysicalMaterial({
+        color,
+        roughness: 0.2,
+        metalness: 0.08,
+        clearcoat: 1,
+        clearcoatRoughness: 0.16,
+        reflectivity: 0.52,
+      });
+
+      const mesh = new window.THREE.Mesh(geometry, material);
+      mesh.position.set(
+        particle.x - window.innerWidth / 2,
+        window.innerHeight / 2 - particle.y,
+        -95 + particle.depth * 225
+      );
+
+      particle.mesh = mesh;
+      scene.add(mesh);
+    }
+
+    return { renderer, scene, camera };
   }
 
   function drawSphere(particle) {
@@ -225,9 +279,11 @@ if (canvas && nameEl) {
     ctx.fill();
   }
 
-  function animate() {
+  initParticles();
+  let three = initThreeRenderer();
+
+  function animate(time = 0) {
     center = getNameBounds();
-    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
     for (const particle of particles) {
       updateParticle(particle);
@@ -235,9 +291,31 @@ if (canvas && nameEl) {
 
     applySeparation();
 
-    particles.sort((a, b) => a.depth - b.depth || a.y - b.y);
-    for (const particle of particles) {
-      drawSphere(particle);
+    if (three) {
+      const { renderer, scene, camera } = three;
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+
+      for (const particle of particles) {
+        if (!particle.mesh) {
+          continue;
+        }
+
+        particle.mesh.position.x = particle.x - window.innerWidth / 2;
+        particle.mesh.position.y = window.innerHeight / 2 - particle.y;
+        particle.mesh.position.z = -95 + particle.depth * 225 + Math.sin(time * 0.001 + particle.wobbleOffset) * 14;
+        particle.mesh.rotation.y += particle.vx * 0.00085;
+        particle.mesh.rotation.x += particle.vy * 0.00085;
+      }
+
+      particles.sort((a, b) => a.depth - b.depth || a.y - b.y);
+      renderer.render(scene, camera);
+    } else {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      particles.sort((a, b) => a.depth - b.depth || a.y - b.y);
+      for (const particle of particles) {
+        drawSphere(particle);
+      }
     }
 
     requestAnimationFrame(animate);
@@ -246,6 +324,10 @@ if (canvas && nameEl) {
   window.addEventListener('resize', () => {
     resizeCanvas();
     initParticles();
+    three = initThreeRenderer();
+    if (three) {
+      three.renderer.setSize(window.innerWidth, window.innerHeight, false);
+    }
   });
 
   window.addEventListener('mousemove', (event) => {
@@ -271,6 +353,5 @@ if (canvas && nameEl) {
   });
 
   resizeCanvas();
-  initParticles();
   animate();
 }
