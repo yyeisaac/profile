@@ -3,7 +3,7 @@
 ## Run
 
 ```bash
-npm run readme
+npm run dev
 ```
 
 Then open `http://localhost:4173`.
