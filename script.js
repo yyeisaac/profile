@@ -31,7 +31,7 @@ if (canvas && nameEl) {
     repelRadius: 370,
     repelStrength: 1.2,
     separationStrength: 0.06,
-    separationPadding: -15,
+    separationPadding: -30,
   };
 
   const particles = [];
