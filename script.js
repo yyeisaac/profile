@@ -3,15 +3,15 @@ const ctx = canvas.getContext('2d');
 const nameEl = document.getElementById('name');
 
 const config = {
-  particleCount: 90,
-  maxSpeed: 2.1,
-  centerPull: 0.008,
-  clumpPull: 0.016,
+  particleCount: 34,
+  maxSpeed: 1.9,
+  centerPull: 0.007,
+  clumpPull: 0.014,
   damping: 0.94,
-  repelRadius: 170,
-  repelStrength: 0.45,
-  separationStrength: 0.15,
-  separationPadding: 2.5,
+  repelRadius: 190,
+  repelStrength: 0.5,
+  separationStrength: 0.18,
+  separationPadding: 3,
 };
 
 const particles = [];
@@ -36,7 +36,7 @@ function getNameBounds() {
   return {
     x: rect.left + rect.width / 2,
     y: rect.top + rect.height / 2,
-    radius: Math.max(rect.width * 0.72, 160),
+    radius: Math.max(rect.width * 0.78, 170),
   };
 }
 
@@ -57,17 +57,19 @@ function resizeCanvas() {
 function createParticle() {
   const angle = Math.random() * Math.PI * 2;
   const spread = Math.sqrt(Math.random());
-  const radius = 13 + Math.random() * 13;
+  const depth = Math.random();
+  const radius = 20 + depth * 24;
 
   return {
     x: center.x + Math.cos(angle) * center.radius * spread,
     y: center.y + Math.sin(angle) * center.radius * spread,
-    vx: (Math.random() - 0.5) * 1.4,
-    vy: (Math.random() - 0.5) * 1.4,
+    vx: (Math.random() - 0.5) * 1.2,
+    vy: (Math.random() - 0.5) * 1.2,
+    depth,
     radius,
-    hue: 205 + Math.random() * 30,
-    saturation: 55 + Math.random() * 20,
-    lightness: 44 + Math.random() * 14,
+    hue: 210,
+    saturation: 8 + Math.random() * 7,
+    lightness: 64 + Math.random() * 16,
   };
 }
 
@@ -149,41 +151,50 @@ function drawSphere(particle) {
   const x = particle.x;
   const y = particle.y;
   const r = particle.radius;
+  const depthScale = 0.75 + particle.depth * 0.6;
 
-  const rim = ctx.createRadialGradient(x, y, r * 0.35, x, y, r * 1.25);
-  rim.addColorStop(0, `hsla(${particle.hue}, ${particle.saturation}%, ${particle.lightness + 18}%, 0.96)`);
-  rim.addColorStop(0.55, `hsla(${particle.hue}, ${particle.saturation}%, ${particle.lightness}%, 0.98)`);
-  rim.addColorStop(1, `hsla(${particle.hue}, ${particle.saturation - 14}%, ${particle.lightness - 26}%, 1)`);
-
-  ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI * 2);
-  ctx.fillStyle = rim;
-  ctx.fill();
-
-  const highlight = ctx.createRadialGradient(
-    x - r * 0.42,
-    y - r * 0.5,
-    r * 0.06,
-    x - r * 0.28,
-    y - r * 0.38,
-    r * 0.72
+  const body = ctx.createRadialGradient(
+    x - r * 0.22,
+    y - r * 0.28,
+    r * 0.12,
+    x,
+    y,
+    r * 1.15
   );
-  highlight.addColorStop(0, 'rgba(255,255,255,0.98)');
-  highlight.addColorStop(0.36, 'rgba(231,245,255,0.78)');
-  highlight.addColorStop(1, 'rgba(210,235,255,0)');
+  body.addColorStop(0, `hsla(${particle.hue}, ${particle.saturation + 6}%, ${particle.lightness + 10}%, 1)`);
+  body.addColorStop(0.45, `hsla(${particle.hue}, ${particle.saturation}%, ${particle.lightness}%, 0.99)`);
+  body.addColorStop(0.78, `hsla(${particle.hue}, ${particle.saturation - 4}%, ${particle.lightness - 15}%, 1)`);
+  body.addColorStop(1, `hsla(${particle.hue}, ${particle.saturation - 6}%, ${particle.lightness - 25}%, 1)`);
+
+  const shadow = ctx.createRadialGradient(x + r * 0.26, y + r * 0.45, r * 0.15, x + r * 0.35, y + r * 0.56, r * 1.08);
+  shadow.addColorStop(0, `rgba(0, 0, 0, ${0.3 + particle.depth * 0.15})`);
+  shadow.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
   ctx.beginPath();
-  ctx.arc(x - r * 0.22, y - r * 0.22, r * 0.66, 0, Math.PI * 2);
-  ctx.fillStyle = highlight;
+  ctx.arc(x, y, r * depthScale, 0, Math.PI * 2);
+  ctx.fillStyle = body;
   ctx.fill();
 
-  const cast = ctx.createRadialGradient(x + r * 0.24, y + r * 0.42, r * 0.2, x + r * 0.3, y + r * 0.56, r);
-  cast.addColorStop(0, 'rgba(0,0,0,0.24)');
-  cast.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.beginPath();
+  ctx.arc(x + r * 0.14, y + r * 0.3, r * 0.92 * depthScale, 0, Math.PI * 2);
+  ctx.fillStyle = shadow;
+  ctx.fill();
+
+  const spec = ctx.createRadialGradient(
+    x - r * 0.4,
+    y - r * 0.46,
+    r * 0.04,
+    x - r * 0.25,
+    y - r * 0.34,
+    r * 0.58
+  );
+  spec.addColorStop(0, 'rgba(255,255,255,0.98)');
+  spec.addColorStop(0.32, 'rgba(245,248,252,0.78)');
+  spec.addColorStop(1, 'rgba(235,240,248,0)');
 
   ctx.beginPath();
-  ctx.arc(x + r * 0.14, y + r * 0.32, r * 0.92, 0, Math.PI * 2);
-  ctx.fillStyle = cast;
+  ctx.arc(x - r * 0.2, y - r * 0.2, r * 0.55 * depthScale, 0, Math.PI * 2);
+  ctx.fillStyle = spec;
   ctx.fill();
 }
 
@@ -197,7 +208,7 @@ function animate() {
 
   applySeparation();
 
-  particles.sort((a, b) => a.radius - b.radius);
+  particles.sort((a, b) => a.depth - b.depth || a.y - b.y);
   for (const particle of particles) {
     drawSphere(particle);
   }
