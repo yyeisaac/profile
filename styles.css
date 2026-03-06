@@ -112,15 +112,15 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  font-family: 'Space Grotesk', 'Avenir Next', 'Segoe UI', sans-serif;
+  font-family: 'Sora', sans-serif;
   font-weight: 700;
   font-size: clamp(1.9rem, 6.2vw, 4.3rem);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #f9fbff;
-  text-shadow:
-    0 0 10px rgba(186, 206, 255, 0.34),
-    0 0 30px rgba(120, 165, 255, 0.18);
+  color: #ffffff;
+    text-shadow:
+    0 0 12px rgba(255,255,255,0.55),
+    0 0 32px rgba(120,170,255,0.35);
   white-space: nowrap;
   pointer-events: none;
 }
