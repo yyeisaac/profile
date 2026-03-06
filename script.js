@@ -25,13 +25,13 @@ if (canvas && nameEl) {
   const config = {
     particleCount: 24,
     maxSpeed: 7.8,
-    centerPull: 0.0082,
-    clumpPull: 0.0205,
+    centerPull: 0.0082, 
+      clumpPull: 0.05,
     damping: 0.92,
     repelRadius: 370,
     repelStrength: 1.2,
     separationStrength: 0.06,
-    separationPadding: -22,
+    separationPadding: -15,
   };
 
   const particles = [];
@@ -79,7 +79,7 @@ if (canvas && nameEl) {
 
   function createParticle() {
     const angle = Math.random() * Math.PI * 2;
-    const spread = Math.sqrt(Math.random()) * 0.34;
+    const spread = Math.sqrt(Math.random()) * 0.15;
     const depth = Math.random();
     const radius = 42 + depth * 40;
 
