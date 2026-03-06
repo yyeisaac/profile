@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio Landing Page</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="site-menu" class="site-menu" aria-label="Main navigation">
+        <a href="about.html">About Me</a>
+        <a href="projects-skills.html">Projects + Skills</a>
+      </nav>
+    </header>
+
+    <main class="hero" aria-label="Landing page">
+      <canvas id="particle-canvas" aria-hidden="true"></canvas>
+      <h1 id="name">Your Name</h1>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
