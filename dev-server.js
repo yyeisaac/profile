@@ -50,9 +50,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(port, '0.0.0.0', () => {
-<<<<<<< HEAD
-    console.log(`Portfolio landing page available at http://localhost:${port}`);
-=======
   console.log(`Portfolio landing page available at http://localhost:${port}`);
->>>>>>> c9bc4f477d45229c525d147972775c7bdbf4e70f
 });
