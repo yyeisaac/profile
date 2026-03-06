@@ -3,15 +3,15 @@ const ctx = canvas.getContext('2d');
 const nameEl = document.getElementById('name');
 
 const config = {
-  particleCount: 34,
-  maxSpeed: 1.9,
-  centerPull: 0.007,
-  clumpPull: 0.014,
-  damping: 0.94,
-  repelRadius: 190,
-  repelStrength: 0.5,
-  separationStrength: 0.18,
-  separationPadding: 3,
+  particleCount: 24,
+  maxSpeed: 2.7,
+  centerPull: 0.0065,
+  clumpPull: 0.013,
+  damping: 0.935,
+  repelRadius: 240,
+  repelStrength: 0.78,
+  separationStrength: 0.2,
+  separationPadding: 4,
 };
 
 const particles = [];
@@ -36,7 +36,7 @@ function getNameBounds() {
   return {
     x: rect.left + rect.width / 2,
     y: rect.top + rect.height / 2,
-    radius: Math.max(rect.width * 0.78, 170),
+    radius: Math.max(rect.width * 0.82, 180),
   };
 }
 
@@ -58,18 +58,18 @@ function createParticle() {
   const angle = Math.random() * Math.PI * 2;
   const spread = Math.sqrt(Math.random());
   const depth = Math.random();
-  const radius = 20 + depth * 24;
+  const radius = 28 + depth * 30;
 
   return {
     x: center.x + Math.cos(angle) * center.radius * spread,
     y: center.y + Math.sin(angle) * center.radius * spread,
-    vx: (Math.random() - 0.5) * 1.2,
-    vy: (Math.random() - 0.5) * 1.2,
+    vx: (Math.random() - 0.5) * 1.1,
+    vy: (Math.random() - 0.5) * 1.1,
     depth,
     radius,
-    hue: 210,
-    saturation: 8 + Math.random() * 7,
-    lightness: 64 + Math.random() * 16,
+    hue: 216 + Math.random() * 8,
+    saturation: 20 + Math.random() * 12,
+    lightness: 62 + Math.random() * 14,
   };
 }
 
@@ -120,7 +120,7 @@ function updateParticle(particle) {
   particle.vy += dyCenter * config.centerPull;
 
   const distanceToCenter = Math.hypot(dxCenter, dyCenter) || 1;
-  const normalized = clamp(distanceToCenter / center.radius, 0.5, 1.8);
+  const normalized = clamp(distanceToCenter / center.radius, 0.45, 1.9);
   particle.vx += (dxCenter / distanceToCenter) * config.clumpPull * normalized;
   particle.vy += (dyCenter / distanceToCenter) * config.clumpPull * normalized;
 
@@ -133,8 +133,8 @@ function updateParticle(particle) {
       const falloff = 1 - distance / config.repelRadius;
       const force = config.repelStrength * falloff * falloff;
       const safeDistance = Math.max(distance, 0.0001);
-      particle.vx += (mdx / safeDistance) * force * 8;
-      particle.vy += (mdy / safeDistance) * force * 8;
+      particle.vx += (mdx / safeDistance) * force * 12;
+      particle.vy += (mdy / safeDistance) * force * 12;
     }
   }
 
@@ -151,24 +151,31 @@ function drawSphere(particle) {
   const x = particle.x;
   const y = particle.y;
   const r = particle.radius;
-  const depthScale = 0.75 + particle.depth * 0.6;
+  const depthScale = 0.76 + particle.depth * 0.62;
 
   const body = ctx.createRadialGradient(
-    x - r * 0.22,
-    y - r * 0.28,
-    r * 0.12,
+    x - r * 0.24,
+    y - r * 0.32,
+    r * 0.1,
     x,
     y,
+    r * 1.2
+  );
+  body.addColorStop(0, `hsla(${particle.hue}, ${particle.saturation + 10}%, ${particle.lightness + 14}%, 1)`);
+  body.addColorStop(0.38, `hsla(${particle.hue}, ${particle.saturation}%, ${particle.lightness}%, 1)`);
+  body.addColorStop(0.75, `hsla(${particle.hue}, ${particle.saturation - 6}%, ${particle.lightness - 16}%, 1)`);
+  body.addColorStop(1, `hsla(${particle.hue}, ${particle.saturation - 8}%, ${particle.lightness - 30}%, 1)`);
+
+  const contactShadow = ctx.createRadialGradient(
+    x + r * 0.3,
+    y + r * 0.48,
+    r * 0.1,
+    x + r * 0.36,
+    y + r * 0.62,
     r * 1.15
   );
-  body.addColorStop(0, `hsla(${particle.hue}, ${particle.saturation + 6}%, ${particle.lightness + 10}%, 1)`);
-  body.addColorStop(0.45, `hsla(${particle.hue}, ${particle.saturation}%, ${particle.lightness}%, 0.99)`);
-  body.addColorStop(0.78, `hsla(${particle.hue}, ${particle.saturation - 4}%, ${particle.lightness - 15}%, 1)`);
-  body.addColorStop(1, `hsla(${particle.hue}, ${particle.saturation - 6}%, ${particle.lightness - 25}%, 1)`);
-
-  const shadow = ctx.createRadialGradient(x + r * 0.26, y + r * 0.45, r * 0.15, x + r * 0.35, y + r * 0.56, r * 1.08);
-  shadow.addColorStop(0, `rgba(0, 0, 0, ${0.3 + particle.depth * 0.15})`);
-  shadow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+  contactShadow.addColorStop(0, `rgba(0, 0, 0, ${0.32 + particle.depth * 0.2})`);
+  contactShadow.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
   ctx.beginPath();
   ctx.arc(x, y, r * depthScale, 0, Math.PI * 2);
@@ -176,24 +183,24 @@ function drawSphere(particle) {
   ctx.fill();
 
   ctx.beginPath();
-  ctx.arc(x + r * 0.14, y + r * 0.3, r * 0.92 * depthScale, 0, Math.PI * 2);
-  ctx.fillStyle = shadow;
+  ctx.arc(x + r * 0.14, y + r * 0.34, r * 0.96 * depthScale, 0, Math.PI * 2);
+  ctx.fillStyle = contactShadow;
   ctx.fill();
 
   const spec = ctx.createRadialGradient(
-    x - r * 0.4,
-    y - r * 0.46,
-    r * 0.04,
-    x - r * 0.25,
+    x - r * 0.44,
+    y - r * 0.52,
+    r * 0.03,
+    x - r * 0.24,
     y - r * 0.34,
-    r * 0.58
+    r * 0.65
   );
-  spec.addColorStop(0, 'rgba(255,255,255,0.98)');
-  spec.addColorStop(0.32, 'rgba(245,248,252,0.78)');
-  spec.addColorStop(1, 'rgba(235,240,248,0)');
+  spec.addColorStop(0, 'rgba(255,255,255,0.99)');
+  spec.addColorStop(0.27, 'rgba(238,245,255,0.86)');
+  spec.addColorStop(1, 'rgba(228,237,255,0)');
 
   ctx.beginPath();
-  ctx.arc(x - r * 0.2, y - r * 0.2, r * 0.55 * depthScale, 0, Math.PI * 2);
+  ctx.arc(x - r * 0.2, y - r * 0.24, r * 0.58 * depthScale, 0, Math.PI * 2);
   ctx.fillStyle = spec;
   ctx.fill();
 }

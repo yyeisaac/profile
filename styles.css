@@ -15,7 +15,7 @@ body {
   height: 100%;
   overflow: hidden;
   font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  background: radial-gradient(circle at 25% 15%, #1f2229 0%, #11141a 45%, #07090d 100%);
+  background: radial-gradient(circle at 25% 15%, #1a1f2a 0%, #101522 46%, #070b14 100%);
   color: #f2f4ff;
 }
 
@@ -50,8 +50,8 @@ body {
   text-transform: uppercase;
   color: #f9fbff;
   text-shadow:
-    0 0 10px rgba(176, 194, 255, 0.28),
-    0 0 26px rgba(104, 146, 255, 0.12);
+    0 0 10px rgba(184, 202, 255, 0.32),
+    0 0 26px rgba(118, 162, 255, 0.16);
   white-space: nowrap;
   pointer-events: none;
 }
