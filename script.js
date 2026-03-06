@@ -25,13 +25,13 @@ if (canvas && nameEl) {
   const config = {
     particleCount: 24,
     maxSpeed: 7.8,
-    centerPull: 0.0105,
-    clumpPull: 0.028,
-    damping: 0.9,
+    centerPull: 0.0082,
+    clumpPull: 0.0205,
+    damping: 0.92,
     repelRadius: 370,
     repelStrength: 1.2,
-    separationStrength: 0,
-    separationPadding: -120,
+    separationStrength: 0.08,
+    separationPadding: -42,
   };
 
   const particles = [];
@@ -44,7 +44,7 @@ if (canvas && nameEl) {
   let center = {
     x: window.innerWidth / 2,
     y: window.innerHeight / 2,
-    radius: 95,
+    radius: 140,
   };
 
   function clamp(value, min, max) {
@@ -56,7 +56,7 @@ if (canvas && nameEl) {
     return {
       x: rect.left + rect.width / 2,
       y: rect.top + rect.height / 2,
-      radius: Math.max(rect.width * 0.34, 86),
+      radius: Math.max(rect.width * 0.5, 120),
     };
   }
 
@@ -79,15 +79,15 @@ if (canvas && nameEl) {
 
   function createParticle() {
     const angle = Math.random() * Math.PI * 2;
-    const spread = Math.sqrt(Math.random()) * 0.24;
+    const spread = Math.sqrt(Math.random()) * 0.42;
     const depth = Math.random();
     const radius = 42 + depth * 40;
 
     return {
       x: center.x + Math.cos(angle) * center.radius * spread,
       y: center.y + Math.sin(angle) * center.radius * spread,
-      vx: (Math.random() - 0.5) * 0.8,
-      vy: (Math.random() - 0.5) * 0.8,
+      vx: (Math.random() - 0.5) * 1.0,
+      vy: (Math.random() - 0.5) * 1.0,
       depth,
       radius,
       hue: 216 + Math.random() * 8,
