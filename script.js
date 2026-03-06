@@ -3,13 +3,15 @@ const ctx = canvas.getContext('2d');
 const nameEl = document.getElementById('name');
 
 const config = {
-  particleCount: 120,
-  maxSpeed: 2.2,
+  particleCount: 90,
+  maxSpeed: 2.1,
   centerPull: 0.008,
-  clumpPull: 0.015,
+  clumpPull: 0.016,
   damping: 0.94,
-  repelRadius: 150,
-  repelStrength: 0.42,
+  repelRadius: 170,
+  repelStrength: 0.45,
+  separationStrength: 0.15,
+  separationPadding: 2.5,
 };
 
 const particles = [];
@@ -22,8 +24,7 @@ const mouse = {
 let center = {
   x: window.innerWidth / 2,
   y: window.innerHeight / 2,
-  radiusX: 220,
-  radiusY: 110,
+  radius: 170,
 };
 
 function clamp(value, min, max) {
@@ -35,8 +36,7 @@ function getNameBounds() {
   return {
     x: rect.left + rect.width / 2,
     y: rect.top + rect.height / 2,
-    radiusX: Math.max(rect.width * 0.62, 120),
-    radiusY: Math.max(rect.height * 2.2, 80),
+    radius: Math.max(rect.width * 0.72, 160),
   };
 }
 
@@ -56,18 +56,18 @@ function resizeCanvas() {
 
 function createParticle() {
   const angle = Math.random() * Math.PI * 2;
-  const spread = 0.18 + Math.random() * 0.82;
-  const radius = 7 + Math.random() * 12;
+  const spread = Math.sqrt(Math.random());
+  const radius = 13 + Math.random() * 13;
 
   return {
-    x: center.x + Math.cos(angle) * center.radiusX * spread,
-    y: center.y + Math.sin(angle) * center.radiusY * spread,
-    vx: (Math.random() - 0.5) * 1.6,
-    vy: (Math.random() - 0.5) * 1.6,
+    x: center.x + Math.cos(angle) * center.radius * spread,
+    y: center.y + Math.sin(angle) * center.radius * spread,
+    vx: (Math.random() - 0.5) * 1.4,
+    vy: (Math.random() - 0.5) * 1.4,
     radius,
-    hue: 205 + Math.random() * 25,
+    hue: 205 + Math.random() * 30,
     saturation: 55 + Math.random() * 20,
-    lightness: 45 + Math.random() * 16,
+    lightness: 44 + Math.random() * 14,
   };
 }
 
@@ -78,6 +78,38 @@ function initParticles() {
   }
 }
 
+function applySeparation() {
+  for (let i = 0; i < particles.length; i += 1) {
+    for (let j = i + 1; j < particles.length; j += 1) {
+      const a = particles[i];
+      const b = particles[j];
+
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const distance = Math.hypot(dx, dy) || 0.0001;
+      const minDistance = a.radius + b.radius + config.separationPadding;
+
+      if (distance < minDistance) {
+        const overlap = minDistance - distance;
+        const nx = dx / distance;
+        const ny = dy / distance;
+        const push = overlap * config.separationStrength;
+
+        a.vx -= nx * push;
+        a.vy -= ny * push;
+        b.vx += nx * push;
+        b.vy += ny * push;
+
+        const correction = overlap * 0.5;
+        a.x -= nx * correction;
+        a.y -= ny * correction;
+        b.x += nx * correction;
+        b.y += ny * correction;
+      }
+    }
+  }
+}
+
 function updateParticle(particle) {
   const dxCenter = center.x - particle.x;
   const dyCenter = center.y - particle.y;
@@ -85,10 +117,10 @@ function updateParticle(particle) {
   particle.vx += dxCenter * config.centerPull;
   particle.vy += dyCenter * config.centerPull;
 
-  const nx = dxCenter / Math.max(center.radiusX, 1);
-  const ny = dyCenter / Math.max(center.radiusY, 1);
-  particle.vx += nx * config.clumpPull;
-  particle.vy += ny * config.clumpPull;
+  const distanceToCenter = Math.hypot(dxCenter, dyCenter) || 1;
+  const normalized = clamp(distanceToCenter / center.radius, 0.5, 1.8);
+  particle.vx += (dxCenter / distanceToCenter) * config.clumpPull * normalized;
+  particle.vy += (dyCenter / distanceToCenter) * config.clumpPull * normalized;
 
   if (mouse.active) {
     const mdx = particle.x - mouse.x;
@@ -99,8 +131,8 @@ function updateParticle(particle) {
       const falloff = 1 - distance / config.repelRadius;
       const force = config.repelStrength * falloff * falloff;
       const safeDistance = Math.max(distance, 0.0001);
-      particle.vx += (mdx / safeDistance) * force * 7.5;
-      particle.vy += (mdy / safeDistance) * force * 7.5;
+      particle.vx += (mdx / safeDistance) * force * 8;
+      particle.vy += (mdy / safeDistance) * force * 8;
     }
   }
 
@@ -118,10 +150,10 @@ function drawSphere(particle) {
   const y = particle.y;
   const r = particle.radius;
 
-  const rim = ctx.createRadialGradient(x, y, r * 0.3, x, y, r * 1.25);
-  rim.addColorStop(0, `hsla(${particle.hue}, ${particle.saturation}%, ${particle.lightness + 20}%, 0.95)`);
+  const rim = ctx.createRadialGradient(x, y, r * 0.35, x, y, r * 1.25);
+  rim.addColorStop(0, `hsla(${particle.hue}, ${particle.saturation}%, ${particle.lightness + 18}%, 0.96)`);
   rim.addColorStop(0.55, `hsla(${particle.hue}, ${particle.saturation}%, ${particle.lightness}%, 0.98)`);
-  rim.addColorStop(1, `hsla(${particle.hue}, ${particle.saturation - 12}%, ${particle.lightness - 28}%, 1)`);
+  rim.addColorStop(1, `hsla(${particle.hue}, ${particle.saturation - 14}%, ${particle.lightness - 26}%, 1)`);
 
   ctx.beginPath();
   ctx.arc(x, y, r, 0, Math.PI * 2);
@@ -129,28 +161,28 @@ function drawSphere(particle) {
   ctx.fill();
 
   const highlight = ctx.createRadialGradient(
-    x - r * 0.35,
-    y - r * 0.45,
-    r * 0.08,
-    x - r * 0.3,
-    y - r * 0.4,
-    r * 0.62
+    x - r * 0.42,
+    y - r * 0.5,
+    r * 0.06,
+    x - r * 0.28,
+    y - r * 0.38,
+    r * 0.72
   );
-  highlight.addColorStop(0, 'rgba(255,255,255,0.96)');
-  highlight.addColorStop(0.35, 'rgba(230,244,255,0.75)');
+  highlight.addColorStop(0, 'rgba(255,255,255,0.98)');
+  highlight.addColorStop(0.36, 'rgba(231,245,255,0.78)');
   highlight.addColorStop(1, 'rgba(210,235,255,0)');
 
   ctx.beginPath();
-  ctx.arc(x - r * 0.22, y - r * 0.22, r * 0.63, 0, Math.PI * 2);
+  ctx.arc(x - r * 0.22, y - r * 0.22, r * 0.66, 0, Math.PI * 2);
   ctx.fillStyle = highlight;
   ctx.fill();
 
-  const cast = ctx.createRadialGradient(x + r * 0.22, y + r * 0.4, r * 0.2, x + r * 0.28, y + r * 0.52, r * 0.95);
-  cast.addColorStop(0, 'rgba(0,0,0,0.22)');
+  const cast = ctx.createRadialGradient(x + r * 0.24, y + r * 0.42, r * 0.2, x + r * 0.3, y + r * 0.56, r);
+  cast.addColorStop(0, 'rgba(0,0,0,0.24)');
   cast.addColorStop(1, 'rgba(0,0,0,0)');
 
   ctx.beginPath();
-  ctx.arc(x + r * 0.16, y + r * 0.3, r * 0.85, 0, Math.PI * 2);
+  ctx.arc(x + r * 0.14, y + r * 0.32, r * 0.92, 0, Math.PI * 2);
   ctx.fillStyle = cast;
   ctx.fill();
 }
@@ -159,9 +191,14 @@ function animate() {
   center = getNameBounds();
   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-  particles.sort((a, b) => a.radius - b.radius);
   for (const particle of particles) {
     updateParticle(particle);
+  }
+
+  applySeparation();
+
+  particles.sort((a, b) => a.radius - b.radius);
+  for (const particle of particles) {
     drawSphere(particle);
   }
 
