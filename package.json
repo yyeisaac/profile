@@ -3,8 +3,6 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "dev": "node dev-server.js",
-    "start": "npm run dev",
-    "readme": "npm run dev"
+    "readme": "node dev-server.js"
   }
 }
