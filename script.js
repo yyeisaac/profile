@@ -23,16 +23,18 @@ if (canvas && nameEl) {
   let ctx = null;
 
   const config = {
-    particleCount: 24,
-    maxSpeed: 7.8,
-    centerPull: 0.0082, 
-      clumpPull: 0.05,
-    damping: 0.92,
-    repelRadius: 370,
-    repelStrength: 1.2,
-    separationStrength: 0.06,
-    separationPadding: -30,
-  };
+        particleCount: 24,
+        maxSpeed: 7.8,
+        centerPull: 0.0082,
+        clumpPull: 0.05,
+        damping: 0.92,
+
+        repelRadius: 370,
+        repelStrength: 1.2,
+
+        separationStrength: 0.04,
+        separationPadding: 2
+    };
 
   const particles = [];
   const mouse = {
@@ -118,7 +120,8 @@ if (canvas && nameEl) {
         const dx = b.x - a.x;
         const dy = b.y - a.y;
         const distance = Math.hypot(dx, dy) || 0.0001;
-        const minDistance = a.radius + b.radius + config.separationPadding;
+          const minDistance =
+              (a.radius * 0.82) + (b.radius * 0.82) + config.separationPadding;
 
         if (distance < minDistance) {
           const overlap = minDistance - distance;
@@ -131,7 +134,7 @@ if (canvas && nameEl) {
           b.vx += nx * push;
           b.vy += ny * push;
 
-          const correction = overlap * 0.5;
+          const correction = overlap * 0.35
           a.x -= nx * correction;
           a.y -= ny * correction;
           b.x += nx * correction;
