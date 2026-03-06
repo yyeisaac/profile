@@ -30,8 +30,8 @@ if (canvas && nameEl) {
     damping: 0.92,
     repelRadius: 370,
     repelStrength: 1.2,
-    separationStrength: 0.08,
-    separationPadding: -42,
+    separationStrength: 0.35,
+    separationPadding: 8,
   };
 
   const particles = [];
