@@ -20,7 +20,7 @@ if (menuToggle && siteMenu) {
 }
 
 if (canvas && nameEl) {
-  const ctx = canvas.getContext('2d');
+  let ctx = null;
 
   const config = {
     particleCount: 24,
@@ -69,7 +69,10 @@ if (canvas && nameEl) {
     canvas.height = Math.floor(height * dpr);
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    if (ctx) {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
 
     center = getNameBounds();
   }
@@ -221,13 +224,32 @@ if (canvas && nameEl) {
     return { renderer, scene, camera };
   }
 
+  function get2dContext() {
+    if (ctx) {
+      return ctx;
+    }
+
+    ctx = canvas.getContext('2d');
+    if (ctx) {
+      const dpr = window.devicePixelRatio || 1;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    return ctx;
+  }
+
   function drawSphere(particle) {
+    const localCtx = get2dContext();
+    if (!localCtx) {
+      return;
+    }
+
     const x = particle.x;
     const y = particle.y;
     const r = particle.radius;
     const depthScale = 0.76 + particle.depth * 0.62;
 
-    const body = ctx.createRadialGradient(
+    const body = localCtx.createRadialGradient(
       x - r * 0.24,
       y - r * 0.32,
       r * 0.1,
@@ -240,7 +262,7 @@ if (canvas && nameEl) {
     body.addColorStop(0.75, `hsla(${particle.hue}, ${particle.saturation - 6}%, ${particle.lightness - 16}%, 1)`);
     body.addColorStop(1, `hsla(${particle.hue}, ${particle.saturation - 8}%, ${particle.lightness - 30}%, 1)`);
 
-    const contactShadow = ctx.createRadialGradient(
+    const contactShadow = localCtx.createRadialGradient(
       x + r * 0.3,
       y + r * 0.48,
       r * 0.1,
@@ -251,17 +273,17 @@ if (canvas && nameEl) {
     contactShadow.addColorStop(0, `rgba(0, 0, 0, ${0.32 + particle.depth * 0.2})`);
     contactShadow.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
-    ctx.beginPath();
-    ctx.arc(x, y, r * depthScale, 0, Math.PI * 2);
-    ctx.fillStyle = body;
-    ctx.fill();
+    localCtx.beginPath();
+    localCtx.arc(x, y, r * depthScale, 0, Math.PI * 2);
+    localCtx.fillStyle = body;
+    localCtx.fill();
 
-    ctx.beginPath();
-    ctx.arc(x + r * 0.14, y + r * 0.34, r * 0.96 * depthScale, 0, Math.PI * 2);
-    ctx.fillStyle = contactShadow;
-    ctx.fill();
+    localCtx.beginPath();
+    localCtx.arc(x + r * 0.14, y + r * 0.34, r * 0.96 * depthScale, 0, Math.PI * 2);
+    localCtx.fillStyle = contactShadow;
+    localCtx.fill();
 
-    const spec = ctx.createRadialGradient(
+    const spec = localCtx.createRadialGradient(
       x - r * 0.44,
       y - r * 0.52,
       r * 0.03,
@@ -273,10 +295,10 @@ if (canvas && nameEl) {
     spec.addColorStop(0.27, 'rgba(238,245,255,0.86)');
     spec.addColorStop(1, 'rgba(228,237,255,0)');
 
-    ctx.beginPath();
-    ctx.arc(x - r * 0.2, y - r * 0.24, r * 0.58 * depthScale, 0, Math.PI * 2);
-    ctx.fillStyle = spec;
-    ctx.fill();
+    localCtx.beginPath();
+    localCtx.arc(x - r * 0.2, y - r * 0.24, r * 0.58 * depthScale, 0, Math.PI * 2);
+    localCtx.fillStyle = spec;
+    localCtx.fill();
   }
 
   initParticles();
@@ -311,7 +333,13 @@ if (canvas && nameEl) {
       particles.sort((a, b) => a.depth - b.depth || a.y - b.y);
       renderer.render(scene, camera);
     } else {
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      const localCtx = get2dContext();
+      if (!localCtx) {
+        requestAnimationFrame(animate);
+        return;
+      }
+
+      localCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
       particles.sort((a, b) => a.depth - b.depth || a.y - b.y);
       for (const particle of particles) {
         drawSphere(particle);
