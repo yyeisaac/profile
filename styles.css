@@ -1,0 +1,53 @@
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: radial-gradient(circle at 25% 15%, #20243a 0%, #0e1222 42%, #05070f 100%);
+  color: #f2f4ff;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  isolation: isolate;
+}
+
+#particle-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+#name {
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(2.8rem, 11vw, 8rem);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #f9fbff;
+  text-shadow:
+    0 0 14px rgba(176, 194, 255, 0.36),
+    0 0 38px rgba(104, 146, 255, 0.16);
+  white-space: nowrap;
+  pointer-events: none;
+}

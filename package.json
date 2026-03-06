@@ -1,0 +1,8 @@
+{
+  "name": "profile-landing-page",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "readme": "node dev-server.js"
+  }
+}
