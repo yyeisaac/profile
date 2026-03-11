@@ -26,12 +26,14 @@ if (canvas && nameEl) {
 
   const config = {
     sampleGap: 5,
-    baseSize: 1.6,
-    scatterRadius: 190,
-    repelRadius: 110,
-    repelForce: 0.55,
-    pullForce: 0.032,
-    friction: 0.9,
+    baseSize: 1.7,
+    scatterRadius: 145,
+    repelRadius: 105,
+    repelForce: 0.45,
+    pullForce: 0.075,
+    friction: 0.82,
+    settleDistance: 0.75,
+    settleVelocity: 0.24,
   };
 
   const particles = [];
@@ -143,6 +145,16 @@ if (canvas && nameEl) {
     particle.vy *= config.friction;
     particle.x += particle.vx;
     particle.y += particle.vy;
+
+    const speed = Math.hypot(particle.vx, particle.vy);
+    if (Math.abs(dx) < config.settleDistance
+      && Math.abs(dy) < config.settleDistance
+      && speed < config.settleVelocity) {
+      particle.x = particle.tx;
+      particle.y = particle.ty;
+      particle.vx = 0;
+      particle.vy = 0;
+    }
 
     const pulse = 0.85 + Math.sin(time * 0.002 + particle.seed) * 0.15;
     const radius = particle.size * pulse;

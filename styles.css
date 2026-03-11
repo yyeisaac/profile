@@ -114,7 +114,7 @@ body {
   transform: translate(-50%, -50%);
   font-family: 'Sora', sans-serif;
   font-weight: 700;
-  font-size: clamp(1.9rem, 6.2vw, 4.3rem);
+  font-size: clamp(2.4rem, 8vw, 5.8rem);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: transparent;
