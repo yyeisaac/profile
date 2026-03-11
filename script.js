@@ -25,29 +25,36 @@ if (canvas && nameEl) {
   const textCtx = textCanvas.getContext('2d', { willReadFrequently: true });
 
   const config = {
-    sampleGap: 5,
-    baseSize: 1.7,
-    scatterRadius: 145,
-    repelRadius: 105,
-    repelForce: 0.45,
-    pullForce: 0.075,
-    friction: 0.82,
-    settleDistance: 0.75,
-    settleVelocity: 0.24,
+    sampleGap: 4,
+    baseSize: 1.55,
+    swirlDuration: 2600,
+    swirlPull: 0.068,
+    orbitStrength: 0.03,
+    damping: 0.9,
+    settleDistance: 0.65,
+    settleVelocity: 0.22,
   };
 
   const particles = [];
-  const pointer = {
-    x: 0,
-    y: 0,
-    active: false,
-    overName: false,
+  let introStart = null;
+  let viewport = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    cx: window.innerWidth / 2,
+    cy: window.innerHeight / 2,
   };
 
   function fitCanvas() {
     const dpr = window.devicePixelRatio || 1;
     const width = window.innerWidth;
     const height = window.innerHeight;
+
+    viewport = {
+      width,
+      height,
+      cx: width / 2,
+      cy: height / 2,
+    };
 
     canvas.width = Math.floor(width * dpr);
     canvas.height = Math.floor(height * dpr);
@@ -63,17 +70,21 @@ if (canvas && nameEl) {
   }
 
   function createParticle(targetX, targetY) {
+    const angle = Math.random() * Math.PI * 2;
+    const ring = 110 + Math.random() * Math.min(viewport.width, viewport.height) * 0.46;
+
     return {
-      x: targetX,
-      y: targetY,
+      x: viewport.cx + Math.cos(angle) * ring,
+      y: viewport.cy + Math.sin(angle) * ring,
       tx: targetX,
       ty: targetY,
-      vx: 0,
-      vy: 0,
-      size: config.baseSize + Math.random() * 0.85,
-      alpha: 0.55 + Math.random() * 0.45,
-      hueShift: Math.random() * 22,
-      seed: Math.random() * Math.PI * 2,
+      vx: -Math.sin(angle) * (1.5 + Math.random() * 1.4),
+      vy: Math.cos(angle) * (1.5 + Math.random() * 1.4),
+      size: config.baseSize + Math.random() * 1.35,
+      alpha: 0.45 + Math.random() * 0.45,
+      hue: 185 + Math.random() * 120,
+      glowHue: 260 + Math.random() * 90,
+      twinkle: Math.random() * Math.PI * 2,
     };
   }
 
@@ -82,67 +93,52 @@ if (canvas && nameEl) {
       return;
     }
 
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    textCtx.clearRect(0, 0, width, height);
+    textCtx.clearRect(0, 0, viewport.width, viewport.height);
 
     const computed = window.getComputedStyle(nameEl);
-    const text = nameEl.textContent || 'ISAAC YEO';
-    const fontSize = parseFloat(computed.fontSize);
-    const fontWeight = computed.fontWeight || '700';
-    const fontFamily = computed.fontFamily || 'Sora, sans-serif';
+    const text = (nameEl.textContent || 'ISAAC YEO').toUpperCase();
 
     textCtx.textAlign = 'center';
     textCtx.textBaseline = 'middle';
     textCtx.fillStyle = '#fff';
-    textCtx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
-    textCtx.fillText(text.toUpperCase(), width / 2, height / 2);
+    textCtx.font = `${computed.fontWeight || '700'} ${parseFloat(computed.fontSize)}px ${computed.fontFamily || 'Sora, sans-serif'}`;
+    textCtx.fillText(text, viewport.cx, viewport.cy);
 
-    const image = textCtx.getImageData(0, 0, width, height).data;
-    const nextParticles = [];
+    const image = textCtx.getImageData(0, 0, viewport.width, viewport.height).data;
+    particles.length = 0;
 
-    for (let y = 0; y < height; y += config.sampleGap) {
-      for (let x = 0; x < width; x += config.sampleGap) {
-        const alpha = image[(y * width + x) * 4 + 3];
+    for (let y = 0; y < viewport.height; y += config.sampleGap) {
+      for (let x = 0; x < viewport.width; x += config.sampleGap) {
+        const alpha = image[(y * viewport.width + x) * 4 + 3];
         if (alpha > 140) {
-          nextParticles.push(createParticle(x, y));
+          particles.push(createParticle(x, y));
         }
       }
     }
 
-    particles.length = 0;
-    particles.push(...nextParticles);
+    introStart = null;
   }
 
-  function shatterText() {
-    for (const particle of particles) {
-      const angle = Math.random() * Math.PI * 2;
-      const distance = Math.random() * config.scatterRadius;
-      particle.vx += Math.cos(angle) * (distance * 0.045 + 0.8);
-      particle.vy += Math.sin(angle) * (distance * 0.045 + 0.8);
-    }
-  }
-
-  function updateParticle(particle, time) {
+  function updateParticle(particle, introPhase, time) {
     const dx = particle.tx - particle.x;
     const dy = particle.ty - particle.y;
 
-    particle.vx += dx * config.pullForce;
-    particle.vy += dy * config.pullForce;
+    if (introPhase > 0) {
+      const cx = particle.x - viewport.cx;
+      const cy = particle.y - viewport.cy;
+      const distanceFromCenter = Math.hypot(cx, cy) || 1;
+      const swirlForce = config.orbitStrength * introPhase;
 
-    if (pointer.active) {
-      const mdx = particle.x - pointer.x;
-      const mdy = particle.y - pointer.y;
-      const distance = Math.hypot(mdx, mdy) || 0.001;
-      if (distance < config.repelRadius) {
-        const force = (1 - distance / config.repelRadius) * config.repelForce;
-        particle.vx += (mdx / distance) * force * 2.8;
-        particle.vy += (mdy / distance) * force * 2.8;
-      }
+      particle.vx += (-cy / distanceFromCenter) * swirlForce * 3;
+      particle.vy += (cx / distanceFromCenter) * swirlForce * 3;
     }
 
-    particle.vx *= config.friction;
-    particle.vy *= config.friction;
+    particle.vx += dx * config.swirlPull;
+    particle.vy += dy * config.swirlPull;
+
+    particle.vx *= config.damping;
+    particle.vy *= config.damping;
+
     particle.x += particle.vx;
     particle.y += particle.vy;
 
@@ -156,12 +152,30 @@ if (canvas && nameEl) {
       particle.vy = 0;
     }
 
-    const pulse = 0.85 + Math.sin(time * 0.002 + particle.seed) * 0.15;
+    const pulse = 0.8 + Math.sin(time * 0.002 + particle.twinkle) * 0.2;
     const radius = particle.size * pulse;
 
+    const glow = ctx.createRadialGradient(
+      particle.x,
+      particle.y,
+      radius * 0.15,
+      particle.x,
+      particle.y,
+      radius * 3.8
+    );
+
+    glow.addColorStop(0, `hsla(${particle.hue}, 100%, 74%, ${Math.min(1, particle.alpha + 0.18)})`);
+    glow.addColorStop(0.35, `hsla(${particle.glowHue}, 92%, 62%, ${particle.alpha * 0.6})`);
+    glow.addColorStop(1, 'rgba(120,160,255,0)');
+
     ctx.beginPath();
-    ctx.arc(particle.x, particle.y, radius, 0, Math.PI * 2);
-    ctx.fillStyle = `hsla(${204 + particle.hueShift}, 95%, 80%, ${particle.alpha})`;
+    ctx.arc(particle.x, particle.y, radius * 1.05, 0, Math.PI * 2);
+    ctx.fillStyle = glow;
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(particle.x, particle.y, radius * 0.58, 0, Math.PI * 2);
+    ctx.fillStyle = `hsla(${particle.hue + 10}, 100%, 85%, ${Math.min(1, particle.alpha + 0.25)})`;
     ctx.fill();
   }
 
@@ -170,45 +184,21 @@ if (canvas && nameEl) {
       return;
     }
 
-    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    if (!introStart) {
+      introStart = time;
+    }
+
+    const introElapsed = time - introStart;
+    const introPhase = Math.max(0, 1 - introElapsed / config.swirlDuration);
+
+    ctx.clearRect(0, 0, viewport.width, viewport.height);
+
     for (const particle of particles) {
-      updateParticle(particle, time);
+      updateParticle(particle, introPhase, time);
     }
 
     requestAnimationFrame(animate);
   }
-
-  function onPointerMove(event) {
-    pointer.x = event.clientX;
-    pointer.y = event.clientY;
-    pointer.active = true;
-  }
-
-  window.addEventListener('mousemove', onPointerMove);
-  window.addEventListener('mouseleave', () => {
-    pointer.active = false;
-  });
-  window.addEventListener('touchmove', (event) => {
-    if (event.touches.length > 0) {
-      pointer.x = event.touches[0].clientX;
-      pointer.y = event.touches[0].clientY;
-      pointer.active = true;
-    }
-  }, { passive: true });
-  window.addEventListener('touchend', () => {
-    pointer.active = false;
-  });
-
-  nameEl.addEventListener('mouseenter', () => {
-    if (!pointer.overName) {
-      shatterText();
-      pointer.overName = true;
-    }
-  });
-
-  nameEl.addEventListener('mouseleave', () => {
-    pointer.overName = false;
-  });
 
   window.addEventListener('resize', () => {
     fitCanvas();
