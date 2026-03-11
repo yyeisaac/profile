@@ -23,43 +23,26 @@ if (canvas && nameEl) {
   let ctx = null;
 
   const config = {
-        particleCount: 24,
-        maxSpeed: 7.8,
-        centerPull: 0.0082,
-        clumpPull: 0.05,
-        damping: 0.92,
+    maxDroplets: 240,
+    spawnPerFrame: 7,
+    gravity: 0.24,
+    drag: 0.98,
+    splashPower: 5.4,
+    baseHue: 214,
+    hueSpread: 34,
+    hueShiftSpeed: 0.023,
+  };
 
-        repelRadius: 370,
-        repelStrength: 1.2,
-
-        separationStrength: 0.04,
-        separationPadding: 2
-    };
-
-  const particles = [];
+  const droplets = [];
   const mouse = {
     x: window.innerWidth / 2,
     y: window.innerHeight / 2,
     active: false,
   };
-
-  let center = {
-    x: window.innerWidth / 2,
-    y: window.innerHeight / 2,
-    radius: 124,
-  };
+  let hueTicker = 0;
 
   function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
-  }
-
-  function getNameBounds() {
-    const rect = nameEl.getBoundingClientRect();
-    return {
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
-      radius: Math.max(rect.width * 0.44, 108),
-    };
   }
 
   function resizeCanvas() {
@@ -76,107 +59,56 @@ if (canvas && nameEl) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    center = getNameBounds();
   }
 
-  function createParticle() {
+  function createDroplet(originX, originY, burst = false) {
     const angle = Math.random() * Math.PI * 2;
-    const spread = Math.sqrt(Math.random()) * 0.15;
+    const spread = burst ? (1.5 + Math.random() * 1.2) : (0.4 + Math.random() * 0.7);
+    const speed = config.splashPower * spread;
     const depth = Math.random();
-    const radius = 42 + depth * 40;
+    const radius = (burst ? 4 : 7) + Math.random() * 15;
 
     return {
-      x: center.x + Math.cos(angle) * center.radius * spread,
-      y: center.y + Math.sin(angle) * center.radius * spread,
-      vx: (Math.random() - 0.5) * 1.0,
-      vy: (Math.random() - 0.5) * 1.0,
+      x: originX + (Math.random() - 0.5) * 12,
+      y: originY + (Math.random() - 0.5) * 12,
+      vx: Math.cos(angle) * speed + (Math.random() - 0.5) * 2,
+      vy: Math.sin(angle) * speed - Math.random() * 2,
       depth,
       radius,
-      hue: 216 + Math.random() * 8,
-      saturation: 20 + Math.random() * 12,
-      lightness: 62 + Math.random() * 14,
+      life: 0,
+      ttl: 50 + Math.random() * 55,
+      hueOffset: (Math.random() - 0.5) * config.hueSpread,
       mesh: null,
-      wobbleOffset: Math.random() * Math.PI * 2,
     };
   }
 
-  function initParticles() {
-    particles.length = 0;
-    for (let i = 0; i < config.particleCount; i += 1) {
-      particles.push(createParticle());
-    }
-  }
-
-  function applySeparation() {
-    if (config.separationStrength <= 0) {
-      return;
-    }
-
-    for (let i = 0; i < particles.length; i += 1) {
-      for (let j = i + 1; j < particles.length; j += 1) {
-        const a = particles[i];
-        const b = particles[j];
-
-        const dx = b.x - a.x;
-        const dy = b.y - a.y;
-        const distance = Math.hypot(dx, dy) || 0.0001;
-          const minDistance =
-              (a.radius * 0.82) + (b.radius * 0.82) + config.separationPadding;
-
-        if (distance < minDistance) {
-          const overlap = minDistance - distance;
-          const nx = dx / distance;
-          const ny = dy / distance;
-          const push = overlap * config.separationStrength;
-
-          a.vx -= nx * push;
-          a.vy -= ny * push;
-          b.vx += nx * push;
-          b.vy += ny * push;
-
-          const correction = overlap * 0.35
-          a.x -= nx * correction;
-          a.y -= ny * correction;
-          b.x += nx * correction;
-          b.y += ny * correction;
+  function emitSplash(originX, originY, amount = config.spawnPerFrame, burst = false) {
+    for (let i = 0; i < amount; i += 1) {
+      if (droplets.length >= config.maxDroplets) {
+        const recycled = droplets.shift();
+        if (recycled?.mesh?.parent) {
+          recycled.mesh.parent.remove(recycled.mesh);
         }
       }
+      droplets.push(createDroplet(originX, originY, burst));
     }
   }
 
-  function updateParticle(particle) {
-    const dxCenter = center.x - particle.x;
-    const dyCenter = center.y - particle.y;
+  function getDropletHue(droplet) {
+    return config.baseHue + Math.sin(hueTicker + droplet.life * 0.07) * config.hueSpread + droplet.hueOffset;
+  }
 
-    particle.vx += dxCenter * config.centerPull;
-    particle.vy += dyCenter * config.centerPull;
+  function updateDroplet(droplet) {
+    droplet.life += 1;
+    droplet.vy += config.gravity;
+    droplet.vx *= config.drag;
+    droplet.vy *= config.drag;
+    droplet.x += droplet.vx;
+    droplet.y += droplet.vy;
 
-    const distanceToCenter = Math.hypot(dxCenter, dyCenter) || 1;
-    const normalized = clamp(distanceToCenter / center.radius, 0.45, 2.4);
-    particle.vx += (dxCenter / distanceToCenter) * config.clumpPull * normalized;
-    particle.vy += (dyCenter / distanceToCenter) * config.clumpPull * normalized;
-
-    if (mouse.active) {
-      const mdx = particle.x - mouse.x;
-      const mdy = particle.y - mouse.y;
-      const distance = Math.hypot(mdx, mdy);
-
-      if (distance < config.repelRadius) {
-        const falloff = 1 - distance / config.repelRadius;
-        const force = config.repelStrength * falloff * falloff;
-        const safeDistance = Math.max(distance, 0.0001);
-        particle.vx += (mdx / safeDistance) * force * 18;
-        particle.vy += (mdy / safeDistance) * force * 18;
-      }
+    if (droplet.y > window.innerHeight + droplet.radius * 2) {
+      droplet.life = droplet.ttl;
     }
-
-    particle.vx *= config.damping;
-    particle.vy *= config.damping;
-    particle.vx = clamp(particle.vx, -config.maxSpeed, config.maxSpeed);
-    particle.vy = clamp(particle.vy, -config.maxSpeed, config.maxSpeed);
-
-    particle.x += particle.vx;
-    particle.y += particle.vy;
   }
 
   function initThreeRenderer() {
@@ -200,31 +132,30 @@ if (canvas && nameEl) {
 
     scene.add(ambient, key, fill);
 
-    for (const particle of particles) {
-      const geometry = new window.THREE.SphereGeometry(particle.radius * 0.92, 36, 28);
+    for (const droplet of droplets) {
+      const geometry = new window.THREE.CircleGeometry(droplet.radius, 16);
       const color = new window.THREE.Color().setHSL(
-        particle.hue / 360,
-        clamp((particle.saturation + 8) / 100, 0, 1),
-        clamp((particle.lightness + 6) / 100, 0, 1)
+        getDropletHue(droplet) / 360,
+        0.72,
+        0.66
       );
 
-      const material = new window.THREE.MeshPhysicalMaterial({
+      const material = new window.THREE.MeshStandardMaterial({
         color,
-        roughness: 0.2,
-        metalness: 0.08,
-        clearcoat: 1,
-        clearcoatRoughness: 0.16,
-        reflectivity: 0.52,
+        roughness: 0.55,
+        metalness: 0.05,
+        transparent: true,
+        opacity: 0.92,
       });
 
       const mesh = new window.THREE.Mesh(geometry, material);
       mesh.position.set(
-        particle.x - window.innerWidth / 2,
-        window.innerHeight / 2 - particle.y,
-        -95 + particle.depth * 225
+        droplet.x - window.innerWidth / 2,
+        window.innerHeight / 2 - droplet.y,
+        -65 + droplet.depth * 210
       );
 
-      particle.mesh = mesh;
+      droplet.mesh = mesh;
       scene.add(mesh);
     }
 
@@ -245,16 +176,18 @@ if (canvas && nameEl) {
     return ctx;
   }
 
-  function drawSphere(particle) {
+  function drawSplash(droplet) {
     const localCtx = get2dContext();
     if (!localCtx) {
       return;
     }
 
-    const x = particle.x;
-    const y = particle.y;
-    const r = particle.radius;
-    const depthScale = 0.76 + particle.depth * 0.62;
+    const x = droplet.x;
+    const y = droplet.y;
+    const r = droplet.radius;
+    const lifeProgress = clamp(droplet.life / droplet.ttl, 0, 1);
+    const alpha = (1 - lifeProgress) * 0.84;
+    const hue = getDropletHue(droplet);
 
     const body = localCtx.createRadialGradient(
       x - r * 0.24,
@@ -264,80 +197,65 @@ if (canvas && nameEl) {
       y,
       r * 1.2
     );
-    body.addColorStop(0, `hsla(${particle.hue}, ${particle.saturation + 10}%, ${particle.lightness + 14}%, 1)`);
-    body.addColorStop(0.38, `hsla(${particle.hue}, ${particle.saturation}%, ${particle.lightness}%, 1)`);
-    body.addColorStop(0.75, `hsla(${particle.hue}, ${particle.saturation - 6}%, ${particle.lightness - 16}%, 1)`);
-    body.addColorStop(1, `hsla(${particle.hue}, ${particle.saturation - 8}%, ${particle.lightness - 30}%, 1)`);
-
-    const contactShadow = localCtx.createRadialGradient(
-      x + r * 0.3,
-      y + r * 0.48,
-      r * 0.1,
-      x + r * 0.36,
-      y + r * 0.62,
-      r * 1.15
-    );
-    contactShadow.addColorStop(0, `rgba(0, 0, 0, ${0.32 + particle.depth * 0.2})`);
-    contactShadow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    body.addColorStop(0, `hsla(${hue}, 86%, 75%, ${alpha})`);
+    body.addColorStop(0.5, `hsla(${hue}, 80%, 60%, ${alpha * 0.9})`);
+    body.addColorStop(1, `hsla(${hue}, 74%, 44%, 0)`);
 
     localCtx.beginPath();
-    localCtx.arc(x, y, r * depthScale, 0, Math.PI * 2);
+    localCtx.arc(x, y, r * (1 + lifeProgress * 0.5), 0, Math.PI * 2);
     localCtx.fillStyle = body;
-    localCtx.fill();
-
-    localCtx.beginPath();
-    localCtx.arc(x + r * 0.14, y + r * 0.34, r * 0.96 * depthScale, 0, Math.PI * 2);
-    localCtx.fillStyle = contactShadow;
-    localCtx.fill();
-
-    const spec = localCtx.createRadialGradient(
-      x - r * 0.44,
-      y - r * 0.52,
-      r * 0.03,
-      x - r * 0.24,
-      y - r * 0.34,
-      r * 0.65
-    );
-    spec.addColorStop(0, 'rgba(255,255,255,0.99)');
-    spec.addColorStop(0.27, 'rgba(238,245,255,0.86)');
-    spec.addColorStop(1, 'rgba(228,237,255,0)');
-
-    localCtx.beginPath();
-    localCtx.arc(x - r * 0.2, y - r * 0.24, r * 0.58 * depthScale, 0, Math.PI * 2);
-    localCtx.fillStyle = spec;
     localCtx.fill();
   }
 
-  initParticles();
+  emitSplash(window.innerWidth / 2, window.innerHeight / 2, 36, true);
   let three = initThreeRenderer();
 
   function animate(time = 0) {
-    center = getNameBounds();
+    hueTicker += config.hueShiftSpeed;
 
-    for (const particle of particles) {
-      updateParticle(particle);
+    if (mouse.active) {
+      emitSplash(mouse.x, mouse.y);
     }
 
-    applySeparation();
+    for (let i = droplets.length - 1; i >= 0; i -= 1) {
+      const droplet = droplets[i];
+      updateDroplet(droplet);
+      if (droplet.life >= droplet.ttl) {
+        if (droplet.mesh?.parent) {
+          droplet.mesh.parent.remove(droplet.mesh);
+        }
+        droplets.splice(i, 1);
+      }
+    }
 
     if (three) {
       const { renderer, scene, camera } = three;
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
 
-      for (const particle of particles) {
-        if (!particle.mesh) {
-          continue;
+      for (const droplet of droplets) {
+        if (!droplet.mesh) {
+          const geometry = new window.THREE.CircleGeometry(droplet.radius, 16);
+          const material = new window.THREE.MeshStandardMaterial({
+            roughness: 0.55,
+            metalness: 0.05,
+            transparent: true,
+            opacity: 0.92,
+          });
+          droplet.mesh = new window.THREE.Mesh(geometry, material);
+          scene.add(droplet.mesh);
         }
 
-        particle.mesh.position.x = particle.x - window.innerWidth / 2;
-        particle.mesh.position.y = window.innerHeight / 2 - particle.y;
-        particle.mesh.position.z = -95 + particle.depth * 225 + Math.sin(time * 0.001 + particle.wobbleOffset) * 14;
-        particle.mesh.rotation.y += particle.vx * 0.00085;
-        particle.mesh.rotation.x += particle.vy * 0.00085;
+        const lifeProgress = clamp(droplet.life / droplet.ttl, 0, 1);
+        droplet.mesh.position.x = droplet.x - window.innerWidth / 2;
+        droplet.mesh.position.y = window.innerHeight / 2 - droplet.y;
+        droplet.mesh.position.z = -65 + droplet.depth * 210;
+        droplet.mesh.scale.setScalar(1 + lifeProgress * 0.6);
+        droplet.mesh.material.color.setHSL(getDropletHue(droplet) / 360, 0.75, 0.62);
+        droplet.mesh.material.opacity = (1 - lifeProgress) * 0.9;
       }
 
-      particles.sort((a, b) => a.depth - b.depth || a.y - b.y);
+      droplets.sort((a, b) => a.depth - b.depth || a.y - b.y);
       renderer.render(scene, camera);
     } else {
       const localCtx = get2dContext();
@@ -347,9 +265,9 @@ if (canvas && nameEl) {
       }
 
       localCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      particles.sort((a, b) => a.depth - b.depth || a.y - b.y);
-      for (const particle of particles) {
-        drawSphere(particle);
+      droplets.sort((a, b) => a.depth - b.depth || a.y - b.y);
+      for (const droplet of droplets) {
+        drawSplash(droplet);
       }
     }
 
@@ -358,7 +276,6 @@ if (canvas && nameEl) {
 
   window.addEventListener('resize', () => {
     resizeCanvas();
-    initParticles();
     three = initThreeRenderer();
     if (three) {
       three.renderer.setSize(window.innerWidth, window.innerHeight, false);
@@ -366,9 +283,13 @@ if (canvas && nameEl) {
   });
 
   window.addEventListener('mousemove', (event) => {
+    const moved = Math.hypot(event.clientX - mouse.x, event.clientY - mouse.y);
     mouse.x = event.clientX;
     mouse.y = event.clientY;
     mouse.active = true;
+    if (moved > 12) {
+      emitSplash(mouse.x, mouse.y, 10, true);
+    }
   });
 
   window.addEventListener('mouseleave', () => {
@@ -380,6 +301,7 @@ if (canvas && nameEl) {
       mouse.x = event.touches[0].clientX;
       mouse.y = event.touches[0].clientY;
       mouse.active = true;
+      emitSplash(mouse.x, mouse.y, 8, true);
     }
   });
 
