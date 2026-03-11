@@ -23,23 +23,14 @@ if (canvas && nameEl) {
   let ctx = null;
 
   const config = {
-    maxDroplets: 240,
-    spawnPerFrame: 7,
-    gravity: 0.24,
-    drag: 0.98,
-    splashPower: 5.4,
-    baseHue: 214,
-    hueSpread: 34,
-    hueShiftSpeed: 0.023,
+    maxDroplets: 320,
+    gravity: 0.22,
+    drag: 0.982,
+    splashPower: 6.6,
+    baseBurstAmount: 46,
   };
 
   const droplets = [];
-  const mouse = {
-    x: window.innerWidth / 2,
-    y: window.innerHeight / 2,
-    active: false,
-  };
-  let hueTicker = 0;
 
   function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
@@ -58,31 +49,54 @@ if (canvas && nameEl) {
     if (ctx) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
-
   }
 
-  function createDroplet(originX, originY, burst = false) {
+  const paintPalettes = [
+    { hue: 210, saturation: 74, lightness: 58 },
+    { hue: 194, saturation: 80, lightness: 57 },
+    { hue: 262, saturation: 64, lightness: 58 },
+    { hue: 318, saturation: 67, lightness: 59 },
+    { hue: 12, saturation: 76, lightness: 55 },
+    { hue: 34, saturation: 78, lightness: 56 },
+    { hue: 84, saturation: 66, lightness: 53 },
+    { hue: 146, saturation: 64, lightness: 50 },
+  ];
+
+  function randomPaintColor() {
+    const base = paintPalettes[Math.floor(Math.random() * paintPalettes.length)];
+    return {
+      hue: (base.hue + (Math.random() - 0.5) * 18 + 360) % 360,
+      saturation: clamp(base.saturation + (Math.random() - 0.5) * 18, 48, 90),
+      lightness: clamp(base.lightness + (Math.random() - 0.5) * 16, 40, 70),
+    };
+  }
+
+  function createDroplet(originX, originY, paintColor) {
     const angle = Math.random() * Math.PI * 2;
-    const spread = burst ? (1.5 + Math.random() * 1.2) : (0.4 + Math.random() * 0.7);
+    const spread = 0.45 + Math.random() * 1.9;
     const speed = config.splashPower * spread;
     const depth = Math.random();
-    const radius = (burst ? 4 : 7) + Math.random() * 15;
 
     return {
-      x: originX + (Math.random() - 0.5) * 12,
-      y: originY + (Math.random() - 0.5) * 12,
-      vx: Math.cos(angle) * speed + (Math.random() - 0.5) * 2,
-      vy: Math.sin(angle) * speed - Math.random() * 2,
+      x: originX + (Math.random() - 0.5) * 14,
+      y: originY + (Math.random() - 0.5) * 14,
+      vx: Math.cos(angle) * speed + (Math.random() - 0.5) * 1.4,
+      vy: Math.sin(angle) * speed - Math.random() * 2.4,
       depth,
-      radius,
+      radius: 4 + Math.random() * 14,
       life: 0,
-      ttl: 50 + Math.random() * 55,
-      hueOffset: (Math.random() - 0.5) * config.hueSpread,
+      ttl: 58 + Math.random() * 64,
+      hue: paintColor.hue + (Math.random() - 0.5) * 7,
+      saturation: clamp(paintColor.saturation + (Math.random() - 0.5) * 12, 42, 92),
+      lightness: clamp(paintColor.lightness + (Math.random() - 0.5) * 10, 35, 72),
       mesh: null,
     };
   }
 
-  function emitSplash(originX, originY, amount = config.spawnPerFrame, burst = false) {
+  function emitSplash(originX, originY) {
+    const paintColor = randomPaintColor();
+    const amount = config.baseBurstAmount + Math.floor(Math.random() * 20);
+
     for (let i = 0; i < amount; i += 1) {
       if (droplets.length >= config.maxDroplets) {
         const recycled = droplets.shift();
@@ -90,12 +104,8 @@ if (canvas && nameEl) {
           recycled.mesh.parent.remove(recycled.mesh);
         }
       }
-      droplets.push(createDroplet(originX, originY, burst));
+      droplets.push(createDroplet(originX, originY, paintColor));
     }
-  }
-
-  function getDropletHue(droplet) {
-    return config.baseHue + Math.sin(hueTicker + droplet.life * 0.07) * config.hueSpread + droplet.hueOffset;
   }
 
   function updateDroplet(droplet) {
@@ -132,33 +142,6 @@ if (canvas && nameEl) {
 
     scene.add(ambient, key, fill);
 
-    for (const droplet of droplets) {
-      const geometry = new window.THREE.CircleGeometry(droplet.radius, 16);
-      const color = new window.THREE.Color().setHSL(
-        getDropletHue(droplet) / 360,
-        0.72,
-        0.66
-      );
-
-      const material = new window.THREE.MeshStandardMaterial({
-        color,
-        roughness: 0.55,
-        metalness: 0.05,
-        transparent: true,
-        opacity: 0.92,
-      });
-
-      const mesh = new window.THREE.Mesh(geometry, material);
-      mesh.position.set(
-        droplet.x - window.innerWidth / 2,
-        window.innerHeight / 2 - droplet.y,
-        -65 + droplet.depth * 210
-      );
-
-      droplet.mesh = mesh;
-      scene.add(mesh);
-    }
-
     return { renderer, scene, camera };
   }
 
@@ -182,41 +165,37 @@ if (canvas && nameEl) {
       return;
     }
 
-    const x = droplet.x;
-    const y = droplet.y;
-    const r = droplet.radius;
     const lifeProgress = clamp(droplet.life / droplet.ttl, 0, 1);
-    const alpha = (1 - lifeProgress) * 0.84;
-    const hue = getDropletHue(droplet);
+    const alpha = (1 - lifeProgress) * 0.88;
 
     const body = localCtx.createRadialGradient(
-      x - r * 0.24,
-      y - r * 0.32,
-      r * 0.1,
-      x,
-      y,
-      r * 1.2
+      droplet.x - droplet.radius * 0.2,
+      droplet.y - droplet.radius * 0.28,
+      droplet.radius * 0.08,
+      droplet.x,
+      droplet.y,
+      droplet.radius * 1.26
     );
-    body.addColorStop(0, `hsla(${hue}, 86%, 75%, ${alpha})`);
-    body.addColorStop(0.5, `hsla(${hue}, 80%, 60%, ${alpha * 0.9})`);
-    body.addColorStop(1, `hsla(${hue}, 74%, 44%, 0)`);
+    body.addColorStop(0, `hsla(${droplet.hue}, ${droplet.saturation}%, ${droplet.lightness + 12}%, ${alpha})`);
+    body.addColorStop(0.54, `hsla(${droplet.hue}, ${droplet.saturation}%, ${droplet.lightness}%, ${alpha * 0.92})`);
+    body.addColorStop(1, `hsla(${droplet.hue}, ${droplet.saturation - 8}%, ${droplet.lightness - 20}%, 0)`);
 
     localCtx.beginPath();
-    localCtx.arc(x, y, r * (1 + lifeProgress * 0.5), 0, Math.PI * 2);
+    localCtx.arc(droplet.x, droplet.y, droplet.radius * (1 + lifeProgress * 0.5), 0, Math.PI * 2);
     localCtx.fillStyle = body;
     localCtx.fill();
   }
 
-  emitSplash(window.innerWidth / 2, window.innerHeight / 2, 36, true);
+  function triggerNameFlare() {
+    nameEl.classList.remove('name-flare');
+    window.requestAnimationFrame(() => {
+      nameEl.classList.add('name-flare');
+    });
+  }
+
   let three = initThreeRenderer();
 
-  function animate(time = 0) {
-    hueTicker += config.hueShiftSpeed;
-
-    if (mouse.active) {
-      emitSplash(mouse.x, mouse.y);
-    }
-
+  function animate() {
     for (let i = droplets.length - 1; i >= 0; i -= 1) {
       const droplet = droplets[i];
       updateDroplet(droplet);
@@ -235,12 +214,13 @@ if (canvas && nameEl) {
 
       for (const droplet of droplets) {
         if (!droplet.mesh) {
-          const geometry = new window.THREE.CircleGeometry(droplet.radius, 16);
+          const geometry = new window.THREE.CircleGeometry(droplet.radius, 20);
           const material = new window.THREE.MeshStandardMaterial({
-            roughness: 0.55,
-            metalness: 0.05,
+            roughness: 0.58,
+            metalness: 0.03,
             transparent: true,
             opacity: 0.92,
+            side: window.THREE.DoubleSide,
           });
           droplet.mesh = new window.THREE.Mesh(geometry, material);
           scene.add(droplet.mesh);
@@ -250,8 +230,12 @@ if (canvas && nameEl) {
         droplet.mesh.position.x = droplet.x - window.innerWidth / 2;
         droplet.mesh.position.y = window.innerHeight / 2 - droplet.y;
         droplet.mesh.position.z = -65 + droplet.depth * 210;
-        droplet.mesh.scale.setScalar(1 + lifeProgress * 0.6);
-        droplet.mesh.material.color.setHSL(getDropletHue(droplet) / 360, 0.75, 0.62);
+        droplet.mesh.scale.setScalar(1 + lifeProgress * 0.58);
+        droplet.mesh.material.color.setHSL(
+          ((droplet.hue % 360) + 360) / 360,
+          clamp(droplet.saturation / 100, 0, 1),
+          clamp(droplet.lightness / 100, 0, 1)
+        );
         droplet.mesh.material.opacity = (1 - lifeProgress) * 0.9;
       }
 
@@ -282,32 +266,18 @@ if (canvas && nameEl) {
     }
   });
 
-  window.addEventListener('mousemove', (event) => {
-    const moved = Math.hypot(event.clientX - mouse.x, event.clientY - mouse.y);
-    mouse.x = event.clientX;
-    mouse.y = event.clientY;
-    mouse.active = true;
-    if (moved > 12) {
-      emitSplash(mouse.x, mouse.y, 10, true);
-    }
+  window.addEventListener('click', (event) => {
+    emitSplash(event.clientX, event.clientY);
+    triggerNameFlare();
   });
 
-  window.addEventListener('mouseleave', () => {
-    mouse.active = false;
-  });
-
-  window.addEventListener('touchmove', (event) => {
+  window.addEventListener('touchstart', (event) => {
     if (event.touches.length > 0) {
-      mouse.x = event.touches[0].clientX;
-      mouse.y = event.touches[0].clientY;
-      mouse.active = true;
-      emitSplash(mouse.x, mouse.y, 8, true);
+      const touch = event.touches[0];
+      emitSplash(touch.clientX, touch.clientY);
+      triggerNameFlare();
     }
-  });
-
-  window.addEventListener('touchend', () => {
-    mouse.active = false;
-  });
+  }, { passive: true });
 
   resizeCanvas();
   animate();
