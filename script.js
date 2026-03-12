@@ -27,16 +27,15 @@ if (canvas && nameEl) {
   const config = {
     sampleGap: 4,
     baseSize: 1.55,
-    swirlOnlyDuration: 1800,
-    convergePull: 0.09,
-    orbitStrength: 0.034,
+    swirlOnlyDuration: 950,
+    convergeDuration: 780,
+    orbitStrength: 0.036,
     damping: 0.9,
-    settleDistance: 0.65,
-    settleVelocity: 0.22,
   };
 
   const particles = [];
   let introStart = null;
+  let convergeStarted = false;
   let viewport = {
     width: window.innerWidth,
     height: window.innerHeight,
@@ -85,6 +84,8 @@ if (canvas && nameEl) {
       hue: 185 + Math.random() * 120,
       glowHue: 260 + Math.random() * 90,
       twinkle: Math.random() * Math.PI * 2,
+      sx: 0,
+      sy: 0,
     };
   }
 
@@ -117,41 +118,27 @@ if (canvas && nameEl) {
     }
 
     introStart = null;
+    convergeStarted = false;
   }
 
-  function updateParticle(particle, converging, time) {
-    const dx = particle.tx - particle.x;
-    const dy = particle.ty - particle.y;
-
-    const cx = particle.x - viewport.cx;
-    const cy = particle.y - viewport.cy;
-    const distanceFromCenter = Math.hypot(cx, cy) || 1;
-
+  function updateParticle(particle, converging, convergeProgress, time) {
     if (!converging) {
+      const cx = particle.x - viewport.cx;
+      const cy = particle.y - viewport.cy;
+      const distanceFromCenter = Math.hypot(cx, cy) || 1;
+
       particle.vx += (-cy / distanceFromCenter) * config.orbitStrength * 3;
       particle.vy += (cx / distanceFromCenter) * config.orbitStrength * 3;
-    }
 
-    if (converging) {
-      particle.vx += dx * config.convergePull;
-      particle.vy += dy * config.convergePull;
-    }
+      particle.vx *= config.damping;
+      particle.vy *= config.damping;
 
-    particle.vx *= config.damping;
-    particle.vy *= config.damping;
-
-    particle.x += particle.vx;
-    particle.y += particle.vy;
-
-    const speed = Math.hypot(particle.vx, particle.vy);
-    if (converging
-      && Math.abs(dx) < config.settleDistance
-      && Math.abs(dy) < config.settleDistance
-      && speed < config.settleVelocity) {
-      particle.x = particle.tx;
-      particle.y = particle.ty;
-      particle.vx = 0;
-      particle.vy = 0;
+      particle.x += particle.vx;
+      particle.y += particle.vy;
+    } else {
+      const eased = 1 - ((1 - convergeProgress) ** 3);
+      particle.x = particle.sx + (particle.tx - particle.sx) * eased;
+      particle.y = particle.sy + (particle.ty - particle.sy) * eased;
     }
 
     const pulse = converging ? 1 : 0.9 + Math.sin(time * 0.0018 + particle.twinkle) * 0.1;
@@ -193,10 +180,21 @@ if (canvas && nameEl) {
     const introElapsed = time - introStart;
     const converging = introElapsed >= config.swirlOnlyDuration;
 
+    if (converging && !convergeStarted) {
+      convergeStarted = true;
+      for (const particle of particles) {
+        particle.sx = particle.x;
+        particle.sy = particle.y;
+      }
+    }
+
+    const convergeElapsed = Math.max(0, introElapsed - config.swirlOnlyDuration);
+    const convergeProgress = Math.min(1, convergeElapsed / config.convergeDuration);
+
     ctx.clearRect(0, 0, viewport.width, viewport.height);
 
     for (const particle of particles) {
-      updateParticle(particle, converging, time);
+      updateParticle(particle, converging, convergeProgress, time);
     }
 
     requestAnimationFrame(animate);
