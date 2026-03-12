@@ -114,15 +114,13 @@ body {
   transform: translate(-50%, -50%);
   font-family: 'Sora', sans-serif;
   font-weight: 700;
-  font-size: clamp(1.9rem, 6.2vw, 4.3rem);
+  font-size: clamp(2.4rem, 8vw, 5.8rem);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #ffffff;
-    text-shadow:
-    0 0 12px rgba(255,255,255,0.55),
-    0 0 32px rgba(120,170,255,0.35);
+  color: transparent;
+  text-shadow: none;
   white-space: nowrap;
-  pointer-events: none;
+  user-select: none;
 }
 
 .content-page {
