@@ -27,9 +27,9 @@ if (canvas && nameEl) {
   const config = {
     sampleGap: 4,
     baseSize: 1.55,
-    swirlDuration: 2600,
-    swirlPull: 0.068,
-    orbitStrength: 0.03,
+    swirlOnlyDuration: 1800,
+    convergePull: 0.09,
+    orbitStrength: 0.034,
     damping: 0.9,
     settleDistance: 0.65,
     settleVelocity: 0.22,
@@ -119,22 +119,23 @@ if (canvas && nameEl) {
     introStart = null;
   }
 
-  function updateParticle(particle, introPhase, time) {
+  function updateParticle(particle, converging, time) {
     const dx = particle.tx - particle.x;
     const dy = particle.ty - particle.y;
 
-    if (introPhase > 0) {
-      const cx = particle.x - viewport.cx;
-      const cy = particle.y - viewport.cy;
-      const distanceFromCenter = Math.hypot(cx, cy) || 1;
-      const swirlForce = config.orbitStrength * introPhase;
+    const cx = particle.x - viewport.cx;
+    const cy = particle.y - viewport.cy;
+    const distanceFromCenter = Math.hypot(cx, cy) || 1;
 
-      particle.vx += (-cy / distanceFromCenter) * swirlForce * 3;
-      particle.vy += (cx / distanceFromCenter) * swirlForce * 3;
+    if (!converging) {
+      particle.vx += (-cy / distanceFromCenter) * config.orbitStrength * 3;
+      particle.vy += (cx / distanceFromCenter) * config.orbitStrength * 3;
     }
 
-    particle.vx += dx * config.swirlPull;
-    particle.vy += dy * config.swirlPull;
+    if (converging) {
+      particle.vx += dx * config.convergePull;
+      particle.vy += dy * config.convergePull;
+    }
 
     particle.vx *= config.damping;
     particle.vy *= config.damping;
@@ -143,7 +144,8 @@ if (canvas && nameEl) {
     particle.y += particle.vy;
 
     const speed = Math.hypot(particle.vx, particle.vy);
-    if (Math.abs(dx) < config.settleDistance
+    if (converging
+      && Math.abs(dx) < config.settleDistance
       && Math.abs(dy) < config.settleDistance
       && speed < config.settleVelocity) {
       particle.x = particle.tx;
@@ -152,7 +154,7 @@ if (canvas && nameEl) {
       particle.vy = 0;
     }
 
-    const pulse = 0.8 + Math.sin(time * 0.002 + particle.twinkle) * 0.2;
+    const pulse = converging ? 1 : 0.9 + Math.sin(time * 0.0018 + particle.twinkle) * 0.1;
     const radius = particle.size * pulse;
 
     const glow = ctx.createRadialGradient(
@@ -189,12 +191,12 @@ if (canvas && nameEl) {
     }
 
     const introElapsed = time - introStart;
-    const introPhase = Math.max(0, 1 - introElapsed / config.swirlDuration);
+    const converging = introElapsed >= config.swirlOnlyDuration;
 
     ctx.clearRect(0, 0, viewport.width, viewport.height);
 
     for (const particle of particles) {
-      updateParticle(particle, introPhase, time);
+      updateParticle(particle, converging, time);
     }
 
     requestAnimationFrame(animate);
