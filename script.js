@@ -27,9 +27,9 @@ if (canvas && nameEl) {
   const config = {
     sampleGap: 4,
     baseSize: 1.55,
-    swirlOnlyDuration: 950,
+    swirlOnlyDuration: 700,
     convergeDuration: 780,
-    orbitStrength: 0.036,
+    orbitStrength: 0.136,
     damping: 0.9,
   };
 
@@ -127,8 +127,13 @@ if (canvas && nameEl) {
       const cy = particle.y - viewport.cy;
       const distanceFromCenter = Math.hypot(cx, cy) || 1;
 
-      particle.vx += (-cy / distanceFromCenter) * config.orbitStrength * 3;
-      particle.vy += (cx / distanceFromCenter) * config.orbitStrength * 3;
+        // swirl (tangential)
+        particle.vx += (-cy / distanceFromCenter) * config.orbitStrength * 3;
+        particle.vy += (cx / distanceFromCenter) * config.orbitStrength * 3;
+
+        // inward pull (radial)
+        particle.vx += (-cx / distanceFromCenter) * config.orbitStrength * 1.2;
+        particle.vy += (-cy / distanceFromCenter) * config.orbitStrength * 1.2;
 
       particle.vx *= config.damping;
       particle.vy *= config.damping;
