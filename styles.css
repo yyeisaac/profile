@@ -188,9 +188,8 @@ body {
 }
 
 .tabs {
-  display: flex;
+  display: grid;
   gap: 0.6rem;
-  flex-wrap: wrap;
   margin-bottom: 1.35rem;
 }
 
@@ -198,9 +197,10 @@ body {
   border: 1px solid rgba(179, 199, 255, 0.3);
   background: rgba(255, 255, 255, 0.02);
   color: #d7e4ff;
-  border-radius: 999px;
-  padding: 0.55rem 1rem;
+  border-radius: 12px;
+  padding: 0.7rem 1rem;
   font-size: 0.94rem;
+  text-align: left;
   cursor: pointer;
   transition: all 180ms ease;
 }
