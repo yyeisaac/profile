@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projects + Skills</title>
+    <title>Experience</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="content-page">
@@ -20,27 +20,72 @@
     </header>
 
     <main class="page-shell">
-      <article class="card">
-        <h1>Projects + Skills</h1>
+      <article class="card tabs-card" data-tabs>
+        <h1>Experience</h1>
 
-        <h2>Featured Projects</h2>
-        <h3>[Project Name 1]</h3>
-        <p>[What it is, what problem it solves, and your role.]</p>
-        <p><strong>Tech stack:</strong> [e.g., HTML, CSS, JavaScript]</p>
-        <p><strong>Link:</strong> [GitHub/Live URL]</p>
+        <div class="tabs" role="tablist" aria-label="Professional sections">
+          <button class="tab-button active" type="button" role="tab" aria-selected="true" aria-controls="professional-panel" id="professional-tab" data-tab-target="professional-panel">
+            Professional Background
+          </button>
+          <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="skills-panel" id="skills-tab" data-tab-target="skills-panel" tabindex="-1">
+            Skills
+          </button>
+          <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="projects-panel" id="projects-tab" data-tab-target="projects-panel" tabindex="-1">
+            Projects
+          </button>
+        </div>
 
-        <h3>[Project Name 2]</h3>
-        <p>[What it is, what problem it solves, and your role.]</p>
-        <p><strong>Tech stack:</strong> [e.g., React, Node.js, MongoDB]</p>
-        <p><strong>Link:</strong> [GitHub/Live URL]</p>
+        <section class="tab-panel active" id="professional-panel" role="tabpanel" aria-labelledby="professional-tab" data-tab-panel>
+          <div class="timeline" data-timeline>
+            <article class="timeline-item">
+              <span class="timeline-dot" aria-hidden="true"></span>
+              <div class="timeline-content">
+                <p class="timeline-period">Present</p>
+                <h2>NTU Double Degree</h2>
+                <p>Pursuing Accountancy and Data Science &amp; Artificial Intelligence, building a strong bridge between business and advanced analytics.</p>
+              </div>
+            </article>
 
-        <h2>Skills</h2>
-        <ul>
-          <li><strong>Languages:</strong> [JavaScript, Python, etc.]</li>
-          <li><strong>Frameworks:</strong> [React, Express, etc.]</li>
-          <li><strong>Tools:</strong> [Git, Figma, Docker, etc.]</li>
-          <li><strong>Other:</strong> [Communication, leadership, etc.]</li>
-        </ul>
+            <article class="timeline-item">
+              <span class="timeline-dot" aria-hidden="true"></span>
+              <div class="timeline-content">
+                <p class="timeline-period">Internship @ Alliance Healthcare Group</p>
+                <h2>Automation &amp; Process Improvement</h2>
+                <p>Led a team of interns to build an OCR-based claims processing system and improve end-to-end operational efficiency.</p>
+              </div>
+            </article>
+
+            <article class="timeline-item">
+              <span class="timeline-dot" aria-hidden="true"></span>
+              <div class="timeline-content">
+                <p class="timeline-period">Project Delivery</p>
+                <h2>Performance Testing &amp; Optimisation</h2>
+                <p>Conducted performance testing for HPB's Clinic Management Software, identifying bottlenecks and improving reliability.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="skills-panel" role="tabpanel" aria-labelledby="skills-tab" data-tab-panel hidden>
+          <h2>Skills</h2>
+          <ul>
+            <li><strong>Languages:</strong> JavaScript, Python</li>
+            <li><strong>Frameworks:</strong> React, Express</li>
+            <li><strong>Tools:</strong> Git, Docker, Figma</li>
+            <li><strong>Other:</strong> Communication, leadership, process optimisation</li>
+          </ul>
+        </section>
+
+        <section class="tab-panel" id="projects-panel" role="tabpanel" aria-labelledby="projects-tab" data-tab-panel hidden>
+          <h2>Featured Projects</h2>
+          <h3>OCR Claims Processing System</h3>
+          <p>Built an OCR-assisted pipeline to extract and process claims information faster with less manual effort.</p>
+          <p><strong>Tech stack:</strong> Python, OCR tooling, automation workflows</p>
+
+          <h3>Clinic Management Performance Testing</h3>
+          <p>Designed and ran performance tests to surface bottlenecks and improve stability for high-traffic scenarios.</p>
+          <p><strong>Tech stack:</strong> Testing tools, analytics, reporting workflows</p>
+        </section>
       </article>
     </main>
 

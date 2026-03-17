@@ -214,3 +214,46 @@ if (canvas && nameEl) {
   buildTextParticles();
   animate();
 }
+
+const tabContainers = document.querySelectorAll('[data-tabs]');
+
+for (const container of tabContainers) {
+  const tabs = Array.from(container.querySelectorAll('[data-tab-target]'));
+  const panels = Array.from(container.querySelectorAll('[data-tab-panel]'));
+
+  function activateTab(nextTab) {
+    const targetId = nextTab.getAttribute('data-tab-target');
+
+    for (const tab of tabs) {
+      const isActive = tab === nextTab;
+      tab.classList.toggle('active', isActive);
+      tab.setAttribute('aria-selected', String(isActive));
+      tab.tabIndex = isActive ? 0 : -1;
+    }
+
+    for (const panel of panels) {
+      const isMatch = panel.id === targetId;
+      panel.classList.toggle('active', isMatch);
+      panel.hidden = !isMatch;
+
+      const timeline = panel.querySelector('[data-timeline]');
+      if (timeline) {
+        timeline.classList.remove('is-active');
+        if (isMatch) {
+          requestAnimationFrame(() => {
+            timeline.classList.add('is-active');
+          });
+        }
+      }
+    }
+  }
+
+  for (const tab of tabs) {
+    tab.addEventListener('click', () => activateTab(tab));
+  }
+
+  const defaultTab = tabs.find((tab) => tab.classList.contains('active')) || tabs[0];
+  if (defaultTab) {
+    activateTab(defaultTab);
+  }
+}
