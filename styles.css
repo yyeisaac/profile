@@ -187,38 +187,6 @@ body {
   width: min(900px, 94vw);
 }
 
-.tabs {
-  display: grid;
-  gap: 0.6rem;
-  margin-bottom: 1.35rem;
-}
-
-.tab-button {
-  border: 1px solid rgba(179, 199, 255, 0.3);
-  background: rgba(255, 255, 255, 0.02);
-  color: #d7e4ff;
-  border-radius: 12px;
-  padding: 0.7rem 1rem;
-  font-size: 0.94rem;
-  text-align: left;
-  cursor: pointer;
-  transition: all 180ms ease;
-}
-
-.tab-button:hover {
-  background: rgba(118, 162, 255, 0.16);
-}
-
-.tab-button.active {
-  background: linear-gradient(90deg, rgba(85, 150, 255, 0.45), rgba(130, 96, 255, 0.45));
-  color: #fff;
-  border-color: rgba(174, 197, 255, 0.75);
-}
-
-.tab-panel {
-  animation: fadeIn 280ms ease;
-}
-
 .timeline {
   position: relative;
   margin-top: 1.2rem;
