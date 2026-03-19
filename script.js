@@ -25,17 +25,22 @@ if (canvas && nameEl) {
   const textCtx = textCanvas.getContext('2d', { willReadFrequently: true });
 
   const config = {
-    sampleGap: 4,
+    baseSampleGap: 4,
+    maxParticles: 900,
     baseSize: 1.55,
-    swirlOnlyDuration: 700,
-    convergeDuration: 780,
-    orbitStrength: 0.136,
+    swirlOnlyDuration: 520,
+    convergeDuration: 680,
+    orbitStrength: 0.12,
     damping: 0.9,
+    maxDpr: 1.5,
   };
 
   const particles = [];
   let introStart = null;
   let convergeStarted = false;
+  let particleSprite = null;
+  let sampleGap = config.baseSampleGap;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let viewport = {
     width: window.innerWidth,
     height: window.innerHeight,
@@ -44,7 +49,7 @@ if (canvas && nameEl) {
   };
 
   function fitCanvas() {
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = Math.min(window.devicePixelRatio || 1, config.maxDpr);
     const width = window.innerWidth;
     const height = window.innerHeight;
 
@@ -68,6 +73,54 @@ if (canvas && nameEl) {
     textCanvas.height = height;
   }
 
+
+  function updateSampleGap() {
+    const area = viewport.width * viewport.height;
+    if (area > 1500000) {
+      sampleGap = 7;
+    } else if (area > 900000) {
+      sampleGap = 6;
+    } else if (area > 500000) {
+      sampleGap = 5;
+    } else {
+      sampleGap = config.baseSampleGap;
+    }
+  }
+
+  function createParticleSprite() {
+    const sprite = document.createElement('canvas');
+    const spriteSize = 40;
+    const spriteCtx = sprite.getContext('2d');
+
+    if (!spriteCtx) {
+      return null;
+    }
+
+    sprite.width = spriteSize;
+    sprite.height = spriteSize;
+
+    const glow = spriteCtx.createRadialGradient(
+      spriteSize / 2,
+      spriteSize / 2,
+      1,
+      spriteSize / 2,
+      spriteSize / 2,
+      spriteSize / 2
+    );
+
+    glow.addColorStop(0, 'rgba(255,255,255,0.95)');
+    glow.addColorStop(0.22, 'rgba(196,225,255,0.9)');
+    glow.addColorStop(0.55, 'rgba(127,176,255,0.38)');
+    glow.addColorStop(1, 'rgba(127,176,255,0)');
+
+    spriteCtx.fillStyle = glow;
+    spriteCtx.beginPath();
+    spriteCtx.arc(spriteSize / 2, spriteSize / 2, spriteSize / 2, 0, Math.PI * 2);
+    spriteCtx.fill();
+
+    return sprite;
+  }
+
   function createParticle(targetX, targetY) {
     const angle = Math.random() * Math.PI * 2;
     const ring = 110 + Math.random() * Math.min(viewport.width, viewport.height) * 0.46;
@@ -81,8 +134,6 @@ if (canvas && nameEl) {
       vy: Math.cos(angle) * (1.5 + Math.random() * 1.4),
       size: config.baseSize + Math.random() * 1.35,
       alpha: 0.45 + Math.random() * 0.45,
-      hue: 185 + Math.random() * 120,
-      glowHue: 260 + Math.random() * 90,
       twinkle: Math.random() * Math.PI * 2,
       sx: 0,
       sy: 0,
@@ -106,14 +157,28 @@ if (canvas && nameEl) {
     textCtx.fillText(text, viewport.cx, viewport.cy);
 
     const image = textCtx.getImageData(0, 0, viewport.width, viewport.height).data;
-    particles.length = 0;
+    const targetPoints = [];
 
-    for (let y = 0; y < viewport.height; y += config.sampleGap) {
-      for (let x = 0; x < viewport.width; x += config.sampleGap) {
+    for (let y = 0; y < viewport.height; y += sampleGap) {
+      for (let x = 0; x < viewport.width; x += sampleGap) {
         const alpha = image[(y * viewport.width + x) * 4 + 3];
         if (alpha > 140) {
-          particles.push(createParticle(x, y));
+          targetPoints.push({ x, y });
         }
+      }
+    }
+
+    particles.length = 0;
+
+    if (targetPoints.length > config.maxParticles) {
+      const stride = Math.ceil(targetPoints.length / config.maxParticles);
+      for (let i = 0; i < targetPoints.length; i += stride) {
+        const point = targetPoints[i];
+        particles.push(createParticle(point.x, point.y));
+      }
+    } else {
+      for (const point of targetPoints) {
+        particles.push(createParticle(point.x, point.y));
       }
     }
 
@@ -122,6 +187,9 @@ if (canvas && nameEl) {
   }
 
   function updateParticle(particle, converging, convergeProgress, time) {
+    if (!particleSprite) {
+      return;
+    }
     if (!converging) {
       const cx = particle.x - viewport.cx;
       const cy = particle.y - viewport.cy;
@@ -146,39 +214,21 @@ if (canvas && nameEl) {
       particle.y = particle.sy + (particle.ty - particle.sy) * eased;
     }
 
-    const pulse = converging ? 1 : 0.9 + Math.sin(time * 0.0018 + particle.twinkle) * 0.1;
+    const pulse = converging ? 1 : 0.92 + Math.sin(time * 0.0016 + particle.twinkle) * 0.08;
     const radius = particle.size * pulse;
+    const spriteSize = radius * 7;
 
-    const glow = ctx.createRadialGradient(
-      particle.x,
-      particle.y,
-      radius * 0.15,
-      particle.x,
-      particle.y,
-      radius * 3.8
-    );
-
-    glow.addColorStop(0, `hsla(${particle.hue}, 100%, 74%, ${Math.min(1, particle.alpha + 0.18)})`);
-    glow.addColorStop(0.35, `hsla(${particle.glowHue}, 92%, 62%, ${particle.alpha * 0.6})`);
-    glow.addColorStop(1, 'rgba(120,160,255,0)');
-
-    ctx.beginPath();
-    ctx.arc(particle.x, particle.y, radius * 1.05, 0, Math.PI * 2);
-    ctx.fillStyle = glow;
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(particle.x, particle.y, radius * 0.58, 0, Math.PI * 2);
-    ctx.fillStyle = `hsla(${particle.hue + 10}, 100%, 85%, ${Math.min(1, particle.alpha + 0.25)})`;
-    ctx.fill();
+    ctx.globalAlpha = particle.alpha;
+    ctx.drawImage(particleSprite, particle.x - spriteSize / 2, particle.y - spriteSize / 2, spriteSize, spriteSize);
+    ctx.globalAlpha = 1;
   }
 
-  function animate(time = 0) {
+  function animate(time = 0, keepAnimating = true) {
     if (!ctx) {
       return;
     }
 
-    if (!introStart) {
+    if (introStart === null) {
       introStart = time;
     }
 
@@ -202,15 +252,37 @@ if (canvas && nameEl) {
       updateParticle(particle, converging, convergeProgress, time);
     }
 
-    requestAnimationFrame(animate);
+    if (keepAnimating) {
+      requestAnimationFrame(animate);
+    }
   }
 
+  let resizeFrame = null;
+
   window.addEventListener('resize', () => {
-    fitCanvas();
-    buildTextParticles();
+    if (resizeFrame) {
+      window.cancelAnimationFrame(resizeFrame);
+    }
+
+    resizeFrame = window.requestAnimationFrame(() => {
+      fitCanvas();
+      updateSampleGap();
+      buildTextParticles();
+    });
   });
 
   fitCanvas();
+  updateSampleGap();
+  particleSprite = createParticleSprite();
   buildTextParticles();
-  animate();
+
+  if (prefersReducedMotion.matches) {
+    for (const particle of particles) {
+      particle.x = particle.tx;
+      particle.y = particle.ty;
+    }
+    animate(config.swirlOnlyDuration + config.convergeDuration, false);
+  } else {
+    animate();
+  }
 }
