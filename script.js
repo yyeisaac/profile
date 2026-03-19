@@ -28,17 +28,17 @@ if (canvas && nameEl) {
     baseSampleGap: 4,
     maxParticles: 900,
     baseSize: 1.55,
-    swirlOnlyDuration: 520,
-    convergeDuration: 680,
-    orbitStrength: 0.12,
+    swirlOnlyDuration: 700,
+    convergeDuration: 780,
+    orbitStrength: 0.136,
     damping: 0.9,
     maxDpr: 1.5,
+    spriteSize: 40,
   };
 
   const particles = [];
   let introStart = null;
   let convergeStarted = false;
-  let particleSprite = null;
   let sampleGap = config.baseSampleGap;
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let viewport = {
@@ -87,9 +87,9 @@ if (canvas && nameEl) {
     }
   }
 
-  function createParticleSprite() {
+  function createParticleSprite(hue, glowHue, alpha) {
     const sprite = document.createElement('canvas');
-    const spriteSize = 40;
+    const spriteSize = config.spriteSize;
     const spriteCtx = sprite.getContext('2d');
 
     if (!spriteCtx) {
@@ -108,14 +108,18 @@ if (canvas && nameEl) {
       spriteSize / 2
     );
 
-    glow.addColorStop(0, 'rgba(255,255,255,0.95)');
-    glow.addColorStop(0.22, 'rgba(196,225,255,0.9)');
-    glow.addColorStop(0.55, 'rgba(127,176,255,0.38)');
-    glow.addColorStop(1, 'rgba(127,176,255,0)');
+    glow.addColorStop(0, `hsla(${hue}, 100%, 74%, ${Math.min(1, alpha + 0.18)})`);
+    glow.addColorStop(0.35, `hsla(${glowHue}, 92%, 62%, ${alpha * 0.6})`);
+    glow.addColorStop(1, 'rgba(120,160,255,0)');
 
     spriteCtx.fillStyle = glow;
     spriteCtx.beginPath();
     spriteCtx.arc(spriteSize / 2, spriteSize / 2, spriteSize / 2, 0, Math.PI * 2);
+    spriteCtx.fill();
+
+    spriteCtx.beginPath();
+    spriteCtx.arc(spriteSize / 2, spriteSize / 2, spriteSize * 0.16, 0, Math.PI * 2);
+    spriteCtx.fillStyle = `hsla(${hue + 10}, 100%, 85%, ${Math.min(1, alpha + 0.25)})`;
     spriteCtx.fill();
 
     return sprite;
@@ -134,9 +138,12 @@ if (canvas && nameEl) {
       vy: Math.cos(angle) * (1.5 + Math.random() * 1.4),
       size: config.baseSize + Math.random() * 1.35,
       alpha: 0.45 + Math.random() * 0.45,
+      hue: 185 + Math.random() * 120,
+      glowHue: 260 + Math.random() * 90,
       twinkle: Math.random() * Math.PI * 2,
       sx: 0,
       sy: 0,
+      sprite: null,
     };
   }
 
@@ -174,11 +181,15 @@ if (canvas && nameEl) {
       const stride = Math.ceil(targetPoints.length / config.maxParticles);
       for (let i = 0; i < targetPoints.length; i += stride) {
         const point = targetPoints[i];
-        particles.push(createParticle(point.x, point.y));
+        const particle = createParticle(point.x, point.y);
+        particle.sprite = createParticleSprite(particle.hue, particle.glowHue, particle.alpha);
+        particles.push(particle);
       }
     } else {
       for (const point of targetPoints) {
-        particles.push(createParticle(point.x, point.y));
+        const particle = createParticle(point.x, point.y);
+        particle.sprite = createParticleSprite(particle.hue, particle.glowHue, particle.alpha);
+        particles.push(particle);
       }
     }
 
@@ -187,7 +198,7 @@ if (canvas && nameEl) {
   }
 
   function updateParticle(particle, converging, convergeProgress, time) {
-    if (!particleSprite) {
+    if (!particle.sprite) {
       return;
     }
     if (!converging) {
@@ -214,13 +225,11 @@ if (canvas && nameEl) {
       particle.y = particle.sy + (particle.ty - particle.sy) * eased;
     }
 
-    const pulse = converging ? 1 : 0.92 + Math.sin(time * 0.0016 + particle.twinkle) * 0.08;
+    const pulse = converging ? 1 : 0.9 + Math.sin(time * 0.0018 + particle.twinkle) * 0.1;
     const radius = particle.size * pulse;
     const spriteSize = radius * 7;
 
-    ctx.globalAlpha = particle.alpha;
-    ctx.drawImage(particleSprite, particle.x - spriteSize / 2, particle.y - spriteSize / 2, spriteSize, spriteSize);
-    ctx.globalAlpha = 1;
+    ctx.drawImage(particle.sprite, particle.x - spriteSize / 2, particle.y - spriteSize / 2, spriteSize, spriteSize);
   }
 
   function animate(time = 0, keepAnimating = true) {
@@ -273,7 +282,6 @@ if (canvas && nameEl) {
 
   fitCanvas();
   updateSampleGap();
-  particleSprite = createParticleSprite();
   buildTextParticles();
 
   if (prefersReducedMotion.matches) {
