@@ -222,6 +222,14 @@ body {
   animation-delay: 240ms;
 }
 
+.timeline.is-active .timeline-item:nth-child(4) {
+  animation-delay: 360ms;
+}
+
+.timeline.is-active .timeline-item:nth-child(5) {
+  animation-delay: 480ms;
+}
+
 .timeline-dot {
   position: absolute;
   left: -1.74rem;
@@ -252,6 +260,27 @@ body {
 
 .timeline-content h2 {
   margin-top: 0;
+}
+
+.section-intro {
+  margin-bottom: 2rem;
+  max-width: 70ch;
+}
+
+.timeline-role {
+  margin: 0 0 0.8rem;
+  color: #f4f7ff;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.timeline-highlights {
+  margin: 0.9rem 0 0 1.1rem;
+}
+
+.timeline-highlights li {
+  margin-bottom: 0.55rem;
+  color: #d8e3ff;
 }
 
 @keyframes timelineSlide {
