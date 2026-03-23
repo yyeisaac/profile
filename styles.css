@@ -445,99 +445,93 @@ body {
 
 .skills-page {
   background:
-    radial-gradient(circle at 20% 18%, rgba(102, 153, 255, 0.18), transparent 24%),
-    radial-gradient(circle at 82% 10%, rgba(164, 108, 255, 0.12), transparent 22%),
-    linear-gradient(160deg, #070b14 0%, #0a1020 45%, #060913 100%);
+    radial-gradient(circle at 16% 18%, rgba(99, 149, 255, 0.2), transparent 24%),
+    radial-gradient(circle at 84% 14%, rgba(179, 108, 255, 0.16), transparent 22%),
+    linear-gradient(160deg, #070b14 0%, #0a1020 48%, #060913 100%);
 }
 
 .skills-showcase {
-  width: min(980px, 92vw);
-  padding: clamp(1.5rem, 3vw, 2.25rem);
-  border-radius: 24px;
-  border: 1px solid rgba(192, 212, 255, 0.14);
-  background: rgba(8, 12, 24, 0.84);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.36);
+  width: min(940px, 92vw);
+  padding: clamp(1.3rem, 2.8vw, 2rem);
+  border-radius: 26px;
+  border: 1px solid rgba(190, 211, 255, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
+    rgba(8, 12, 24, 0.88);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
 }
 
 .skills-hero {
-  margin-bottom: 1.4rem;
-  padding-bottom: 1.4rem;
-  border-bottom: 1px solid rgba(192, 212, 255, 0.1);
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(190, 211, 255, 0.1);
 }
 
 .skills-hero h1 {
-  margin: 0 0 0.9rem;
-  max-width: 12ch;
-  font-size: clamp(2.6rem, 5vw, 4.5rem);
+  margin: 0;
+  max-width: 11ch;
+  font-size: clamp(2.5rem, 5vw, 4.3rem);
   line-height: 0.98;
   letter-spacing: -0.05em;
 }
 
 .skills-hero .section-intro {
-  margin-bottom: 1.4rem;
-  max-width: 58ch;
+  margin: 0;
+  max-width: 34ch;
 }
 
-.skills-summary {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.85rem;
-}
-
-.skills-summary div {
-  display: grid;
-  gap: 0.2rem;
-  padding: 0.95rem 1rem;
-  border-radius: 16px;
-  border: 1px solid rgba(192, 212, 255, 0.1);
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.summary-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.summary-label {
-  color: #cfdcff;
-  font-size: 0.9rem;
-}
-
-.skills-layout {
+.skills-matrix {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 0.9rem;
 }
 
-.skill-section {
-  padding: 1.2rem;
-  border-radius: 18px;
-  border: 1px solid rgba(192, 212, 255, 0.1);
-  background: rgba(255, 255, 255, 0.025);
+.skill-card {
+  display: grid;
+  gap: 0.9rem;
+  min-height: 100%;
+  padding: 1.05rem;
+  border-radius: 20px;
+  border: 1px solid rgba(190, 211, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
 }
 
-.skill-section-featured,
-.skill-section-wide {
-  grid-column: span 2;
+.skill-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(190, 211, 255, 0.2);
 }
 
-.skill-section-featured {
-  background: linear-gradient(135deg, rgba(95, 141, 255, 0.12), rgba(255, 255, 255, 0.025));
+.skill-card-highlight {
+  background: linear-gradient(160deg, rgba(91, 140, 255, 0.12), rgba(255, 255, 255, 0.03));
 }
 
-.skill-section h2 {
-  margin: 0 0 0.7rem;
-  font-size: 1.45rem;
+.skill-card-top {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.skill-section p:last-child {
-  margin-bottom: 0;
+.skill-logo {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .skill-kicker {
-  margin: 0 0 0.4rem;
+  margin: 0;
   color: #aecaFF;
   font-size: 0.78rem;
   font-weight: 700;
@@ -545,18 +539,25 @@ body {
   text-transform: uppercase;
 }
 
+.skill-card h2 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
 .skill-list {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0.65rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
 }
 
 .skill-list li {
   display: flex;
   align-items: center;
-  padding: 0.72rem 0.85rem;
+  min-height: 44px;
+  padding: 0.62rem 0.8rem;
   border-radius: 12px;
   background: rgba(7, 11, 22, 0.42);
   color: #edf3ff;
@@ -564,37 +565,62 @@ body {
 
 .skill-list li::before {
   content: '•';
-  margin-right: 0.55rem;
+  margin-right: 0.5rem;
   color: #88b4ff;
 }
 
-.strength-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem;
-  margin-top: 1rem;
+.skill-note {
+  margin: 0;
+  color: #cdd9f8;
+  line-height: 1.6;
 }
 
-.strength-list span {
-  padding: 0.72rem 0.9rem;
+.strengths-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 0.9rem;
+  align-items: center;
+  margin-top: 0.9rem;
+  padding: 1rem 1.05rem;
+  border-radius: 20px;
+  border: 1px solid rgba(190, 211, 255, 0.1);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.strengths-copy h2 {
+  margin: 0.35rem 0 0;
+  font-size: 1.3rem;
+}
+
+.strength-pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+.strength-pill-list span {
+  padding: 0.68rem 0.9rem;
   border-radius: 999px;
-  border: 1px solid rgba(192, 212, 255, 0.1);
+  border: 1px solid rgba(190, 211, 255, 0.1);
   background: rgba(7, 11, 22, 0.42);
   color: #edf3ff;
 }
 
 @media (max-width: 760px) {
-  .skills-summary,
-  .skills-layout {
+  .skills-hero,
+  .skills-matrix,
+  .strengths-band,
+  .skill-list {
     grid-template-columns: 1fr;
   }
 
-  .skill-section-featured,
-  .skill-section-wide {
-    grid-column: auto;
+  .skills-hero h1,
+  .skills-hero .section-intro {
+    max-width: none;
   }
 
-  .skills-hero h1 {
-    max-width: none;
+  .strength-pill-list {
+    justify-content: flex-start;
   }
 }
