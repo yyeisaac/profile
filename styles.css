@@ -478,17 +478,16 @@ body {
   max-width: 62ch;
 }
 
-.skills-section {
-  margin-top: 1rem;
-  padding: 1rem 0 0;
-}
-
-.compact-section {
-  border-top: 1px solid rgba(190, 211, 255, 0.08);
+.skill-bubble-section {
+  margin-top: 0.9rem;
+  padding: 1rem;
+  border-radius: 22px;
+  border: 1px solid rgba(190, 211, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .section-heading {
-  margin-bottom: 0.9rem;
+  margin-bottom: 0.85rem;
 }
 
 .section-label {
@@ -502,60 +501,33 @@ body {
 
 .section-heading h2 {
   margin: 0;
-  font-size: 1.45rem;
+  font-size: 1.35rem;
 }
 
-.skills-columns {
+.skill-bubbles {
   display: grid;
+  gap: 0.7rem;
+}
+
+.two-column-bubbles {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.9rem;
 }
 
-.skills-group-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 0.75rem;
-}
-
-.skills-group-list li {
-  padding: 0.95rem 1rem;
-  border-radius: 16px;
-  border: 1px solid rgba(190, 211, 255, 0.08);
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.skills-group-list h3 {
-  margin: 0 0 0.45rem;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1rem;
-  color: #ffffff;
-}
-
-.skills-group-list p {
-  margin: 0;
-  font-size: 0.98rem;
-  line-height: 1.7;
-  color: #d9e4ff;
-}
-
-.strength-pill-list {
+.skill-bubbles span {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-}
-
-.strength-pill-list span {
-  padding: 0.68rem 0.9rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0.75rem 0.9rem;
   border-radius: 999px;
   border: 1px solid rgba(190, 211, 255, 0.1);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(7, 11, 22, 0.42);
   color: #edf3ff;
+  text-align: center;
 }
 
 @media (max-width: 760px) {
-  .skills-columns {
+  .two-column-bubbles {
     grid-template-columns: 1fr;
   }
 
