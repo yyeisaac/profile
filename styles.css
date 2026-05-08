@@ -464,6 +464,84 @@ details[open] .timeline-summary {
   color: #d8e3ff;
 }
 
+.achievement-section {
+  margin-top: 2rem;
+  padding-top: 1.8rem;
+  border-top: 1px solid rgba(212, 91, 255, 0.2);
+}
+
+.achievement-eyebrow {
+  margin-bottom: 1rem;
+}
+
+.achievement-card {
+  padding: 1.4rem 1.5rem;
+  border: 1px solid rgba(212, 91, 255, 0.35);
+  border-left: 3px solid #d45bff;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(212, 91, 255, 0.1), rgba(212, 91, 255, 0.03));
+  box-shadow: 0 4px 32px rgba(212, 91, 255, 0.15);
+}
+
+.achievement-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.achievement-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 91, 255, 0.4);
+  background: rgba(212, 91, 255, 0.15);
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  color: #d45bff;
+}
+
+.achievement-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.achievement-title {
+  margin: 0 0 0.2rem;
+  font-size: 1.28rem;
+}
+
+.achievement-role {
+  margin: 0;
+  color: #dfe8ff;
+  font-weight: 600;
+  font-size: 0.96rem;
+}
+
+.achievement-badge-ai {
+  --cat: #d45bff;
+  --cat-dim: rgba(212, 91, 255, 0.12);
+  flex-shrink: 0;
+}
+
+.achievement-body {
+  margin: 0 0 0.8rem;
+  color: #d8e3ff;
+  line-height: 1.6;
+}
+
+.achievement-highlights {
+  margin: 0 0 0 1.1rem;
+  padding: 0;
+}
+
+.achievement-highlights li {
+  margin-bottom: 0.5rem;
+  color: #d8e3ff;
+}
+
 @media (max-width: 760px) {
   .background-hero-compact h1 {
     max-width: none;
@@ -480,6 +558,10 @@ details[open] .timeline-summary {
 
   .timeline-badge {
     white-space: normal;
+  }
+
+  .achievement-header {
+    flex-wrap: wrap;
   }
 }
 
