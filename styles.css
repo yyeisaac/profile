@@ -210,7 +210,10 @@ body {
   padding: clamp(1.25rem, 3vw, 1.8rem);
   border: 1px solid rgba(180, 206, 255, 0.14);
   border-radius: 20px;
-  background: linear-gradient(135deg, rgba(92, 132, 255, 0.12), rgba(121, 88, 255, 0.08));
+  background:
+    linear-gradient(135deg, rgba(92, 132, 255, 0.15), rgba(121, 88, 255, 0.1)),
+    repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(127, 176, 255, 0.04) 32px),
+    repeating-linear-gradient(90deg, transparent, transparent 31px, rgba(127, 176, 255, 0.04) 32px);
 }
 
 .background-hero-compact h1 {
@@ -255,10 +258,13 @@ body {
 }
 
 .highlight-value {
-  color: #ffffff;
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(1.2rem, 2vw, 1.65rem);
   font-weight: 700;
+  background: linear-gradient(140deg, #ffffff 0%, #b0ccff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .highlight-label {
@@ -317,9 +323,10 @@ body {
   width: 12px;
   height: 12px;
   border-radius: 999px;
-  border: 2px solid rgba(163, 195, 255, 0.85);
-  background: #7fb0ff;
-  box-shadow: 0 0 0 6px rgba(127, 176, 255, 0.14);
+  border: 2px solid var(--accent, rgba(163, 195, 255, 0.85));
+  background: var(--accent, #7fb0ff);
+  box-shadow: 0 0 0 5px var(--accent-alpha, rgba(127, 176, 255, 0.14)), 0 0 14px color-mix(in srgb, var(--accent, #7fb0ff) 40%, transparent);
+  transition: box-shadow 300ms ease;
 }
 
 .timeline-panel {
@@ -334,10 +341,11 @@ body {
   gap: 1rem;
   padding: 1rem 1.15rem;
   border: 1px solid rgba(168, 196, 255, 0.18);
+  border-left: 3px solid var(--accent, rgba(168, 196, 255, 0.5));
   border-radius: 18px;
-  background: linear-gradient(180deg, rgba(109, 156, 255, 0.12), rgba(109, 156, 255, 0.05));
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent, #6d9cff) 9%, transparent) 0%, rgba(109, 156, 255, 0.05) 100%);
   cursor: pointer;
-  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
 }
 
 .timeline-summary::-webkit-details-marker {
@@ -347,6 +355,8 @@ body {
 .timeline-summary:hover {
   transform: translateY(-2px);
   border-color: rgba(181, 211, 255, 0.3);
+  border-left-color: var(--accent, rgba(168, 196, 255, 0.8));
+  box-shadow: 0 6px 24px color-mix(in srgb, var(--accent, #6d9cff) 10%, transparent);
 }
 
 .timeline-summary-main {
@@ -378,10 +388,10 @@ body {
   display: inline-flex;
   align-items: center;
   padding: 0.32rem 0.68rem;
-  border: 1px solid rgba(188, 211, 255, 0.18);
+  border: 1px solid color-mix(in srgb, var(--accent, #bcd3ff) 32%, transparent);
   border-radius: 999px;
-  background: rgba(8, 12, 22, 0.38);
-  color: #dbe6ff;
+  background: color-mix(in srgb, var(--accent, rgba(8,12,22,0)) 7%, rgba(8, 12, 22, 0.38));
+  color: var(--accent, #dbe6ff);
   font-size: 0.76rem;
   font-weight: 700;
   white-space: nowrap;
@@ -590,4 +600,149 @@ body {
   height: 15px;
   display: block;
   object-fit: contain;
+}
+
+/* ── Career Map: Category Accent System ──────────────────────────── */
+
+.timeline-item {
+  --accent: #7fb0ff;
+  --accent-alpha: rgba(127, 176, 255, 0.13);
+}
+
+.timeline-item[data-category="education"] {
+  --accent: #4A99FF;
+  --accent-alpha: rgba(74, 153, 255, 0.13);
+}
+
+.timeline-item[data-category="engineering"] {
+  --accent: #22D3BB;
+  --accent-alpha: rgba(34, 211, 187, 0.13);
+}
+
+.timeline-item[data-category="automation"] {
+  --accent: #9B7DFF;
+  --accent-alpha: rgba(155, 125, 255, 0.13);
+}
+
+.timeline-item[data-category="military"] {
+  --accent: #F5A623;
+  --accent-alpha: rgba(245, 166, 35, 0.12);
+}
+
+.timeline-item[data-category="ai"] {
+  --accent: #D468FF;
+  --accent-alpha: rgba(212, 104, 255, 0.13);
+}
+
+/* Icon container */
+.timeline-icon {
+  flex: 0 0 auto;
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 10%, rgba(8, 12, 22, 0.5));
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  transition: background 180ms ease, box-shadow 180ms ease;
+}
+
+.timeline-summary:hover .timeline-icon {
+  background: color-mix(in srgb, var(--accent) 18%, rgba(8, 12, 22, 0.5));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+/* Left group wrapping icon + text */
+.timeline-summary-left {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-width: 0;
+}
+
+/* "Current" pill with pulse dot */
+.current-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: 0.5rem;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(74, 153, 255, 0.12);
+  border: 1px solid rgba(74, 153, 255, 0.28);
+  color: #4A99FF;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.current-tag::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: pulse-dot 2.2s ease infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.6); }
+}
+
+/* Hover lift on highlight pills */
+.highlight-pill {
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.highlight-pill:hover {
+  transform: translateY(-2px);
+  border-color: rgba(179, 203, 255, 0.3);
+}
+
+/* Category legend */
+.career-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 1.2rem;
+  margin-bottom: 1.2rem;
+  padding: 0 0.2rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #b8c8e8;
+  letter-spacing: 0.02em;
+}
+
+.legend-item[data-category="education"] { --accent: #4A99FF; }
+.legend-item[data-category="engineering"] { --accent: #22D3BB; }
+.legend-item[data-category="automation"] { --accent: #9B7DFF; }
+.legend-item[data-category="military"] { --accent: #F5A623; }
+.legend-item[data-category="ai"] { --accent: #D468FF; }
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent, #7fb0ff);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--accent, #7fb0ff) 50%, transparent);
+}
+
+@media (max-width: 760px) {
+  .timeline-summary-left {
+    align-items: flex-start;
+  }
+
+  .career-legend {
+    gap: 0.5rem 0.9rem;
+  }
 }
