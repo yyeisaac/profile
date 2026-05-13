@@ -8,6 +8,10 @@
   box-sizing: border-box;
 }
 
+html {
+  background: #071525; /* network canvas renders above this */
+}
+
 html,
 body {
   margin: 0;
@@ -15,8 +19,11 @@ body {
   height: 100%;
   overflow: hidden;
   font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  background: #071525;
   color: #f2f4ff;
+}
+
+body {
+  background: transparent; /* must be transparent so z-index:-1 canvas is visible */
 }
 
 .topbar {
