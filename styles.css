@@ -380,26 +380,30 @@ body {
 
 /* ── Card shell ───────────────────────────────────────────────────── */
 .background-card {
-  overflow: hidden; /* clips inner rounded elements */
+  overflow: hidden;
 }
 
 /* ── Hero section ─────────────────────────────────────────────────── */
 .background-hero {
-  padding: clamp(1.6rem, 3vw, 2.2rem);
+  padding: clamp(1.8rem, 3.5vw, 2.6rem);
   border-bottom: 1px solid rgba(100, 150, 255, 0.1);
+  background: linear-gradient(135deg,
+    rgba(96, 165, 250, 0.09) 0%,
+    rgba(167, 139, 250, 0.06) 60%,
+    transparent 100%);
 }
 
 .background-hero-compact h1 {
-  margin: 0.4rem 0 0.65rem;
-  font-size: clamp(1.4rem, 3vw, 2rem);
-  font-weight: 700;
-  line-height: 1.3;
+  margin: 0.5rem 0 0.8rem;
+  font-size: clamp(1.55rem, 3.5vw, 2.2rem);
+  font-weight: 800;
+  line-height: 1.25;
   color: #ffffff;
-  max-width: 32ch;
+  max-width: 30ch;
 }
 
 .section-intro {
-  margin: 0 0 1.25rem;
+  margin: 0 0 1.5rem;
   color: rgba(185, 215, 255, 0.72);
   line-height: 1.75;
   font-size: 0.97rem;
@@ -409,27 +413,36 @@ body {
 /* ── Stats ────────────────────────────────────────────────────────── */
 .profile-highlights {
   display: flex;
-  gap: 2.5rem;
+  gap: 0;
   flex-wrap: wrap;
-  padding-top: 1.25rem;
-  border-top: 1px solid rgba(100, 150, 255, 0.1);
+  padding-top: 1.4rem;
+  border-top: 1px solid rgba(100, 150, 255, 0.12);
 }
 
 .highlight-pill {
+  flex: 1;
+  min-width: 130px;
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.2rem;
+  padding-right: 2rem;
+}
+
+.highlight-pill + .highlight-pill {
+  padding-right: 2rem;
+  padding-left: 2rem;
+  border-left: 1px solid rgba(100, 150, 255, 0.12);
 }
 
 .highlight-value {
-  font-size: clamp(1.3rem, 2.5vw, 1.7rem);
-  font-weight: 700;
-  color: #ffffff;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 800;
+  color: #60a5fa;
   line-height: 1;
 }
 
 .highlight-label {
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   color: rgba(150, 190, 255, 0.6);
   line-height: 1.4;
   max-width: 18ch;
@@ -437,26 +450,30 @@ body {
 
 /* ── Timeline ─────────────────────────────────────────────────────── */
 .timeline {
-  padding: clamp(1.6rem, 3vw, 2.2rem);
+  padding: clamp(1.8rem, 3.5vw, 2.6rem);
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.75rem;
 }
 
 .timeline::before {
   content: '';
   position: absolute;
-  top: calc(clamp(1.6rem, 3vw, 2.2rem) + 0.6rem);
-  bottom: calc(clamp(1.6rem, 3vw, 2.2rem) + 0.6rem);
-  left: calc(clamp(1.6rem, 3vw, 2.2rem) + 0.32rem);
+  top: calc(clamp(1.8rem, 3.5vw, 2.6rem) + 0.7rem);
+  bottom: calc(clamp(1.8rem, 3.5vw, 2.6rem) + 0.7rem);
+  left: calc(clamp(1.8rem, 3.5vw, 2.6rem) + 0.35rem);
   width: 1px;
-  background: rgba(100, 150, 255, 0.18);
+  background: linear-gradient(180deg,
+    rgba(96, 165, 250, 0.4),
+    rgba(167, 139, 250, 0.3),
+    rgba(52, 211, 153, 0.3),
+    rgba(232, 121, 249, 0.3));
 }
 
 .timeline-item {
   position: relative;
-  padding-left: 1.6rem;
+  padding-left: 1.8rem;
   opacity: 0;
   transform: translateY(10px);
 }
@@ -465,35 +482,46 @@ body {
   animation: timelineSlide 420ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 .timeline.is-active .timeline-item:nth-child(1) { animation-delay:   0ms; }
-.timeline.is-active .timeline-item:nth-child(2) { animation-delay:  70ms; }
-.timeline.is-active .timeline-item:nth-child(3) { animation-delay: 140ms; }
-.timeline.is-active .timeline-item:nth-child(4) { animation-delay: 210ms; }
+.timeline.is-active .timeline-item:nth-child(2) { animation-delay:  80ms; }
+.timeline.is-active .timeline-item:nth-child(3) { animation-delay: 160ms; }
+.timeline.is-active .timeline-item:nth-child(4) { animation-delay: 240ms; }
 
+/* ── Dot ─────────────────────────────────────────────────────────── */
 .timeline-dot {
   position: absolute;
   left: 0;
-  top: 1.05rem;
-  width: 8px;
-  height: 8px;
+  top: 1.15rem;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: var(--cat);
-  box-shadow: 0 0 0 3px var(--cat-dim);
-  transition: transform 180ms ease;
+  box-shadow: 0 0 0 4px var(--cat-dim), 0 0 12px var(--cat);
+  transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
 .timeline-item:hover .timeline-dot {
-  transform: scale(1.5);
+  transform: scale(1.35);
+  box-shadow: 0 0 0 6px var(--cat-dim), 0 0 20px var(--cat);
 }
 
+/* ── Panel ───────────────────────────────────────────────────────── */
 .timeline-panel {
-  border-radius: 12px;
+  border-radius: 14px;
   border: 1px solid rgba(100, 150, 255, 0.1);
   overflow: hidden;
-  transition: border-color 180ms ease;
+  box-shadow: 0 2px 16px rgba(0, 5, 30, 0.25);
+  transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+}
+
+.timeline-panel:hover {
+  border-color: var(--cat);
+  box-shadow: 0 8px 32px rgba(0, 5, 30, 0.35), 0 0 0 1px var(--cat-dim);
+  transform: translateY(-2px);
 }
 
 details[open].timeline-panel {
-  border-color: rgba(100, 150, 255, 0.2);
+  border-color: var(--cat);
+  box-shadow: 0 4px 24px rgba(0, 5, 30, 0.3), 0 0 0 1px var(--cat-dim);
 }
 
 .timeline-summary {
@@ -502,15 +530,19 @@ details[open].timeline-panel {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 1rem 1.1rem;
+  padding: 1.1rem 1.25rem;
   background: rgba(255, 255, 255, 0.025);
   cursor: pointer;
-  transition: background 160ms ease;
+  transition: background 180ms ease;
   user-select: none;
 }
 
 .timeline-summary:hover {
-  background: rgba(255, 255, 255, 0.045);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+details[open] .timeline-summary {
+  background: var(--cat-dim);
 }
 
 .timeline-summary::-webkit-details-marker { display: none; }
@@ -520,45 +552,44 @@ details[open].timeline-panel {
   flex-shrink: 0;
   width: 7px;
   height: 7px;
-  border-right: 1.5px solid rgba(150, 185, 255, 0.4);
-  border-bottom: 1.5px solid rgba(150, 185, 255, 0.4);
+  border-right: 1.5px solid rgba(160, 200, 255, 0.5);
+  border-bottom: 1.5px solid rgba(160, 200, 255, 0.5);
   transform: rotate(-45deg);
   transition: transform 200ms ease;
 }
 
-details[open] .timeline-summary::after {
-  transform: rotate(45deg);
-}
+details[open] .timeline-summary::after { transform: rotate(45deg); }
 
 .timeline-summary-main { flex: 1; min-width: 0; }
 
 .timeline-period {
   margin: 0 0 0.2rem;
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--cat);
-  opacity: 0.9;
+  letter-spacing: 0.02em;
 }
 
 .timeline-summary h2 {
-  margin: 0 0 0.12rem;
-  font-size: 1rem;
+  margin: 0 0 0.15rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  color: #f4f8ff;
+  color: #ffffff;
   line-height: 1.3;
 }
 
 .timeline-role {
   margin: 0;
   font-size: 0.85rem;
-  color: rgba(185, 215, 255, 0.6);
+  color: rgba(185, 215, 255, 0.62);
 }
 
 .timeline-badge {
   display: inline-flex;
   align-items: center;
-  padding: 0.22rem 0.65rem;
+  padding: 0.25rem 0.75rem;
   border-radius: 999px;
+  border: 1px solid var(--cat);
   background: var(--cat-dim);
   color: var(--cat);
   font-size: 0.72rem;
@@ -568,23 +599,24 @@ details[open] .timeline-summary::after {
 }
 
 .timeline-details {
-  padding: 0.9rem 1.1rem 1rem;
+  padding: 1rem 1.25rem 1.15rem;
   border-top: 1px solid rgba(100, 150, 255, 0.1);
+  background: rgba(255, 255, 255, 0.015);
 }
 
 .timeline-highlights {
-  margin: 0.6rem 0 0;
+  margin: 0.65rem 0 0;
   padding-left: 0;
   list-style: none;
 }
 
 .timeline-highlights li {
-  margin-bottom: 0.45rem;
-  color: rgba(185, 215, 255, 0.75);
+  margin-bottom: 0.5rem;
+  color: rgba(200, 225, 255, 0.8);
   font-size: 0.9rem;
   padding-left: 1rem;
   position: relative;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 .timeline-highlights li::before {
@@ -592,70 +624,74 @@ details[open] .timeline-summary::after {
   position: absolute;
   left: 0;
   color: var(--cat);
-  opacity: 0.7;
+  font-weight: 700;
 }
 
 /* ── Achievement ──────────────────────────────────────────────────── */
 .achievement-section {
-  padding: 0 clamp(1.6rem, 3vw, 2.2rem) clamp(1.6rem, 3vw, 2.2rem);
+  padding: 0 clamp(1.8rem, 3.5vw, 2.6rem) clamp(1.8rem, 3.5vw, 2.6rem);
 }
 
-.achievement-eyebrow { margin-bottom: 0.75rem; }
+.achievement-eyebrow { margin-bottom: 0.8rem; }
 
 .achievement-card {
-  padding: 1.25rem 1.4rem;
-  border-radius: 12px;
-  border: 1px solid rgba(192, 132, 252, 0.2);
-  border-left: 3px solid #c084fc;
-  background: rgba(192, 132, 252, 0.05);
+  padding: 1.5rem 1.7rem;
+  border-radius: 14px;
+  border: 1px solid rgba(192, 132, 252, 0.3);
+  background: linear-gradient(135deg,
+    rgba(192, 132, 252, 0.12) 0%,
+    rgba(167, 139, 250, 0.06) 60%,
+    rgba(232, 121, 249, 0.04) 100%);
+  box-shadow: 0 4px 32px rgba(130, 60, 220, 0.15);
 }
 
 .achievement-header {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
-  margin-bottom: 0.75rem;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
 }
 
 .achievement-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: rgba(192, 132, 252, 0.12);
-  border: 1px solid rgba(192, 132, 252, 0.25);
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(192, 132, 252, 0.18);
+  border: 1px solid rgba(192, 132, 252, 0.35);
   display: grid;
   place-items: center;
   color: #c084fc;
-  font-size: 1rem;
+  font-size: 1.1rem;
   flex-shrink: 0;
+  box-shadow: 0 0 16px rgba(192, 132, 252, 0.2);
 }
 
 .achievement-meta { flex: 1; min-width: 0; }
 
 .achievement-title {
-  margin: 0 0 0.1rem;
-  font-size: 1rem;
+  margin: 0 0 0.12rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  color: #f4f8ff;
+  color: #ffffff;
 }
 
 .achievement-role {
   margin: 0;
   font-size: 0.85rem;
-  color: rgba(185, 215, 255, 0.6);
+  color: rgba(200, 180, 255, 0.7);
 }
 
 .achievement-badge-ai {
   --cat: #c084fc;
-  --cat-dim: rgba(192, 132, 252, 0.1);
+  --cat-dim: rgba(192, 132, 252, 0.12);
   flex-shrink: 0;
 }
 
 .achievement-body {
-  margin: 0 0 0.75rem;
-  color: rgba(185, 215, 255, 0.75);
-  font-size: 0.9rem;
-  line-height: 1.65;
+  margin: 0 0 0.85rem;
+  color: rgba(210, 200, 255, 0.8);
+  font-size: 0.92rem;
+  line-height: 1.7;
 }
 
 .achievement-highlights {
@@ -665,12 +701,12 @@ details[open] .timeline-summary::after {
 }
 
 .achievement-highlights li {
-  margin-bottom: 0.4rem;
-  color: rgba(185, 215, 255, 0.75);
+  margin-bottom: 0.45rem;
+  color: rgba(210, 200, 255, 0.78);
   font-size: 0.9rem;
   padding-left: 1rem;
   position: relative;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 .achievement-highlights li::before {
@@ -678,12 +714,12 @@ details[open] .timeline-summary::after {
   position: absolute;
   left: 0;
   color: #c084fc;
-  opacity: 0.7;
+  font-weight: 700;
 }
 
 /* ── Responsive ───────────────────────────────────────────────────── */
 @media (max-width: 760px) {
-  .profile-highlights { gap: 1.5rem; }
+  .highlight-pill + .highlight-pill { padding-left: 1.25rem; padding-right: 1.25rem; }
   .background-hero-compact h1 { max-width: none; }
   .timeline-summary { flex-direction: column; align-items: flex-start; }
   .timeline-badge { white-space: normal; }
@@ -709,71 +745,76 @@ details[open] .timeline-summary::after {
   gap: 1.25rem;
 }
 
-/* Hero card — matches the standard .card style */
+/* Hero card */
 .skills-hero-card {
   width: min(960px, 92vw);
-  padding: clamp(1.8rem, 3vw, 2.4rem);
+  padding: clamp(1.8rem, 3.5vw, 2.6rem);
   border-radius: 16px;
-  background: rgba(4, 12, 30, 0.72);
+  background:
+    linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, rgba(167, 139, 250, 0.07) 50%, transparent 100%),
+    rgba(4, 12, 30, 0.72);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(100, 150, 255, 0.15);
-  box-shadow: 0 8px 48px rgba(0, 15, 60, 0.45);
+  border: 1px solid rgba(100, 150, 255, 0.18);
+  box-shadow: 0 8px 48px rgba(0, 15, 60, 0.45), inset 0 1px 0 rgba(100, 180, 255, 0.06);
 }
 
 .skills-hero-h1 {
-  margin: 0.6rem 0 0.65rem;
+  margin: 0.6rem 0 0.75rem;
   max-width: 24ch;
-  font-size: clamp(1.7rem, 3.5vw, 2.4rem);
-  font-weight: 700;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
   line-height: 1.15;
   letter-spacing: -0.02em;
   color: #ffffff;
 }
 
 .skills-hero-intro {
-  margin: 0 0 1.5rem;
+  margin: 0 0 1.6rem;
   max-width: 62ch;
-  line-height: 1.75;
-  font-size: 0.97rem;
+  line-height: 1.8;
+  font-size: 0.98rem;
   color: rgba(185, 215, 255, 0.72);
 }
 
 .skills-stats {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 0;
   flex-wrap: wrap;
-  padding-top: 1.25rem;
-  border-top: 1px solid rgba(100, 150, 255, 0.1);
+  padding-top: 1.4rem;
+  border-top: 1px solid rgba(100, 150, 255, 0.12);
 }
 
 .skills-stat {
+  flex: 1;
+  min-width: 100px;
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.18rem;
+  padding-right: 1.5rem;
+}
+
+.skills-stat + .skills-stat {
+  padding-left: 1.5rem;
+  border-left: 1px solid rgba(100, 150, 255, 0.12);
 }
 
 .skills-stat-value {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #60a5fa;
   line-height: 1;
 }
 
 .skills-stat-label {
-  font-size: 0.75rem;
+  font-size: 0.76rem;
   color: rgba(150, 185, 255, 0.6);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
-.skills-stat-divider {
-  width: 1px;
-  height: 2rem;
-  background: rgba(100, 150, 255, 0.15);
-  flex-shrink: 0;
-}
+.skills-stat-divider { display: none; } /* replaced by border-left */
 
 /* Bento grid */
 .skills-bento {
@@ -784,31 +825,33 @@ details[open] .timeline-summary::after {
 }
 
 /* Section colour tokens */
-.skill-card { --sec: #7fb0ff; --sec-dim: rgba(127,176,255,0.08); --sec-glow: rgba(127,176,255,0.2); }
-.skill-card--programming { --sec: #60a5fa; --sec-dim: rgba(96,165,250,0.08); --sec-glow: rgba(96,165,250,0.22); }
-.skill-card--development { --sec: #34d399; --sec-dim: rgba(52,211,153,0.08); --sec-glow: rgba(52,211,153,0.2); }
-.skill-card--frameworks  { --sec: #a78bfa; --sec-dim: rgba(167,139,250,0.08); --sec-glow: rgba(167,139,250,0.2); }
-.skill-card--cloud       { --sec: #e879f9; --sec-dim: rgba(232,121,249,0.08); --sec-glow: rgba(232,121,249,0.2); }
-.skill-card--strengths   { --sec: #fbbf24; --sec-dim: rgba(251,191,36,0.08); --sec-glow: rgba(251,191,36,0.2); }
-.skill-card--languages   { --sec: #fb7185; --sec-dim: rgba(251,113,133,0.08); --sec-glow: rgba(251,113,133,0.2); }
+.skill-card { --sec: #7fb0ff; --sec-dim: rgba(127,176,255,0.09); --sec-glow: rgba(127,176,255,0.22); }
+.skill-card--programming { --sec: #60a5fa; --sec-dim: rgba(96,165,250,0.1);  --sec-glow: rgba(96,165,250,0.25); }
+.skill-card--development { --sec: #34d399; --sec-dim: rgba(52,211,153,0.1);  --sec-glow: rgba(52,211,153,0.22); }
+.skill-card--frameworks  { --sec: #a78bfa; --sec-dim: rgba(167,139,250,0.1); --sec-glow: rgba(167,139,250,0.22); }
+.skill-card--cloud       { --sec: #e879f9; --sec-dim: rgba(232,121,249,0.1); --sec-glow: rgba(232,121,249,0.22); }
+.skill-card--strengths   { --sec: #fbbf24; --sec-dim: rgba(251,191,36,0.1);  --sec-glow: rgba(251,191,36,0.22); }
+.skill-card--languages   { --sec: #fb7185; --sec-dim: rgba(251,113,133,0.1); --sec-glow: rgba(251,113,133,0.22); }
 
 .skill-card {
-  padding: 1.4rem;
+  padding: 1.4rem 1.5rem;
   border-radius: 14px;
   border: 1px solid rgba(100, 150, 255, 0.1);
-  border-left: 3px solid var(--sec);
-  background: rgba(4, 12, 30, 0.65);
+  background:
+    linear-gradient(135deg, var(--sec-dim) 0%, rgba(4, 12, 30, 0.65) 100%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 2px 16px rgba(0, 5, 30, 0.2);
   opacity: 0;
   transform: translateY(12px);
   animation: skillCardIn 400ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  transition: border-color 180ms ease, box-shadow 180ms ease;
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
 }
 
 .skill-card:hover {
   border-color: var(--sec);
-  box-shadow: 0 6px 32px var(--sec-glow);
+  box-shadow: 0 8px 36px var(--sec-glow), 0 2px 16px rgba(0, 5, 30, 0.3);
+  transform: translateY(-2px);
 }
 
 .skill-card:nth-child(1) { animation-delay:  30ms; }
@@ -825,35 +868,37 @@ details[open] .timeline-summary::after {
 .skill-card-header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.85rem;
   margin-bottom: 1rem;
 }
 
 .skill-card-icon {
   flex-shrink: 0;
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
   background: var(--sec-dim);
+  border: 1px solid var(--sec-dim);
   display: grid;
   place-items: center;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
 }
 
 .skill-card-label {
-  margin: 0 0 0.1rem;
+  margin: 0 0 0.12rem;
   color: var(--sec);
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .skill-card-title {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  color: #f0f6ff;
+  color: #ffffff;
   line-height: 1.3;
 }
 
@@ -861,39 +906,41 @@ details[open] .timeline-summary::after {
 .chip-cloud {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
+  gap: 0.5rem;
 }
 
 .chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.42rem 0.8rem 0.42rem 0.5rem;
-  border-radius: 8px;
-  border: 1px solid rgba(100, 150, 255, 0.12);
-  background: rgba(255, 255, 255, 0.03);
-  color: rgba(220, 235, 255, 0.88);
+  gap: 0.5rem;
+  padding: 0.42rem 0.85rem 0.42rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(100, 150, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(220, 238, 255, 0.9);
   font-size: 0.86rem;
   font-weight: 500;
-  transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+  transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
   cursor: default;
   user-select: none;
 }
 
 .chip:hover {
+  transform: translateY(-1px);
   border-color: var(--sec);
   background: var(--sec-dim);
-  box-shadow: 0 2px 14px var(--sec-glow);
+  box-shadow: 0 4px 16px var(--sec-glow);
 }
 
 .chip-icon {
   flex-shrink: 0;
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
   display: grid;
   place-items: center;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
 }
 
 .chip-icon img {
