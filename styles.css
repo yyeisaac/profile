@@ -105,22 +105,19 @@ body {
   isolation: isolate;
 }
 
-/* Dark radial vignette so the network fades back in the centre */
+/* Very soft ambient darkening — not a box, just reduces noise behind text */
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse 70% 65% at 50% 50%,
-    rgba(2, 8, 20, 0.82) 0%,
-    rgba(2, 8, 20, 0.55) 45%,
-    transparent 100%
-  );
+  background: radial-gradient(ellipse 90% 80% at 50% 50%,
+    rgba(2, 8, 18, 0.45) 0%,
+    transparent 75%);
   pointer-events: none;
   z-index: 0;
 }
 
-/* ── Index hero content ─────────────────────────────────────────── */
+/* ── Index hero content — no box, no panel ──────────────────────── */
 .hero-content {
   position: relative;
   z-index: 1;
@@ -128,93 +125,121 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 3rem 3.5rem;
-  /* subtle glass panel — just enough separation from the network */
-  background: rgba(2, 8, 22, 0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 229, 255, 0.12);
-  border-radius: 4px;
 }
 
+/* ── Name ─────────────────────────────────────────────────────────── */
 .hero-name {
-  margin: 0 0 1.2rem;
+  margin: 0 0 0.15em;
   font-family: 'Orbitron', 'Space Grotesk', sans-serif;
-  font-size: clamp(3.5rem, 12vw, 9rem);
+  font-size: clamp(5rem, 16vw, 13rem);
   font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: 0.06em;
+  line-height: 0.88;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+/* "Isaac" — white, contrasted with stacked dark shadows (the subtitle trick) */
+.hero-first {
+  display: block;
   color: #ffffff;
-  /* dark drop-shadow first for readability, then cyan glow on top */
+  /* Multiple dark blurs build up to a solid dark halo around every letter —
+     this is how subtitles stay readable on any background, no box needed */
   text-shadow:
-    0 2px 12px rgba(0, 0, 0, 0.95),
-    0 0 24px  rgba(0, 229, 255, 0.85),
-    0 0 55px  rgba(0, 229, 255, 0.45),
-    0 0 110px rgba(0, 180, 255, 0.2);
+    0 0 6px  #000, 0 0 6px  #000,   /* tight dark core × 2 for density */
+    0 0 25px #000,                   /* mid-range dark spread              */
+    0 0 60px rgba(0,0,0,0.85),       /* wide ambient darkening             */
+    0 0 22px rgba(0,229,255,0.55),   /* cyan glow on top                   */
+    0 0 55px rgba(0,180,255,0.25);
+  opacity: 0;
+  animation: heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.2s forwards;
+}
+
+/* "Yeo" — bright cyan, pops as a colour accent */
+.hero-last {
+  display: block;
+  color: #00e5ff;
+  text-shadow:
+    0 0 6px  #000, 0 0 6px  #000,
+    0 0 25px #000,
+    0 0 60px rgba(0,0,0,0.85),
+    0 0 28px rgba(0,229,255,0.9),
+    0 0 70px rgba(0,229,255,0.5),
+    0 0 140px rgba(0,160,255,0.25);
+  opacity: 0;
   animation:
-    heroFadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards,
-    nameGlow 4s ease-in-out 1.4s infinite;
-  opacity: 0;
+    heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.35s forwards,
+    lastGlow 4s ease-in-out 1.2s infinite;
 }
 
+/* ── Glowing rule — the only structural line ──────────────────────── */
+.hero-rule {
+  width: clamp(120px, 20vw, 220px);
+  height: 1px;
+  margin: 1.4rem 0 1.3rem;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(0,229,255,0.9) 40%,
+    rgba(0,229,255,0.9) 60%,
+    transparent);
+  box-shadow: 0 0 12px rgba(0,229,255,0.5);
+  opacity: 0;
+  animation: heroFadeUp 0.7s ease 0.5s forwards;
+}
+
+/* ── Tagline ──────────────────────────────────────────────────────── */
 .hero-tagline {
-  margin: 0 0 2rem;
+  margin: 0 0 2.2rem;
   font-family: 'Share Tech Mono', 'Courier New', monospace;
-  font-size: clamp(0.72rem, 1.6vw, 0.92rem);
-  letter-spacing: 0.18em;
-  /* plain white — maximum contrast */
-  color: rgba(255, 255, 255, 0.85);
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+  font-size: clamp(0.65rem, 1.4vw, 0.85rem);
+  letter-spacing: 0.22em;
+  color: rgba(255,255,255,0.88);
+  text-shadow:
+    0 0 6px #000, 0 0 6px #000,
+    0 0 20px rgba(0,0,0,0.8);
   opacity: 0;
-  animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.55s forwards;
+  animation: heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.6s forwards;
 }
 
+/* ── CTA — border only, the rule above draws the eye ─────────────── */
 .hero-cta {
   display: inline-block;
-  padding: 0.75rem 2.4rem;
-  /* solid dark fill so the button is unmistakeable */
-  background: rgba(0, 229, 255, 0.12);
-  border: 1px solid rgba(0, 229, 255, 0.75);
+  padding: 0.7rem 2.2rem;
+  border: 1px solid rgba(0,229,255,0.65);
   border-radius: 2px;
   color: #ffffff;
   text-decoration: none;
   font-family: 'Share Tech Mono', 'Courier New', monospace;
-  font-size: 0.82rem;
-  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  text-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
-  box-shadow: 0 0 14px rgba(0, 229, 255, 0.18);
+  text-shadow: 0 0 6px #000, 0 0 6px #000;
   transition: background 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
   opacity: 0;
-  animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
+  animation: heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.78s forwards;
 }
 
 .hero-cta:hover {
-  background: rgba(0, 229, 255, 0.25);
+  background: rgba(0,229,255,0.12);
   border-color: #00e5ff;
-  box-shadow: 0 0 28px rgba(0, 229, 255, 0.45), inset 0 0 16px rgba(0, 229, 255, 0.08);
+  box-shadow: 0 0 22px rgba(0,229,255,0.35);
+  text-shadow: 0 0 8px rgba(0,229,255,0.5);
 }
 
 @keyframes heroFadeUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes nameGlow {
+@keyframes lastGlow {
   0%, 100% {
     text-shadow:
-      0 2px 12px rgba(0, 0, 0, 0.95),
-      0 0 24px  rgba(0, 229, 255, 0.85),
-      0 0 55px  rgba(0, 229, 255, 0.45),
-      0 0 110px rgba(0, 180, 255, 0.2);
+      0 0 6px #000, 0 0 6px #000, 0 0 25px #000, 0 0 60px rgba(0,0,0,0.85),
+      0 0 28px rgba(0,229,255,0.9), 0 0 70px rgba(0,229,255,0.5), 0 0 140px rgba(0,160,255,0.25);
   }
   50% {
     text-shadow:
-      0 2px 12px rgba(0, 0, 0, 0.95),
-      0 0 32px  rgba(0, 229, 255, 1),
-      0 0 75px  rgba(0, 229, 255, 0.6),
-      0 0 150px rgba(0, 180, 255, 0.3);
+      0 0 6px #000, 0 0 6px #000, 0 0 25px #000, 0 0 60px rgba(0,0,0,0.85),
+      0 0 38px rgba(0,229,255,1),  0 0 90px rgba(0,229,255,0.65), 0 0 180px rgba(0,160,255,0.35);
   }
 }
 
