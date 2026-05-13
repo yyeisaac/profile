@@ -88,7 +88,7 @@ body {
   text-decoration: none;
   padding: 0.65rem 0.85rem;
   border-radius: 2px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 0.88rem;
   letter-spacing: 0.01em;
   transition: background 160ms ease, color 160ms ease;
@@ -134,7 +134,7 @@ body {
 /* ── Name ─────────────────────────────────────────────────────────── */
 .hero-name {
   margin: 0 0 0.15em;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: clamp(4.5rem, 15vw, 12rem);
   font-weight: 800;
   line-height: 0.9;
@@ -174,7 +174,7 @@ body {
 /* ── Tagline ──────────────────────────────────────────────────────── */
 .hero-tagline {
   margin: 0 0 2.2rem;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: clamp(0.75rem, 1.5vw, 0.9rem);
   letter-spacing: 0.05em;
   color: rgba(255,255,255,0.88);
@@ -193,7 +193,7 @@ body {
   border-radius: 2px;
   color: #ffffff;
   text-decoration: none;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 0.85rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -241,7 +241,7 @@ body {
 .card h1 {
   margin-top: 0;
   margin-bottom: 1.8rem;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: clamp(1.8rem, 4vw, 2.6rem);
   font-weight: 700;
   letter-spacing: 0.01em;
@@ -253,7 +253,7 @@ body {
 .card h2 {
   margin-top: 2rem;
   margin-bottom: 0.8rem;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 0.7rem;
   font-weight: 400;
   letter-spacing: 0.06em;
@@ -266,7 +266,7 @@ body {
 .card h3 {
   margin-top: 1.5rem;
   margin-bottom: 0.4rem;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 1.05rem;
   font-weight: 600;
   color: rgba(210, 238, 255, 0.95);
@@ -301,7 +301,7 @@ body {
   position: absolute;
   left: 0;
   color: rgba(0, 229, 255, 0.5);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 0.68rem;
   line-height: 1.85;
 }
@@ -325,7 +325,7 @@ body {
   border-radius: 2px;
   background: rgba(0, 229, 255, 0.06);
   color: #00e5ff;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 0.68rem;
   font-weight: 400;
   letter-spacing: 0.06em;
@@ -355,7 +355,7 @@ body {
 
 .highlight-value {
   color: #ffffff;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: clamp(1.2rem, 2vw, 1.65rem);
   font-weight: 700;
 }
@@ -464,7 +464,7 @@ body {
   margin-bottom: 0.8rem;
   border-bottom: 1px solid rgba(0, 200, 255, 0.15);
   background: rgba(0, 200, 255, 0.04);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 0.7rem;
   color: rgba(0, 200, 255, 0.5);
   letter-spacing: 0.14em;
@@ -522,7 +522,7 @@ body {
 .background-hero-compact h1 {
   margin: 0.4rem 0 0.8rem;
   max-width: 22ch;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: clamp(1.25rem, 3vw, 1.85rem);
   font-weight: 800;
   letter-spacing: 0.06em;
@@ -532,7 +532,7 @@ body {
 
 /* Eyebrow override — terminal style */
 .background-card .eyebrow {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   border: 1px solid rgba(0, 200, 255, 0.35);
   border-radius: 2px;
   background: rgba(0, 200, 255, 0.07);
@@ -576,7 +576,7 @@ body {
 
 .highlight-value {
   color: #00e5ff;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: clamp(1.05rem, 1.8vw, 1.45rem);
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -585,7 +585,7 @@ body {
 
 .highlight-label {
   color: rgba(130, 190, 255, 0.65);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 0.71rem;
   line-height: 1.4;
   letter-spacing: 0.02em;
@@ -757,7 +757,7 @@ details[open] .timeline-summary {
 .timeline-period {
   margin: 0 0 0.22rem;
   color: var(--cat);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 0.72rem;
   font-weight: 400;
   text-transform: uppercase;
@@ -773,7 +773,7 @@ details[open] .timeline-summary {
 /* ── Item heading ─────────────────────────────────────────────────── */
 .timeline-summary h2 {
   margin: 0 0 0.18rem;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -785,7 +785,7 @@ details[open] .timeline-summary {
 .timeline-role {
   margin: 0;
   color: rgba(170, 205, 255, 0.75);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 0.8rem;
   font-weight: 400;
   letter-spacing: 0.04em;
@@ -800,7 +800,7 @@ details[open] .timeline-summary {
   border-radius: 2px;
   background: var(--cat-dim);
   color: var(--cat);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 0.65rem;
   font-weight: 400;
   white-space: nowrap;
@@ -840,7 +840,7 @@ details[open] .timeline-summary {
   position: absolute;
   left: 0;
   color: var(--cat);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 0.72rem;
   opacity: 0.65;
   line-height: 1.7;
@@ -928,7 +928,7 @@ details[open] .timeline-summary {
   background: rgba(255, 0, 187, 0.1);
   display: grid;
   place-items: center;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 1.1rem;
   color: #ff00bb;
   text-shadow: 0 0 12px #ff00bb;
@@ -942,7 +942,7 @@ details[open] .timeline-summary {
 
 .achievement-title {
   margin: 0 0 0.2rem;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -952,7 +952,7 @@ details[open] .timeline-summary {
 .achievement-role {
   margin: 0;
   color: rgba(170, 205, 255, 0.75);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 0.8rem;
   letter-spacing: 0.04em;
 }
@@ -994,7 +994,7 @@ details[open] .timeline-summary {
   position: absolute;
   left: 0;
   color: #ff00bb;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 0.72rem;
   opacity: 0.65;
   line-height: 1.7;
@@ -1083,7 +1083,7 @@ details[open] .timeline-summary {
 .skills-hero-h1 {
   margin: 0.75rem 0 0.65rem;
   max-width: 22ch;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: clamp(1.9rem, 4vw, 2.8rem);
   line-height: 1.08;
   letter-spacing: -0.03em;
@@ -1114,7 +1114,7 @@ details[open] .timeline-summary {
 }
 
 .skills-stat-value {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 1.9rem;
   font-weight: 700;
   color: #ffffff;
@@ -1212,7 +1212,7 @@ details[open] .timeline-summary {
 
 .skill-card-title {
   margin: 0;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+
   font-size: 1.12rem;
   font-weight: 700;
   color: #f0f4ff;
