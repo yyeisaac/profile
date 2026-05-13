@@ -105,6 +105,21 @@ body {
   isolation: isolate;
 }
 
+/* Dark radial vignette so the network fades back in the centre */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 70% 65% at 50% 50%,
+    rgba(2, 8, 20, 0.82) 0%,
+    rgba(2, 8, 20, 0.55) 45%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
 /* ── Index hero content ─────────────────────────────────────────── */
 .hero-content {
   position: relative;
@@ -112,93 +127,94 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;
   text-align: center;
-  padding: 2rem;
-}
-
-.hero-eyebrow {
-  margin: 0 0 1.6rem;
-  font-family: 'Share Tech Mono', 'Courier New', monospace;
-  font-size: 0.78rem;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: rgba(0, 229, 255, 0.65);
-  opacity: 0;
-  animation: heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.2s forwards;
+  padding: 3rem 3.5rem;
+  /* subtle glass panel — just enough separation from the network */
+  background: rgba(2, 8, 22, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 229, 255, 0.12);
+  border-radius: 4px;
 }
 
 .hero-name {
-  margin: 0 0 1.4rem;
+  margin: 0 0 1.2rem;
   font-family: 'Orbitron', 'Space Grotesk', sans-serif;
-  font-size: clamp(4rem, 14vw, 10rem);
+  font-size: clamp(3.5rem, 12vw, 9rem);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #ffffff;
+  /* dark drop-shadow first for readability, then cyan glow on top */
   text-shadow:
-    0 0 18px  rgba(0, 229, 255, 0.9),
-    0 0 45px  rgba(0, 229, 255, 0.5),
-    0 0 90px  rgba(0, 180, 255, 0.25),
-    0 0 180px rgba(0, 120, 255, 0.12);
+    0 2px 12px rgba(0, 0, 0, 0.95),
+    0 0 24px  rgba(0, 229, 255, 0.85),
+    0 0 55px  rgba(0, 229, 255, 0.45),
+    0 0 110px rgba(0, 180, 255, 0.2);
   animation:
-    heroFadeUp 1s cubic-bezier(0.22,1,0.36,1) 0.45s forwards,
-    nameGlow 4s ease-in-out 1.5s infinite;
+    heroFadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards,
+    nameGlow 4s ease-in-out 1.4s infinite;
   opacity: 0;
 }
 
 .hero-tagline {
-  margin: 0 0 2.4rem;
+  margin: 0 0 2rem;
   font-family: 'Share Tech Mono', 'Courier New', monospace;
-  font-size: clamp(0.7rem, 1.8vw, 0.95rem);
-  letter-spacing: 0.2em;
-  color: rgba(140, 200, 255, 0.7);
+  font-size: clamp(0.72rem, 1.6vw, 0.92rem);
+  letter-spacing: 0.18em;
+  /* plain white — maximum contrast */
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
   opacity: 0;
-  animation: heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.7s forwards;
+  animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.55s forwards;
 }
 
 .hero-cta {
   display: inline-block;
-  padding: 0.7rem 2.2rem;
-  border: 1px solid rgba(0, 229, 255, 0.5);
+  padding: 0.75rem 2.4rem;
+  /* solid dark fill so the button is unmistakeable */
+  background: rgba(0, 229, 255, 0.12);
+  border: 1px solid rgba(0, 229, 255, 0.75);
   border-radius: 2px;
-  color: #00e5ff;
+  color: #ffffff;
   text-decoration: none;
   font-family: 'Share Tech Mono', 'Courier New', monospace;
   font-size: 0.82rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.18);
   transition: background 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
   opacity: 0;
-  animation: heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.95s forwards;
+  animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
 }
 
 .hero-cta:hover {
-  background: rgba(0, 229, 255, 0.1);
-  border-color: rgba(0, 229, 255, 0.9);
-  box-shadow: 0 0 24px rgba(0, 229, 255, 0.35), inset 0 0 14px rgba(0, 229, 255, 0.06);
+  background: rgba(0, 229, 255, 0.25);
+  border-color: #00e5ff;
+  box-shadow: 0 0 28px rgba(0, 229, 255, 0.45), inset 0 0 16px rgba(0, 229, 255, 0.08);
 }
 
 @keyframes heroFadeUp {
-  from { opacity: 0; transform: translateY(22px); }
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes nameGlow {
   0%, 100% {
     text-shadow:
-      0 0 18px  rgba(0, 229, 255, 0.9),
-      0 0 45px  rgba(0, 229, 255, 0.5),
-      0 0 90px  rgba(0, 180, 255, 0.25),
-      0 0 180px rgba(0, 120, 255, 0.12);
+      0 2px 12px rgba(0, 0, 0, 0.95),
+      0 0 24px  rgba(0, 229, 255, 0.85),
+      0 0 55px  rgba(0, 229, 255, 0.45),
+      0 0 110px rgba(0, 180, 255, 0.2);
   }
   50% {
     text-shadow:
-      0 0 26px  rgba(0, 229, 255, 1),
-      0 0 65px  rgba(0, 229, 255, 0.65),
-      0 0 130px rgba(0, 180, 255, 0.38),
-      0 0 260px rgba(0, 120, 255, 0.18);
+      0 2px 12px rgba(0, 0, 0, 0.95),
+      0 0 32px  rgba(0, 229, 255, 1),
+      0 0 75px  rgba(0, 229, 255, 0.6),
+      0 0 150px rgba(0, 180, 255, 0.3);
   }
 }
 
