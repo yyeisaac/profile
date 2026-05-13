@@ -131,44 +131,25 @@ body {
 .hero-name {
   margin: 0 0 0.15em;
   font-family: 'Orbitron', 'Space Grotesk', sans-serif;
-  font-size: clamp(5rem, 16vw, 13rem);
+  font-size: clamp(4.5rem, 15vw, 12rem);
   font-weight: 800;
-  line-height: 0.88;
-  letter-spacing: 0.04em;
+  line-height: 0.9;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-}
-
-/* "Isaac" — white, contrasted with stacked dark shadows (the subtitle trick) */
-.hero-first {
-  display: block;
-  color: #ffffff;
-  /* Multiple dark blurs build up to a solid dark halo around every letter —
-     this is how subtitles stay readable on any background, no box needed */
-  text-shadow:
-    0 0 6px  #000, 0 0 6px  #000,   /* tight dark core × 2 for density */
-    0 0 25px #000,                   /* mid-range dark spread              */
-    0 0 60px rgba(0,0,0,0.85),       /* wide ambient darkening             */
-    0 0 22px rgba(0,229,255,0.55),   /* cyan glow on top                   */
-    0 0 55px rgba(0,180,255,0.25);
+  /* Subtle gradient: pure white → pale sky-blue — premium, unified look */
+  background: linear-gradient(170deg, #ffffff 25%, #c2e8ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* drop-shadow works on the rendered gradient pixels, unlike text-shadow */
+  filter:
+    drop-shadow(0 0 4px rgba(0,0,0,1))
+    drop-shadow(0 0 4px rgba(0,0,0,1))
+    drop-shadow(0 0 18px rgba(0,0,0,0.95))
+    drop-shadow(0 0 14px rgba(0,220,255,0.55))
+    drop-shadow(0 0 40px rgba(0,180,255,0.28));
   opacity: 0;
-  animation: heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.2s forwards;
-}
-
-/* "Yeo" — bright cyan, pops as a colour accent */
-.hero-last {
-  display: block;
-  color: #00e5ff;
-  text-shadow:
-    0 0 6px  #000, 0 0 6px  #000,
-    0 0 25px #000,
-    0 0 60px rgba(0,0,0,0.85),
-    0 0 28px rgba(0,229,255,0.9),
-    0 0 70px rgba(0,229,255,0.5),
-    0 0 140px rgba(0,160,255,0.25);
-  opacity: 0;
-  animation:
-    heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.35s forwards,
-    lastGlow 4s ease-in-out 1.2s infinite;
+  animation: heroFadeUp 1s cubic-bezier(0.22,1,0.36,1) 0.2s forwards;
 }
 
 /* ── Glowing rule — the only structural line ──────────────────────── */
@@ -230,18 +211,6 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes lastGlow {
-  0%, 100% {
-    text-shadow:
-      0 0 6px #000, 0 0 6px #000, 0 0 25px #000, 0 0 60px rgba(0,0,0,0.85),
-      0 0 28px rgba(0,229,255,0.9), 0 0 70px rgba(0,229,255,0.5), 0 0 140px rgba(0,160,255,0.25);
-  }
-  50% {
-    text-shadow:
-      0 0 6px #000, 0 0 6px #000, 0 0 25px #000, 0 0 60px rgba(0,0,0,0.85),
-      0 0 38px rgba(0,229,255,1),  0 0 90px rgba(0,229,255,0.65), 0 0 180px rgba(0,160,255,0.35);
-  }
-}
 
 .content-page {
   overflow: auto;
