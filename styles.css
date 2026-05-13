@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Plus+Jakarta+Sans:wght@500;700&family=Orbitron:wght@600;800&family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 :root {
   color-scheme: dark;
@@ -88,9 +88,9 @@ body {
   text-decoration: none;
   padding: 0.65rem 0.85rem;
   border-radius: 2px;
-  font-family: 'Share Tech Mono', 'Courier New', monospace;
-  font-size: 0.82rem;
-  letter-spacing: 0.07em;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.88rem;
+  letter-spacing: 0.01em;
   transition: background 160ms ease, color 160ms ease;
 }
 
@@ -134,11 +134,11 @@ body {
 /* ── Name ─────────────────────────────────────────────────────────── */
 .hero-name {
   margin: 0 0 0.15em;
-  font-family: 'Orbitron', 'Space Grotesk', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(4.5rem, 15vw, 12rem);
   font-weight: 800;
   line-height: 0.9;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
   /* Subtle gradient: pure white → pale sky-blue — premium, unified look */
   background: linear-gradient(170deg, #ffffff 25%, #c2e8ff 100%);
@@ -174,9 +174,9 @@ body {
 /* ── Tagline ──────────────────────────────────────────────────────── */
 .hero-tagline {
   margin: 0 0 2.2rem;
-  font-family: 'Share Tech Mono', 'Courier New', monospace;
-  font-size: clamp(0.65rem, 1.4vw, 0.85rem);
-  letter-spacing: 0.22em;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+  letter-spacing: 0.05em;
   color: rgba(255,255,255,0.88);
   text-shadow:
     0 0 6px #000, 0 0 6px #000,
@@ -193,9 +193,9 @@ body {
   border-radius: 2px;
   color: #ffffff;
   text-decoration: none;
-  font-family: 'Share Tech Mono', 'Courier New', monospace;
-  font-size: 0.8rem;
-  letter-spacing: 0.2em;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   text-shadow: 0 0 6px #000, 0 0 6px #000;
   transition: background 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
@@ -241,10 +241,10 @@ body {
 .card h1 {
   margin-top: 0;
   margin-bottom: 1.8rem;
-  font-family: 'Orbitron', 'Space Grotesk', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(1.8rem, 4vw, 2.6rem);
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
   color: #ffffff;
   text-shadow: 0 0 28px rgba(0, 229, 255, 0.2);
@@ -253,10 +253,10 @@ body {
 .card h2 {
   margin-top: 2rem;
   margin-bottom: 0.8rem;
-  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.7rem;
   font-weight: 400;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #00e5ff;
   border-left: 2px solid rgba(0, 229, 255, 0.65);
@@ -301,7 +301,7 @@ body {
   position: absolute;
   left: 0;
   color: rgba(0, 229, 255, 0.5);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.68rem;
   line-height: 1.85;
 }
@@ -325,10 +325,10 @@ body {
   border-radius: 2px;
   background: rgba(0, 229, 255, 0.06);
   color: #00e5ff;
-  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.68rem;
   font-weight: 400;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -464,7 +464,7 @@ body {
   margin-bottom: 0.8rem;
   border-bottom: 1px solid rgba(0, 200, 255, 0.15);
   background: rgba(0, 200, 255, 0.04);
-  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.7rem;
   color: rgba(0, 200, 255, 0.5);
   letter-spacing: 0.14em;
@@ -522,7 +522,7 @@ body {
 .background-hero-compact h1 {
   margin: 0.4rem 0 0.8rem;
   max-width: 22ch;
-  font-family: 'Orbitron', 'Space Grotesk', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(1.25rem, 3vw, 1.85rem);
   font-weight: 800;
   letter-spacing: 0.06em;
@@ -532,7 +532,7 @@ body {
 
 /* Eyebrow override — terminal style */
 .background-card .eyebrow {
-  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   border: 1px solid rgba(0, 200, 255, 0.35);
   border-radius: 2px;
   background: rgba(0, 200, 255, 0.07);
@@ -576,7 +576,7 @@ body {
 
 .highlight-value {
   color: #00e5ff;
-  font-family: 'Orbitron', 'Space Grotesk', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(1.05rem, 1.8vw, 1.45rem);
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -585,7 +585,7 @@ body {
 
 .highlight-label {
   color: rgba(130, 190, 255, 0.65);
-  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.71rem;
   line-height: 1.4;
   letter-spacing: 0.02em;
@@ -757,11 +757,11 @@ details[open] .timeline-summary {
 .timeline-period {
   margin: 0 0 0.22rem;
   color: var(--cat);
-  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.72rem;
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.04em;
   opacity: 0.85;
 }
 
@@ -773,7 +773,7 @@ details[open] .timeline-summary {
 /* ── Item heading ─────────────────────────────────────────────────── */
 .timeline-summary h2 {
   margin: 0 0 0.18rem;
-  font-family: 'Orbitron', 'Space Grotesk', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -785,7 +785,7 @@ details[open] .timeline-summary {
 .timeline-role {
   margin: 0;
   color: rgba(170, 205, 255, 0.75);
-  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.8rem;
   font-weight: 400;
   letter-spacing: 0.04em;
@@ -800,12 +800,12 @@ details[open] .timeline-summary {
   border-radius: 2px;
   background: var(--cat-dim);
   color: var(--cat);
-  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.65rem;
   font-weight: 400;
   white-space: nowrap;
   flex-shrink: 0;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   text-shadow: 0 0 8px var(--cat-glow);
   box-shadow: 0 0 8px var(--cat-dim), inset 0 0 6px var(--cat-dim);
@@ -840,7 +840,7 @@ details[open] .timeline-summary {
   position: absolute;
   left: 0;
   color: var(--cat);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.72rem;
   opacity: 0.65;
   line-height: 1.7;
@@ -928,7 +928,7 @@ details[open] .timeline-summary {
   background: rgba(255, 0, 187, 0.1);
   display: grid;
   place-items: center;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 1.1rem;
   color: #ff00bb;
   text-shadow: 0 0 12px #ff00bb;
@@ -942,7 +942,7 @@ details[open] .timeline-summary {
 
 .achievement-title {
   margin: 0 0 0.2rem;
-  font-family: 'Orbitron', 'Space Grotesk', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -952,7 +952,7 @@ details[open] .timeline-summary {
 .achievement-role {
   margin: 0;
   color: rgba(170, 205, 255, 0.75);
-  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.8rem;
   letter-spacing: 0.04em;
 }
@@ -994,7 +994,7 @@ details[open] .timeline-summary {
   position: absolute;
   left: 0;
   color: #ff00bb;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.72rem;
   opacity: 0.65;
   line-height: 1.7;
