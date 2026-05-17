@@ -15,112 +15,126 @@
       </button>
       <nav id="site-menu" class="site-menu" aria-label="Main navigation">
         <a href="index.html">Home</a>
-        <a href="about.html">About Me</a>
-        <a href="professional-background.html">Professional Background</a>
+        <a href="about.html">About</a>
+        <a href="professional-background.html">Background</a>
+        <a href="skills.html" aria-current="page">Skills</a>
         <a href="projects.html">Projects</a>
       </nav>
     </header>
 
-    <main class="page-shell">
-      <article class="card skills-showcase">
-        <section class="skills-hero">
-          <span class="eyebrow">Skills</span>
-          <h1>The way I work: curious, hands-on, and focused on building things that matter.</h1>
-          <p class="section-intro">
-            These are the tools, technologies, and strengths I rely on most—covering how I build, how I solve problems, and how I contribute to a team.
-          </p>
-        </section>
+    <main class="page-shell skills-shell">
 
-        <section class="skill-bubble-section section-programming" aria-labelledby="computing-languages-title">
-          <div class="section-heading">
-            <p class="section-label">Programming</p>
-            <h2 id="computing-languages-title">Computing languages</h2>
-          </div>
-          <div class="skill-bubbles two-column-bubbles">
-            <span><span class="bubble-icon"><img src="https://cdn.simpleicons.org/csharp" alt="" loading="lazy" /></span><span class="bubble-text">C#</span></span>
-            <span><span class="bubble-icon"><img src="https://cdn.simpleicons.org/python" alt="" loading="lazy" /></span><span class="bubble-text">Python</span></span>
-            <span><span class="bubble-icon">🗄</span><span class="bubble-text">SQL</span></span>
-            <span><span class="bubble-icon"><img src="https://cdn.simpleicons.org/html5" alt="" loading="lazy" /></span><span class="bubble-text">HTML</span></span>
-            <span><span class="bubble-icon"><img src="https://cdn.simpleicons.org/css" alt="" loading="lazy" /></span><span class="bubble-text">CSS</span></span>
-            <span><span class="bubble-icon"><img src="https://cdn.simpleicons.org/javascript" alt="" loading="lazy" /></span><span class="bubble-text">JavaScript</span></span>
-          </div>
-        </section>
+      <section class="skills-hero-card">
+        <span class="eyebrow">Skills</span>
+        <h1 class="skills-hero-h1">The way I work: curious, hands-on, and focused on building things that matter.</h1>
+        <p class="skills-hero-intro">These are the tools, technologies, and strengths I rely on most—covering how I build, how I solve problems, and how I contribute to a team.</p>
+      </section>
 
-        <section class="skill-bubble-section section-development" aria-labelledby="development-title">
-          <div class="section-heading">
-            <p class="section-label">Development</p>
-            <h2 id="development-title">Development &amp; integration</h2>
+      <div class="skills-bento">
+
+        <!-- Row 1: core languages + development practice -->
+        <section class="skill-card skill-card--programming" aria-labelledby="computing-languages-title">
+          <div class="skill-card-header">
+            <div class="skill-card-icon"><img src="icons/code.svg" alt="" /></div>
+            <div>
+              <p class="skill-card-label">Programming</p>
+              <h2 class="skill-card-title" id="computing-languages-title">Computing Languages</h2>
+            </div>
           </div>
-          <div class="skill-bubbles two-column-bubbles">
-            <span><span class="bubble-icon"><img src="https://cdn.simpleicons.org/github" alt="" loading="lazy" /></span><span class="bubble-text">GitHub</span></span>
-            <span><span class="bubble-icon">🧩</span><span class="bubble-text">Full-Stack Development</span></span>
-            <span><span class="bubble-icon">🔗</span><span class="bubble-text">RESTful API Design</span></span>
-            <span><span class="bubble-icon">⚡</span><span class="bubble-text">API Integration</span></span>
+          <div class="chip-cloud">
+            <span class="chip"><span class="chip-icon"><img src="icons/csharp.svg" alt="" loading="lazy" /></span>C#</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/python.svg" alt="" loading="lazy" /></span>Python</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/database.svg" alt="" loading="lazy" /></span>SQL</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/html5.svg" alt="" loading="lazy" /></span>HTML</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/css.svg" alt="" loading="lazy" /></span>CSS</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/javascript.svg" alt="" loading="lazy" /></span>JavaScript</span>
           </div>
         </section>
 
-        <section class="skill-bubble-section section-frameworks" aria-labelledby="frameworks-title">
-          <div class="section-heading">
-            <p class="section-label">Frameworks &amp; tools</p>
-            <h2 id="frameworks-title">Frameworks, tools, and testing</h2>
+        <section class="skill-card skill-card--development" aria-labelledby="development-title">
+          <div class="skill-card-header">
+            <div class="skill-card-icon"><img src="icons/link.svg" alt="" /></div>
+            <div>
+              <p class="skill-card-label">Development</p>
+              <h2 class="skill-card-title" id="development-title">Development &amp; Integration</h2>
+            </div>
           </div>
-          <div class="skill-bubbles two-column-bubbles">
-            <span><span class="bubble-icon"><img src="https://cdn.simpleicons.org/angular" alt="" loading="lazy" /></span><span class="bubble-text">Angular</span></span>
-            <span><span class="bubble-icon"><img src="https://cdn.simpleicons.org/dotnet" alt="" loading="lazy" /></span><span class="bubble-text">.NET</span></span>
-            <span><span class="bubble-icon"><img src="https://cdn.simpleicons.org/apachejmeter" alt="" loading="lazy" /></span><span class="bubble-text">JMeter</span></span>
-            <span><span class="bubble-icon"><img src="https://cdn.simpleicons.org/microsoftazure" alt="" loading="lazy" /></span><span class="bubble-text">Azure Load Testing</span></span>
-          </div>
-        </section>
-
-        <section class="skill-bubble-section section-cloud" aria-labelledby="cloud-title">
-          <div class="section-heading">
-            <p class="section-label">Cloud &amp; AI</p>
-            <h2 id="cloud-title">Cloud and AI</h2>
-          </div>
-          <div class="skill-bubbles two-column-bubbles">
-            <span><span class="bubble-icon"><img src="https://cdn.simpleicons.org/microsoftazure" alt="" loading="lazy" /></span><span class="bubble-text">Azure Document Intelligence</span></span>
-            <span><span class="bubble-icon"><img src="https://cdn.simpleicons.org/openai" alt="" loading="lazy" /></span><span class="bubble-text">Azure OpenAI</span></span>
-            <span><span class="bubble-icon"><img src="https://cdn.simpleicons.org/microsoftazure" alt="" loading="lazy" /></span><span class="bubble-text">Azure Storage</span></span>
-            <span><span class="bubble-icon">🤖</span><span class="bubble-text">Machine Learning (Fundamentals)</span></span>
+          <div class="chip-cloud">
+            <span class="chip"><span class="chip-icon"><img src="icons/github.svg" alt="" loading="lazy" /></span>GitHub</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/puzzle.svg" alt="" loading="lazy" /></span>Full-Stack Dev</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/link.svg" alt="" loading="lazy" /></span>RESTful API Design</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/bolt.svg" alt="" loading="lazy" /></span>API Integration</span>
           </div>
         </section>
 
-        <section class="skill-bubble-section section-data" aria-labelledby="data-title">
-          <div class="section-heading">
-            <p class="section-label">Data &amp; analytics</p>
-            <h2 id="data-title">Data fundamentals</h2>
+        <!-- Row 2: tooling + cloud/AI -->
+        <section class="skill-card skill-card--frameworks" aria-labelledby="frameworks-title">
+          <div class="skill-card-header">
+            <div class="skill-card-icon"><img src="icons/tools.svg" alt="" /></div>
+            <div>
+              <p class="skill-card-label">Frameworks &amp; Tools</p>
+              <h2 class="skill-card-title" id="frameworks-title">Frameworks &amp; Testing</h2>
+            </div>
           </div>
-          <div class="skill-bubbles two-column-bubbles">
-            <span><span class="bubble-icon">📊</span><span class="bubble-text">SQL</span></span>
-          </div>
-        </section>
-
-        <section class="skill-bubble-section section-strengths" aria-labelledby="strengths-title">
-          <div class="section-heading">
-            <p class="section-label">Professional strengths</p>
-            <h2 id="strengths-title">Other strengths</h2>
-          </div>
-          <div class="skill-bubbles two-column-bubbles">
-            <span><span class="bubble-icon">🧠</span><span class="bubble-text">Analytical problem solving</span></span>
-            <span><span class="bubble-icon">👥</span><span class="bubble-text">Team leadership</span></span>
-            <span><span class="bubble-icon">💬</span><span class="bubble-text">Communication</span></span>
-            <span><span class="bubble-icon">🤝</span><span class="bubble-text">Collaboration</span></span>
+          <div class="chip-cloud">
+            <span class="chip"><span class="chip-icon"><img src="icons/angular.svg" alt="" loading="lazy" /></span>Angular</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/dotnet.svg" alt="" loading="lazy" /></span>.NET</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/jmeter.svg" alt="" loading="lazy" /></span>JMeter</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/azure.svg" alt="" loading="lazy" /></span>Azure Load Testing</span>
           </div>
         </section>
 
-        <section class="skill-bubble-section section-languages" aria-labelledby="spoken-languages-title">
-          <div class="section-heading">
-            <p class="section-label">Languages</p>
-            <h2 id="spoken-languages-title">Spoken languages</h2>
+        <section class="skill-card skill-card--cloud" aria-labelledby="cloud-title">
+          <div class="skill-card-header">
+            <div class="skill-card-icon"><img src="icons/cloud.svg" alt="" /></div>
+            <div>
+              <p class="skill-card-label">Cloud &amp; AI</p>
+              <h2 class="skill-card-title" id="cloud-title">Cloud and AI</h2>
+            </div>
           </div>
-          <div class="skill-bubbles two-column-bubbles">
-            <span><span class="bubble-icon">🌍</span><span class="bubble-text">English</span></span>
-            <span><span class="bubble-icon">語</span><span class="bubble-text">Chinese</span></span>
+          <div class="chip-cloud">
+            <span class="chip"><span class="chip-icon"><img src="icons/azure.svg" alt="" loading="lazy" /></span>Azure Document Intelligence</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/openai.svg" alt="" loading="lazy" /></span>Azure OpenAI</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/azure.svg" alt="" loading="lazy" /></span>Azure Storage</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/robot.svg" alt="" loading="lazy" /></span>Machine Learning</span>
           </div>
         </section>
-      </article>
+
+        <!-- Row 3: soft skills + spoken languages -->
+        <section class="skill-card skill-card--strengths" aria-labelledby="strengths-title">
+          <div class="skill-card-header">
+            <div class="skill-card-icon"><img src="icons/brain.svg" alt="" /></div>
+            <div>
+              <p class="skill-card-label">Professional</p>
+              <h2 class="skill-card-title" id="strengths-title">Strengths</h2>
+            </div>
+          </div>
+          <div class="chip-cloud">
+            <span class="chip"><span class="chip-icon"><img src="icons/brain.svg" alt="" loading="lazy" /></span>Analytical Problem Solving</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/users.svg" alt="" loading="lazy" /></span>Team Leadership</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/chat.svg" alt="" loading="lazy" /></span>Communication</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/handshake.svg" alt="" loading="lazy" /></span>Collaboration</span>
+          </div>
+        </section>
+
+        <section class="skill-card skill-card--languages" aria-labelledby="spoken-languages-title">
+          <div class="skill-card-header">
+            <div class="skill-card-icon"><img src="icons/languages.svg" alt="" /></div>
+            <div>
+              <p class="skill-card-label">Languages</p>
+              <h2 class="skill-card-title" id="spoken-languages-title">Spoken Languages</h2>
+            </div>
+          </div>
+          <div class="chip-cloud">
+            <span class="chip"><span class="chip-icon"><img src="icons/globe.svg" alt="" loading="lazy" /></span>English</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/languages.svg" alt="" loading="lazy" /></span>Chinese</span>
+          </div>
+        </section>
+
+      </div>
     </main>
 
+    <script src="network-bg.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

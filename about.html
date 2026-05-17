@@ -6,68 +6,125 @@
     <title>About Me</title>
     <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="content-page">
+<body class="content-page about-page">
 <header class="topbar">
-    <button
-            id="menu-toggle"
-            class="menu-toggle"
-            type="button"
-            aria-expanded="false"
-            aria-controls="site-menu"
-            aria-label="Open navigation menu"
-    >
+    <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open navigation menu">
         <span></span>
         <span></span>
         <span></span>
     </button>
     <nav id="site-menu" class="site-menu" aria-label="Main navigation">
         <a href="index.html">Home</a>
-        <a href="professional-background.html">Professional Background</a>
+        <a href="about.html" aria-current="page">About</a>
+        <a href="professional-background.html">Background</a>
         <a href="skills.html">Skills</a>
         <a href="projects.html">Projects</a>
     </nav>
 </header>
 
-<main class="page-shell">
-    <article class="card">
-        <h1>About Me</h1>
+<main class="page-shell about-shell">
 
-        <h2>Introduction</h2>
+    <!-- Hero: photo + intro + socials -->
+    <section class="about-hero-card">
+        <div class="about-photo-frame">
+            <img src="images/profile.jpeg" alt="Isaac Yeo" class="about-photo"
+                 onload="this.parentElement.style.aspectRatio = this.naturalWidth + ' / ' + this.naturalHeight;"
+                 onerror="this.style.display='none'; this.nextElementSibling.removeAttribute('hidden');" />
+            <div class="about-photo-fallback" hidden>
+                <span class="about-photo-initials">IY</span>
+                <span class="about-photo-hint">Photo missing at <code>images/profile.jpeg</code></span>
+            </div>
+        </div>
+
+        <div class="about-hero-body">
+            <span class="eyebrow">Profile</span>
+            <h1 class="about-name">Isaac Yeo</h1>
+            <p class="about-tagline">Accountancy &nbsp;·&nbsp; Data Science &amp; AI &nbsp;·&nbsp; NTU</p>
+            <p class="about-lead">
+                I build things at the intersection of business and technology — using AI,
+                automation, and good engineering to solve real problems in healthcare and finance.
+            </p>
+
+            <div class="about-socials" aria-label="Social links">
+                <a href="mailto:isaacyeo2004@gmail.com" class="social-link social-link--email" aria-label="Email">
+                    <span class="social-icon" aria-hidden="true"><img src="icons/mail.svg" alt="" /></span>
+                    <span>Email</span>
+                </a>
+                <a href="https://github.com/yyeisaac" target="_blank" rel="noopener" class="social-link social-link--github" aria-label="GitHub">
+                    <span class="social-icon" aria-hidden="true"><img src="icons/github.svg" alt="" /></span>
+                    <span>GitHub</span>
+                </a>
+                <a href="https://www.linkedin.com/in/isaac-yeo-yi-en" target="_blank" rel="noopener" class="social-link social-link--linkedin" aria-label="LinkedIn">
+                    <span class="social-icon" aria-hidden="true"><img src="icons/linkedin.svg" alt="" /></span>
+                    <span>LinkedIn</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story -->
+    <section class="about-story-card">
+        <div class="about-story-header">
+            <span class="about-section-icon"><img src="icons/book.svg" alt="" /></span>
+            <div>
+                <p class="about-section-label">Introduction</p>
+                <h2 class="about-section-title">My Story</h2>
+            </div>
+        </div>
         <p>
-            Hi! I’m Isaac, a double degree student in Accountancy and Data Science
-            &amp; Artificial Intelligence at NTU. I’m passionate about using
+            Hi! I'm Isaac, a double degree student in Accountancy and Data Science
+            &amp; Artificial Intelligence at NTU. I'm passionate about using
             technology to solve real-world business problems, especially in
             healthcare and finance.
         </p>
-
         <p>
             During my internship at Alliance Healthcare Group, I led a team of
             interns to develop an OCR-based claims processing system and conducted
-            performance testing for the Health Promotion Board’s Clinic Management
+            performance testing for the Health Promotion Board's Clinic Management
             Software.
         </p>
-
         <p>
             I enjoy building projects, exploring new technologies, and applying AI
             and automation to improve efficiency and drive innovation.
         </p>
+    </section>
 
-        <h2>Interests</h2>
-        <ul>
-            <li>Applying AI and automation to solve real-world business problems</li>
-            <li>Building systems that improve efficiency and decision-making</li>
-            <li>Exploring new technology and implementing it in projects</li>
-        </ul>
+    <!-- Interests + Future, side by side -->
+    <div class="about-grid">
+        <section class="about-list-card about-list-card--interests">
+            <div class="about-story-header">
+                <span class="about-section-icon"><img src="icons/target.svg" alt="" /></span>
+                <div>
+                    <p class="about-section-label">What drives me</p>
+                    <h2 class="about-section-title">Interests</h2>
+                </div>
+            </div>
+            <ul class="about-list">
+                <li>Applying AI and automation to solve real-world business problems</li>
+                <li>Building systems that improve efficiency and decision-making</li>
+                <li>Exploring new technology and implementing it in projects</li>
+            </ul>
+        </section>
 
-        <h2>Future</h2>
-        <ul>
-            <li>Deepening my skills in software engineering, AI, and system design</li>
-            <li>Building scalable, real-world systems with measurable impact</li>
-            <li>Bridging business knowledge with technology to solve complex problems</li>
-        </ul>
-    </article>
+        <section class="about-list-card about-list-card--future">
+            <div class="about-story-header">
+                <span class="about-section-icon"><img src="icons/rocket.svg" alt="" /></span>
+                <div>
+                    <p class="about-section-label">Where I'm headed</p>
+                    <h2 class="about-section-title">Looking Ahead</h2>
+                </div>
+            </div>
+            <ul class="about-list">
+                <li>Deepening my skills in software engineering, AI, and system design</li>
+                <li>Building scalable, real-world systems with measurable impact</li>
+                <li>Bridging business knowledge with technology to solve complex problems</li>
+            </ul>
+        </section>
+    </div>
+
 </main>
 
+<script src="network-bg.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
