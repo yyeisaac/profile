@@ -39,10 +39,13 @@
     });
     document.body.prepend(canvas);
 
-    /* Renderer — DPR capped at 1 for performance */
+    /* Renderer — match the device's pixel ratio (capped at 2) so the
+       network looks crisp on phones / retina screens. Cap at 2 because
+       beyond that the GPU cost grows quadratically with no visible gain. */
     var W = window.innerWidth, H = window.innerHeight;
-    var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
-    renderer.setPixelRatio(1);           /* intentionally 1 — big perf win */
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(dpr);
     renderer.setSize(W, H);
     renderer.setClearColor(0x000000, 0); /* transparent — CSS bg shows through */
 
@@ -169,6 +172,8 @@
       W = window.innerWidth; H = window.innerHeight;
       camera.aspect = W / H;
       camera.updateProjectionMatrix();
+      /* Re-read DPR in case the window moved to a different-density screen */
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.setSize(W, H);
     });
 

@@ -8,14 +8,17 @@
   </head>
   <body class="content-page skills-page">
     <header class="topbar">
-      <nav class="site-nav" aria-label="Main navigation">
-        <a href="index.html" class="nav-logo">Isaac Yeo</a>
-        <div class="nav-links">
-          <a href="about.html">About</a>
-          <a href="professional-background.html">Background</a>
-          <a href="skills.html">Skills</a>
-          <a href="projects.html">Projects</a>
-        </div>
+      <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="site-menu" class="site-menu" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="professional-background.html">Background</a>
+        <a href="skills.html" aria-current="page">Skills</a>
+        <a href="projects.html">Projects</a>
       </nav>
     </header>
 
@@ -25,27 +28,6 @@
         <span class="eyebrow">Skills</span>
         <h1 class="skills-hero-h1">The way I work: curious, hands-on, and focused on building things that matter.</h1>
         <p class="skills-hero-intro">These are the tools, technologies, and strengths I rely on most—covering how I build, how I solve problems, and how I contribute to a team.</p>
-        <div class="skills-stats">
-          <div class="skills-stat">
-            <span class="skills-stat-value">6</span>
-            <span class="skills-stat-label">Languages</span>
-          </div>
-          <div class="skills-stat-divider"></div>
-          <div class="skills-stat">
-            <span class="skills-stat-value">4+</span>
-            <span class="skills-stat-label">Frameworks &amp; Tools</span>
-          </div>
-          <div class="skills-stat-divider"></div>
-          <div class="skills-stat">
-            <span class="skills-stat-value">4</span>
-            <span class="skills-stat-label">Cloud &amp; AI Services</span>
-          </div>
-          <div class="skills-stat-divider"></div>
-          <div class="skills-stat">
-            <span class="skills-stat-value">2</span>
-            <span class="skills-stat-label">Spoken Languages</span>
-          </div>
-        </div>
       </section>
 
       <div class="skills-bento">
@@ -53,99 +35,99 @@
         <!-- Row 1: core languages + development practice -->
         <section class="skill-card skill-card--programming" aria-labelledby="computing-languages-title">
           <div class="skill-card-header">
-            <div class="skill-card-icon">⌨️</div>
+            <div class="skill-card-icon"><img src="icons/code.svg" alt="" /></div>
             <div>
               <p class="skill-card-label">Programming</p>
               <h2 class="skill-card-title" id="computing-languages-title">Computing Languages</h2>
             </div>
           </div>
           <div class="chip-cloud">
-            <span class="chip"><span class="chip-icon"><img src="https://cdn.simpleicons.org/csharp" alt="" loading="lazy" /></span>C#</span>
-            <span class="chip"><span class="chip-icon"><img src="https://cdn.simpleicons.org/python" alt="" loading="lazy" /></span>Python</span>
-            <span class="chip"><span class="chip-icon">🗄</span>SQL</span>
-            <span class="chip"><span class="chip-icon"><img src="https://cdn.simpleicons.org/html5" alt="" loading="lazy" /></span>HTML</span>
-            <span class="chip"><span class="chip-icon"><img src="https://cdn.simpleicons.org/css" alt="" loading="lazy" /></span>CSS</span>
-            <span class="chip"><span class="chip-icon"><img src="https://cdn.simpleicons.org/javascript" alt="" loading="lazy" /></span>JavaScript</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/csharp.svg" alt="" loading="lazy" /></span>C#</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/python.svg" alt="" loading="lazy" /></span>Python</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/database.svg" alt="" loading="lazy" /></span>SQL</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/html5.svg" alt="" loading="lazy" /></span>HTML</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/css.svg" alt="" loading="lazy" /></span>CSS</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/javascript.svg" alt="" loading="lazy" /></span>JavaScript</span>
           </div>
         </section>
 
         <section class="skill-card skill-card--development" aria-labelledby="development-title">
           <div class="skill-card-header">
-            <div class="skill-card-icon">🔗</div>
+            <div class="skill-card-icon"><img src="icons/link.svg" alt="" /></div>
             <div>
               <p class="skill-card-label">Development</p>
               <h2 class="skill-card-title" id="development-title">Development &amp; Integration</h2>
             </div>
           </div>
           <div class="chip-cloud">
-            <span class="chip"><span class="chip-icon"><img src="https://cdn.simpleicons.org/github" alt="" loading="lazy" /></span>GitHub</span>
-            <span class="chip"><span class="chip-icon">🧩</span>Full-Stack Dev</span>
-            <span class="chip"><span class="chip-icon">🔗</span>RESTful API Design</span>
-            <span class="chip"><span class="chip-icon">⚡</span>API Integration</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/github.svg" alt="" loading="lazy" /></span>GitHub</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/puzzle.svg" alt="" loading="lazy" /></span>Full-Stack Dev</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/link.svg" alt="" loading="lazy" /></span>RESTful API Design</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/bolt.svg" alt="" loading="lazy" /></span>API Integration</span>
           </div>
         </section>
 
         <!-- Row 2: tooling + cloud/AI -->
         <section class="skill-card skill-card--frameworks" aria-labelledby="frameworks-title">
           <div class="skill-card-header">
-            <div class="skill-card-icon">🛠️</div>
+            <div class="skill-card-icon"><img src="icons/tools.svg" alt="" /></div>
             <div>
               <p class="skill-card-label">Frameworks &amp; Tools</p>
               <h2 class="skill-card-title" id="frameworks-title">Frameworks &amp; Testing</h2>
             </div>
           </div>
           <div class="chip-cloud">
-            <span class="chip"><span class="chip-icon"><img src="https://cdn.simpleicons.org/angular" alt="" loading="lazy" /></span>Angular</span>
-            <span class="chip"><span class="chip-icon"><img src="https://cdn.simpleicons.org/dotnet" alt="" loading="lazy" /></span>.NET</span>
-            <span class="chip"><span class="chip-icon"><img src="https://cdn.simpleicons.org/apachejmeter" alt="" loading="lazy" /></span>JMeter</span>
-            <span class="chip"><span class="chip-icon"><img src="https://cdn.simpleicons.org/microsoftazure" alt="" loading="lazy" /></span>Azure Load Testing</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/angular.svg" alt="" loading="lazy" /></span>Angular</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/dotnet.svg" alt="" loading="lazy" /></span>.NET</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/jmeter.svg" alt="" loading="lazy" /></span>JMeter</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/azure.svg" alt="" loading="lazy" /></span>Azure Load Testing</span>
           </div>
         </section>
 
         <section class="skill-card skill-card--cloud" aria-labelledby="cloud-title">
           <div class="skill-card-header">
-            <div class="skill-card-icon">☁️</div>
+            <div class="skill-card-icon"><img src="icons/cloud.svg" alt="" /></div>
             <div>
               <p class="skill-card-label">Cloud &amp; AI</p>
               <h2 class="skill-card-title" id="cloud-title">Cloud and AI</h2>
             </div>
           </div>
           <div class="chip-cloud">
-            <span class="chip"><span class="chip-icon"><img src="https://cdn.simpleicons.org/microsoftazure" alt="" loading="lazy" /></span>Azure Document Intelligence</span>
-            <span class="chip"><span class="chip-icon"><img src="https://cdn.simpleicons.org/openai" alt="" loading="lazy" /></span>Azure OpenAI</span>
-            <span class="chip"><span class="chip-icon"><img src="https://cdn.simpleicons.org/microsoftazure" alt="" loading="lazy" /></span>Azure Storage</span>
-            <span class="chip"><span class="chip-icon">🤖</span>Machine Learning</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/azure.svg" alt="" loading="lazy" /></span>Azure Document Intelligence</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/openai.svg" alt="" loading="lazy" /></span>Azure OpenAI</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/azure.svg" alt="" loading="lazy" /></span>Azure Storage</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/robot.svg" alt="" loading="lazy" /></span>Machine Learning</span>
           </div>
         </section>
 
         <!-- Row 3: soft skills + spoken languages -->
         <section class="skill-card skill-card--strengths" aria-labelledby="strengths-title">
           <div class="skill-card-header">
-            <div class="skill-card-icon">🧠</div>
+            <div class="skill-card-icon"><img src="icons/brain.svg" alt="" /></div>
             <div>
               <p class="skill-card-label">Professional</p>
               <h2 class="skill-card-title" id="strengths-title">Strengths</h2>
             </div>
           </div>
           <div class="chip-cloud">
-            <span class="chip"><span class="chip-icon">🧠</span>Analytical Problem Solving</span>
-            <span class="chip"><span class="chip-icon">👥</span>Team Leadership</span>
-            <span class="chip"><span class="chip-icon">💬</span>Communication</span>
-            <span class="chip"><span class="chip-icon">🤝</span>Collaboration</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/brain.svg" alt="" loading="lazy" /></span>Analytical Problem Solving</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/users.svg" alt="" loading="lazy" /></span>Team Leadership</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/chat.svg" alt="" loading="lazy" /></span>Communication</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/handshake.svg" alt="" loading="lazy" /></span>Collaboration</span>
           </div>
         </section>
 
         <section class="skill-card skill-card--languages" aria-labelledby="spoken-languages-title">
           <div class="skill-card-header">
-            <div class="skill-card-icon">🌍</div>
+            <div class="skill-card-icon"><img src="icons/languages.svg" alt="" /></div>
             <div>
               <p class="skill-card-label">Languages</p>
               <h2 class="skill-card-title" id="spoken-languages-title">Spoken Languages</h2>
             </div>
           </div>
           <div class="chip-cloud">
-            <span class="chip"><span class="chip-icon">🌍</span>English</span>
-            <span class="chip"><span class="chip-icon">語</span>Chinese</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/globe.svg" alt="" loading="lazy" /></span>English</span>
+            <span class="chip"><span class="chip-icon"><img src="icons/languages.svg" alt="" loading="lazy" /></span>Chinese</span>
           </div>
         </section>
 
