@@ -31,6 +31,11 @@
           <p class="section-intro">
             A selection of things I've built, broken, and rebuilt — from production healthcare systems to multi-agent RL pipelines designed under real-world constraints.
           </p>
+          <div class="projects-stats">
+            <div class="proj-stat"><span class="proj-stat-num">3</span><span class="proj-stat-label">Featured Builds</span></div>
+            <div class="proj-stat"><span class="proj-stat-num">1</span><span class="proj-stat-label">Competition Led</span></div>
+            <div class="proj-stat"><span class="proj-stat-num">2</span><span class="proj-stat-label">In Production</span></div>
+          </div>
         </div>
 
         <section class="projects-section" aria-labelledby="featured-projects-title">
@@ -41,17 +46,19 @@
 
           <div class="projects-grid">
 
-            <article class="project-card" data-track="healthcare">
+            <article class="project-card" data-track="healthcare" style="--reveal-delay: 0ms;">
+              <span class="project-num" aria-hidden="true">01</span>
               <div class="project-card-glow" aria-hidden="true"></div>
+              <div class="project-card-bar" aria-hidden="true"></div>
               <div class="project-card-head">
                 <div class="project-card-meta">
                   <p class="project-card-label">Production · Healthcare</p>
                   <h3 class="project-card-title">OCR Claims Processing System</h3>
                 </div>
-                <span class="project-badge">Shipped</span>
+                <span class="project-badge"><span class="badge-dot" aria-hidden="true"></span>Shipped</span>
               </div>
               <p class="project-card-body">
-                Built an OCR-assisted pipeline to extract and process healthcare claims faster, cutting manual review effort across GP, dental, and TCM categories.
+                An OCR-assisted pipeline that extracts and processes healthcare claims faster, cutting manual review effort across GP, dental, and TCM categories.
               </p>
               <ul class="project-metrics">
                 <li><span class="metric-value">20–25%</span><span class="metric-label">claims automated</span></li>
@@ -65,14 +72,16 @@
               </div>
             </article>
 
-            <article class="project-card" data-track="performance">
+            <article class="project-card" data-track="performance" style="--reveal-delay: 80ms;">
+              <span class="project-num" aria-hidden="true">02</span>
               <div class="project-card-glow" aria-hidden="true"></div>
+              <div class="project-card-bar" aria-hidden="true"></div>
               <div class="project-card-head">
                 <div class="project-card-meta">
                   <p class="project-card-label">Reliability · Load Testing</p>
                   <h3 class="project-card-title">Clinic Management Performance Testing</h3>
                 </div>
-                <span class="project-badge">Shipped</span>
+                <span class="project-badge"><span class="badge-dot" aria-hidden="true"></span>Shipped</span>
               </div>
               <p class="project-card-body">
                 Designed and ran load tests to surface bottlenecks in high-traffic clinic scenarios, then iterated with engineering to improve stability under peak load.
@@ -88,14 +97,16 @@
               </div>
             </article>
 
-            <article class="project-card" data-track="ai">
+            <article class="project-card project-card--wide" data-track="ai" style="--reveal-delay: 160ms;">
+              <span class="project-num" aria-hidden="true">03</span>
               <div class="project-card-glow" aria-hidden="true"></div>
+              <div class="project-card-bar" aria-hidden="true"></div>
               <div class="project-card-head">
                 <div class="project-card-meta">
                   <p class="project-card-label">Applied AI · Multi-Agent RL</p>
                   <h3 class="project-card-title">Multi-Agent PPO Pipeline</h3>
                 </div>
-                <span class="project-badge">Research</span>
+                <span class="project-badge"><span class="badge-dot" aria-hidden="true"></span>Research</span>
               </div>
               <p class="project-card-body">
                 Designed and optimised a multi-agent reinforcement learning pipeline under DSTA simulation constraints, with reward shaping and systematic debugging driving the improvements.
@@ -103,6 +114,7 @@
               <ul class="project-metrics">
                 <li><span class="metric-value">Team of 5</span><span class="metric-label">led end-to-end</span></li>
                 <li><span class="metric-value">PPO</span><span class="metric-label">Ray RLlib pipeline</span></li>
+                <li><span class="metric-value">DSTA</span><span class="metric-label">simulation constraints</span></li>
               </ul>
               <div class="project-tech">
                 <span class="tech-pill">Python</span>
@@ -121,23 +133,33 @@
             <h2 id="competitions-title">Putting it on the line, under constraint.</h2>
           </header>
 
-          <article class="achievement-card competition-card">
-            <div class="achievement-header">
-              <div class="achievement-icon" aria-hidden="true">★</div>
-              <div class="achievement-meta">
-                <h3 class="achievement-title">BrainHack TIL-AI 2025</h3>
-                <p class="achievement-role">Multi-Agent Reinforcement Learning · Project Lead</p>
-              </div>
-              <span class="timeline-badge achievement-badge-ai">Applied AI</span>
+          <article class="competition-card-v2">
+            <div class="competition-glow" aria-hidden="true"></div>
+            <div class="competition-trophy" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4Z"/>
+                <path d="M17 6h2a2 2 0 0 1 2 2c0 3-2 5-4 5"/>
+                <path d="M7 6H5a2 2 0 0 0-2 2c0 3 2 5 4 5"/>
+              </svg>
             </div>
-            <p class="achievement-body">
-              Applied AI engineering in a competitive setting by leading a team to design and optimise a multi-agent reinforcement learning system under DSTA's simulation constraints.
-            </p>
-            <ul class="achievement-highlights">
-              <li>Led a team of 5 under DSTA simulation constraints.</li>
-              <li>Improved results through reward design, tuning, and systematic debugging.</li>
-              <li>Implemented and optimised a multi-agent PPO pipeline using Ray RLlib.</li>
-            </ul>
+            <div class="competition-body">
+              <div class="competition-head">
+                <div>
+                  <p class="competition-label">DSTA · National Competition · 2025</p>
+                  <h3 class="competition-title">BrainHack TIL-AI 2025</h3>
+                  <p class="competition-role">Multi-Agent Reinforcement Learning · Project Lead</p>
+                </div>
+                <span class="timeline-badge achievement-badge-ai competition-badge">Applied AI</span>
+              </div>
+              <p class="competition-text">
+                Applied AI engineering in a competitive setting by leading a team to design and optimise a multi-agent reinforcement learning system under DSTA's simulation constraints.
+              </p>
+              <ul class="competition-highlights">
+                <li>Led a team of 5 under DSTA simulation constraints.</li>
+                <li>Improved results through reward design, tuning, and systematic debugging.</li>
+                <li>Implemented and optimised a multi-agent PPO pipeline using Ray RLlib.</li>
+              </ul>
+            </div>
           </article>
         </section>
       </article>
@@ -146,5 +168,6 @@
     <script src="network-bg.js"></script>
     <script src="script.js"></script>
     <script src="spa.js"></script>
+    <script src="projects.js"></script>
   </body>
 </html>
