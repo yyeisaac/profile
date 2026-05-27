@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projects</title>
+    <title>Projects / Competitions</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" crossorigin="anonymous" />
   </head>
-  <body class="content-page">
+  <body class="content-page projects-page">
     <header class="topbar">
       <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open navigation menu">
         <span></span>
@@ -19,28 +19,165 @@
         <a href="about.html">About</a>
         <a href="professional-background.html">Background</a>
         <a href="skills.html">Skills</a>
-        <a href="projects.html" aria-current="page">Projects</a>
+        <a href="projects.html" aria-current="page">Projects / Competitions</a>
       </nav>
     </header>
 
     <main class="page-shell">
-      <article class="card">
-        <p class="eyebrow">Work</p>
-        <h1>Projects</h1>
+      <article class="card tabs-card background-card">
+        <div class="background-hero background-hero-compact">
+          <p class="eyebrow">Work &amp; Wins</p>
+          <h1>Projects I've built and competitions I've led.</h1>
+          <p class="section-intro">
+            A walk-through of things I've shipped, broken, and rebuilt — from production healthcare systems to retrieval-grounded LLMs and reinforcement-learning agents.
+          </p>
 
-        <h2>Featured Projects</h2>
+          <div class="profile-highlights" aria-label="Projects and competitions snapshot">
+            <div class="highlight-pill">
+              <span class="highlight-value">2</span>
+              <span class="highlight-label">Live in production</span>
+            </div>
+            <div class="highlight-pill">
+              <span class="highlight-value">1</span>
+              <span class="highlight-label">National competition</span>
+            </div>
+            <div class="highlight-pill">
+              <span class="highlight-value">3</span>
+              <span class="highlight-label">Domains explored</span>
+            </div>
+          </div>
+        </div>
 
-        <h3>OCR Claims Processing System</h3>
-        <p>Built an OCR-assisted pipeline to extract and process healthcare claims faster with significantly less manual effort.</p>
-        <p><strong>Tech stack:</strong> Python, Azure Document Intelligence, automation workflows</p>
+        <div class="timeline timeline--bare is-active" data-timeline>
+          <p class="eyebrow timeline-eyebrow">Projects</p>
 
-        <h3>Clinic Management Performance Testing</h3>
-        <p>Designed and ran load tests to surface bottlenecks and improve stability for high-traffic clinic scenarios.</p>
-        <p><strong>Tech stack:</strong> Apache JMeter, Azure Load Testing, analytics and reporting</p>
+          <article class="timeline-item" data-category="healthcare">
+            <span class="timeline-dot" aria-hidden="true"></span>
+            <details class="timeline-panel">
+              <summary class="timeline-summary">
+                <div class="timeline-summary-main">
+                  <h2>OCR Claims Processing System</h2>
+                  <p class="timeline-role">Healthcare claims automation — built and shipped at Alliance Healthcare Group</p>
+                </div>
+                <span class="timeline-badge">Healthcare Automation</span>
+              </summary>
+              <div class="timeline-content timeline-details">
+                <p>
+                  An OCR-assisted pipeline that extracts and processes healthcare claims faster, cutting manual review effort across GP, dental, and TCM categories.
+                </p>
+                <ul class="project-metrics">
+                  <li><span class="metric-value">20–25%</span><span class="metric-label">claims automated</span></li>
+                  <li><span class="metric-value">3 days</span><span class="metric-label">manual effort removed</span></li>
+                  <li><span class="metric-value">Live</span><span class="metric-label">running in production</span></li>
+                </ul>
+                <ul class="timeline-highlights">
+                  <li>Integrated OCR workflows into the existing claims module with maintainability in mind.</li>
+                  <li>Partnered with stakeholders to expand category coverage and tenant onboarding.</li>
+                  <li>Co-led the straight-through claims approach that became the backbone of automation.</li>
+                </ul>
+                <div class="project-tech">
+                  <span class="tech-pill">Python</span>
+                  <span class="tech-pill">Azure Document Intelligence</span>
+                  <span class="tech-pill">C#</span>
+                  <span class="tech-pill">Workflow Automation</span>
+                </div>
+              </div>
+            </details>
+          </article>
 
-        <h3>Multi-Agent Reinforcement Learning — BrainHack TIL-AI 2025</h3>
-        <p>Led a team of 5 to design and optimise a multi-agent PPO pipeline under DSTA simulation constraints, improving results through reward shaping and systematic debugging.</p>
-        <p><strong>Tech stack:</strong> Python, Ray RLlib, PPO, multi-agent RL</p>
+          <article class="timeline-item" data-category="automation">
+            <span class="timeline-dot" aria-hidden="true"></span>
+            <details class="timeline-panel">
+              <summary class="timeline-summary">
+                <div class="timeline-summary-main">
+                  <h2>Clinic Management Performance Testing</h2>
+                  <p class="timeline-role">Load testing and bottleneck remediation under peak clinic traffic</p>
+                </div>
+                <span class="timeline-badge">Performance Engineering</span>
+              </summary>
+              <div class="timeline-content timeline-details">
+                <p>
+                  Designed and ran load tests to surface bottlenecks in high-traffic clinic scenarios, then iterated with engineering to improve stability under peak load.
+                </p>
+                <ul class="project-metrics">
+                  <li><span class="metric-value">30%</span><span class="metric-label">efficiency improvement</span></li>
+                  <li><span class="metric-value">Peak</span><span class="metric-label">traffic resilience</span></li>
+                </ul>
+                <ul class="timeline-highlights">
+                  <li>Modelled realistic concurrency scenarios across the clinic management surface.</li>
+                  <li>Owned the analytics and reporting loop that turned raw test data into action.</li>
+                  <li>Drove targeted fixes alongside engineering, then re-tested to confirm gains.</li>
+                </ul>
+                <div class="project-tech">
+                  <span class="tech-pill">Apache JMeter</span>
+                  <span class="tech-pill">Azure Load Testing</span>
+                  <span class="tech-pill">Analytics &amp; Reporting</span>
+                </div>
+              </div>
+            </details>
+          </article>
+
+        </div>
+
+        <div class="timeline timeline--bare is-active competitions-timeline" data-timeline>
+          <p class="eyebrow timeline-eyebrow comp-eyebrow">Competitions</p>
+
+          <article class="timeline-item" data-category="competition">
+            <span class="timeline-dot" aria-hidden="true"></span>
+            <details class="timeline-panel">
+              <summary class="timeline-summary">
+                <div class="timeline-summary-main">
+                  <h2>BrainHack TIL-AI — RAG &amp; PPO Tracks</h2>
+                  <p class="timeline-role">DSTA National Competition — owned both challenge tracks: a RAG pipeline and a PPO movement agent</p>
+                </div>
+                <span class="timeline-badge">Applied AI Research</span>
+              </summary>
+              <div class="timeline-content timeline-details">
+                <p>
+                  Two separate challenge tracks under DSTA's BrainHack TIL-AI competition. I owned both end-to-end — a retrieval-augmented generation pipeline for one task, and a PPO-trained movement agent for the other. The systems were independent; the through-line was the engineering work behind each.
+                </p>
+                <ul class="project-metrics">
+                  <li><span class="metric-value">Track 1</span><span class="metric-label">RAG — retrieval-grounded LLM</span></li>
+                  <li><span class="metric-value">Track 2</span><span class="metric-label">PPO — movement agent</span></li>
+                  <li><span class="metric-value">2 tracks</span><span class="metric-label">owned end-to-end</span></li>
+                </ul>
+                <ul class="timeline-highlights">
+                  <li>RAG track — built the pipeline end-to-end: chunking, embedding, retrieval, and grounded prompt assembly.</li>
+                  <li>PPO track — trained the agent to navigate its environment via reward-shaped reinforcement learning.</li>
+                  <li>Led design, implementation, and iteration across both tracks independently.</li>
+                </ul>
+
+                <details class="video-toggle">
+                  <summary class="video-toggle-summary">
+                    <span class="video-toggle-icon" aria-hidden="true">▶</span>
+                    <span class="video-toggle-text">Watch the PPO agent in action</span>
+                  </summary>
+                  <div class="video-toggle-body">
+                    <video
+                      class="video-player"
+                      controls
+                      preload="metadata"
+                      playsinline
+                      aria-label="PPO movement agent demo from BrainHack TIL-AI">
+                      <source src="videos/ppo-agent.webm" type="video/webm" />
+                      <source src="videos/ppo-agent.mp4" type="video/mp4" />
+                      Your browser doesn't support embedded video. You can
+                      <a href="videos/ppo-agent.mp4">download the clip</a> instead.
+                    </video>
+                  </div>
+                </details>
+
+                <div class="project-tech">
+                  <span class="tech-pill">Python</span>
+                  <span class="tech-pill">RAG</span>
+                  <span class="tech-pill">Embeddings</span>
+                  <span class="tech-pill">PPO</span>
+                  <span class="tech-pill">Reinforcement Learning</span>
+                </div>
+              </div>
+            </details>
+          </article>
+        </div>
       </article>
     </main>
 

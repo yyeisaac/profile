@@ -467,7 +467,7 @@ body {
 }
 
 .highlight-value {
-  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-size: clamp(1.25rem, 2.2vw, 1.55rem);
   font-weight: 800;
   color: #60a5fa;
   line-height: 1;
@@ -1287,4 +1287,206 @@ details[open] .timeline-summary::after { transform: rotate(45deg); }
   .about-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   PROJECTS / COMPETITIONS PAGE
+   Mirrors the Professional Background page: same .background-card
+   shell, .background-hero, .timeline of <details> panels, and a
+   trailing .achievement-section for the Competitions block. The only
+   project-specific styles are the metric chips and tech pills that
+   live inside .timeline-details.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── .timeline--bare ──────────────────────────────────────────────────
+   Strips the vertical rail, the dots, and the left indent so the
+   panels stand on their own as a simple stack of cells. */
+.timeline.timeline--bare::before { display: none; }
+.timeline.timeline--bare .timeline-item { padding-left: 0; }
+.timeline.timeline--bare .timeline-dot   { display: none; }
+
+
+/* Metric chips — work in both .timeline-details and .achievement-card.
+   Each context provides its own --cat / --cat-dim / --cat-glow so the
+   chip colour follows. Grid layout = equal width, consistent gaps. */
+:where(.timeline-details, .achievement-card) .project-metrics {
+  list-style: none;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.85rem;
+}
+
+:where(.timeline-details, .achievement-card) .project-metrics li {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--cat) 35%, transparent);
+  background: var(--cat-dim);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+  transition: border-color 180ms ease, transform 180ms ease;
+}
+
+/* Defeat the generic .card li::before bullet inside metric chips */
+:where(.timeline-details, .achievement-card) .project-metrics li::before { display: none; }
+
+:where(.timeline-details, .achievement-card) .project-metrics li:hover {
+  border-color: var(--cat);
+  transform: translateY(-1px);
+}
+
+:where(.timeline-details, .achievement-card) .metric-value {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--cat);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+:where(.timeline-details, .achievement-card) .metric-label {
+  font-size: 0.72rem;
+  color: rgba(200, 225, 255, 0.7);
+  line-height: 1.3;
+}
+
+/* Spacing around adjacent blocks */
+.timeline-details .project-metrics + .timeline-highlights,
+.achievement-card .project-metrics + .achievement-highlights {
+  margin-top: 1.2rem;
+}
+
+/* Tech pills */
+:where(.timeline-details, .achievement-card) .project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.1rem;
+}
+
+:where(.timeline-details, .achievement-card) .tech-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.32rem 0.7rem;
+  border-radius: 7px;
+  border: 1px solid rgba(100, 150, 255, 0.2);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(220, 235, 255, 0.88);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
+}
+
+:where(.timeline-details, .achievement-card) .tech-pill:hover {
+  border-color: var(--cat);
+  color: #ffffff;
+  background: var(--cat-dim);
+}
+
+/* ── Section eyebrows inside the timeline ─────────────────────────────
+   The "Projects" and "Competitions" labels live inside the .timeline
+   container so they align with the panels below them. */
+.timeline-eyebrow {
+  margin: 0 0 0.9rem;
+  align-self: flex-start;
+}
+
+/* Brighter Competitions eyebrow */
+.comp-eyebrow {
+  border-color: rgba(232, 121, 249, 0.55);
+  background: rgba(232, 121, 249, 0.14);
+  color: #f0abfc;
+}
+
+/* ── Competitions timeline block ──────────────────────────────────────
+   Identical to the Projects timeline in every way except the colour
+   tokens on the timeline-item. Whitespace separates the two sections
+   instead of a divider line. */
+.competitions-timeline {
+  margin-top: 1.6rem;
+  padding-top: 0.4rem;
+}
+
+/* The ONLY visual difference between a Project and a Competition cell:
+   a brighter fuchsia --cat. All panel/border/glow/summary styling is
+   inherited from the shared .timeline-panel rules and tinted by --cat. */
+.timeline-item[data-category="competition"] {
+  --cat:      #e879f9;
+  --cat-dim:  rgba(232, 121, 249, 0.18);
+  --cat-glow: rgba(232, 121, 249, 0.5);
+}
+
+/* ── Video toggle inside a timeline cell ──────────────────────────────
+   Native <details> styled as a button. Picks up the parent cell's
+   --cat so it matches whichever category the video belongs to. */
+.video-toggle {
+  margin-top: 1.2rem;
+}
+
+.video-toggle-summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 1rem 0.55rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--cat);
+  background: var(--cat-dim);
+  color: var(--cat);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  user-select: none;
+  transition: background 180ms ease, transform 160ms ease, box-shadow 180ms ease;
+}
+
+.video-toggle-summary::-webkit-details-marker { display: none; }
+
+.video-toggle-summary:hover {
+  background: color-mix(in srgb, var(--cat) 22%, transparent);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--cat) 25%, transparent);
+}
+
+.video-toggle-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--cat);
+  color: rgba(8, 4, 18, 0.95);
+  font-size: 0.6rem;
+  line-height: 1;
+  padding-left: 1px; /* nudge the play triangle visually centered */
+  transition: transform 220ms ease;
+}
+
+.video-toggle[open] .video-toggle-icon {
+  transform: rotate(90deg);
+}
+
+.video-toggle-body {
+  margin-top: 0.95rem;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--cat) 35%, transparent);
+  background: rgba(4, 8, 18, 0.7);
+  box-shadow: 0 12px 36px color-mix(in srgb, var(--cat) 20%, transparent);
+}
+
+.video-player {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  background: #000;
 }
