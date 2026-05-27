@@ -49,7 +49,14 @@ p, li {
 }
 
 html {
-  background: #020810; /* near-black navy — neons pop against this */
+  /* Subtle radial gradient stand-in for the WebGL network. Visible
+     during the brief window before network-bg.js initialises, so the
+     page never flashes a flat black on navigation. */
+  background:
+    radial-gradient(ellipse 60% 50% at 30% 30%, rgba(0, 102, 255, 0.18), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 75% 70%, rgba(0, 229, 255, 0.12), transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(255, 0, 187, 0.06), transparent 70%),
+    #020810; /* near-black navy — neons pop against this */
 }
 
 html,
