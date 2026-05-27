@@ -1405,39 +1405,19 @@ details[open] .timeline-summary::after { transform: rotate(45deg); }
 }
 
 /* ── Competitions timeline block ──────────────────────────────────────
-   Sits below the Projects timeline with proper whitespace (no
-   cramped divider line). Uses a brighter fuchsia accent so the
-   winning entry stands out. */
+   Identical to the Projects timeline in every way except the colour
+   tokens on the timeline-item. Whitespace separates the two sections
+   instead of a divider line. */
 .competitions-timeline {
   margin-top: 1.6rem;
   padding-top: 0.4rem;
 }
 
-/* Bright fuchsia category — boosts the shared --cat tokens that drive
-   the panel border, summary background, metric chips, and tech pills. */
+/* The ONLY visual difference between a Project and a Competition cell:
+   a brighter fuchsia --cat. All panel/border/glow/summary styling is
+   inherited from the shared .timeline-panel rules and tinted by --cat. */
 .timeline-item[data-category="competition"] {
   --cat:      #e879f9;
   --cat-dim:  rgba(232, 121, 249, 0.18);
   --cat-glow: rgba(232, 121, 249, 0.5);
-}
-
-/* A little extra glow on the competition panel so it reads as the
-   showcase entry without losing the shared timeline pattern. */
-.competitions-timeline .timeline-panel {
-  border-color: rgba(232, 121, 249, 0.32);
-  box-shadow: 0 6px 28px rgba(217, 70, 239, 0.18);
-}
-
-.competitions-timeline .timeline-panel:hover,
-.competitions-timeline details[open].timeline-panel {
-  border-color: #e879f9;
-  box-shadow:
-    0 14px 44px rgba(217, 70, 239, 0.32),
-    0 0 0 1px rgba(232, 121, 249, 0.25);
-}
-
-.competitions-timeline details[open] .timeline-summary {
-  background: linear-gradient(135deg,
-    rgba(232, 121, 249, 0.22) 0%,
-    rgba(192, 132, 252, 0.10) 100%);
 }
