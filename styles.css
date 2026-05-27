@@ -1306,11 +1306,10 @@ details[open] .timeline-summary::after { transform: rotate(45deg); }
 .timeline.timeline--bare .timeline-dot   { display: none; }
 
 
-/* Inline metric chips inside an expanded timeline panel.
-   Uses a grid so each chip is equal width with consistent gaps,
-   regardless of label length. Auto-fit collapses to fewer columns
-   on narrow widths. */
-.timeline-details .project-metrics {
+/* Metric chips — work in both .timeline-details and .achievement-card.
+   Each context provides its own --cat / --cat-dim / --cat-glow so the
+   chip colour follows. Grid layout = equal width, consistent gaps. */
+:where(.timeline-details, .achievement-card) .project-metrics {
   list-style: none;
   margin: 1.1rem 0 0;
   padding: 0;
@@ -1319,11 +1318,11 @@ details[open] .timeline-summary::after { transform: rotate(45deg); }
   gap: 0.85rem;
 }
 
-.timeline-details .project-metrics li {
+:where(.timeline-details, .achievement-card) .project-metrics li {
   margin: 0;
   padding: 0.75rem 1rem;
   border-radius: 10px;
-  border: 1px solid color-mix(in srgb, var(--cat) 30%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cat) 35%, transparent);
   background: var(--cat-dim);
   display: flex;
   flex-direction: column;
@@ -1333,14 +1332,14 @@ details[open] .timeline-summary::after { transform: rotate(45deg); }
 }
 
 /* Defeat the generic .card li::before bullet inside metric chips */
-.timeline-details .project-metrics li::before { display: none; }
+:where(.timeline-details, .achievement-card) .project-metrics li::before { display: none; }
 
-.timeline-details .project-metrics li:hover {
+:where(.timeline-details, .achievement-card) .project-metrics li:hover {
   border-color: var(--cat);
   transform: translateY(-1px);
 }
 
-.timeline-details .metric-value {
+:where(.timeline-details, .achievement-card) .metric-value {
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 700;
@@ -1349,26 +1348,27 @@ details[open] .timeline-summary::after { transform: rotate(45deg); }
   letter-spacing: -0.01em;
 }
 
-.timeline-details .metric-label {
+:where(.timeline-details, .achievement-card) .metric-label {
   font-size: 0.72rem;
   color: rgba(200, 225, 255, 0.7);
   line-height: 1.3;
 }
 
-/* Push the bullet-highlights list down a bit when it follows metrics */
-.timeline-details .project-metrics + .timeline-highlights {
+/* Spacing around adjacent blocks */
+.timeline-details .project-metrics + .timeline-highlights,
+.achievement-card .project-metrics + .achievement-highlights {
   margin-top: 1.2rem;
 }
 
-/* Tech pills inside an expanded timeline panel */
-.timeline-details .project-tech {
+/* Tech pills */
+:where(.timeline-details, .achievement-card) .project-tech {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: 1.1rem;
 }
 
-.timeline-details .tech-pill {
+:where(.timeline-details, .achievement-card) .tech-pill {
   display: inline-flex;
   align-items: center;
   padding: 0.32rem 0.7rem;
@@ -1383,24 +1383,73 @@ details[open] .timeline-summary::after { transform: rotate(45deg); }
   transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
 }
 
-.timeline-details .tech-pill:hover {
+:where(.timeline-details, .achievement-card) .tech-pill:hover {
   border-color: var(--cat);
   color: #ffffff;
   background: var(--cat-dim);
 }
 
-/* On the Projects page, give the Competitions eyebrow a distinct hue
-   (purple, to match .achievement-card's gradient and the AI badge). */
+/* ── Competitions block ───────────────────────────────────────────────
+   Brighter, more vibrant fuchsia/magenta palette so the winning entry
+   feels like a win. The card defines its own --cat tokens so the
+   shared metric/tech styles above pick up the brighter accents too. */
+.projects-page .achievement-card {
+  --cat:      #e879f9;
+  --cat-dim:  rgba(232, 121, 249, 0.16);
+  --cat-glow: rgba(232, 121, 249, 0.5);
+
+  border: 1px solid rgba(232, 121, 249, 0.5);
+  background:
+    linear-gradient(135deg,
+      rgba(232, 121, 249, 0.22) 0%,
+      rgba(192, 132, 252, 0.12) 45%,
+      rgba(244, 114, 182, 0.10) 100%),
+    rgba(18, 6, 30, 0.7);
+  box-shadow:
+    0 14px 52px rgba(217, 70, 239, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.projects-page .achievement-icon {
+  background: rgba(232, 121, 249, 0.22);
+  border-color: rgba(232, 121, 249, 0.6);
+  color: #f5d0fe;
+  box-shadow: 0 0 22px rgba(232, 121, 249, 0.55);
+}
+
+.projects-page .achievement-title { color: #ffffff; }
+
+.projects-page .achievement-role {
+  color: rgba(240, 200, 255, 0.78);
+}
+
+.projects-page .achievement-body {
+  color: rgba(240, 220, 255, 0.85);
+}
+
+.projects-page .achievement-badge-ai {
+  --cat:     #f5d0fe;
+  --cat-dim: rgba(245, 208, 254, 0.18);
+}
+
+.projects-page .achievement-highlights li {
+  color: rgba(240, 222, 255, 0.88);
+}
+
+.projects-page .achievement-highlights li::before {
+  background: #e879f9;
+  box-shadow: 0 0 8px rgba(232, 121, 249, 0.75);
+}
+
+/* Brighter Competitions eyebrow to match the card */
 .projects-page .achievement-eyebrow {
-  border-color: rgba(192, 132, 252, 0.4);
-  background: rgba(192, 132, 252, 0.1);
-  color: #c084fc;
+  border-color: rgba(232, 121, 249, 0.55);
+  background: rgba(232, 121, 249, 0.14);
+  color: #f0abfc;
 }
 
 .projects-page .achievement-section {
-  /* Re-introduce the divider above the Competitions block so it reads
-     as a section break, the way the Background page handles its
-     Selected Achievement. */
+  /* Section break above the Competitions block */
   border-top: 1px solid rgba(100, 150, 255, 0.1);
   margin-top: 0.4rem;
 }
