@@ -1291,344 +1291,68 @@ details[open] .timeline-summary::after { transform: rotate(45deg); }
 
 /* ══════════════════════════════════════════════════════════════════
    PROJECTS / COMPETITIONS PAGE
+   Mirrors the Professional Background page: same .background-card
+   shell, .background-hero, .timeline of <details> panels, and a
+   trailing .achievement-section for the Competitions block. The only
+   project-specific styles are the metric chips and tech pills that
+   live inside .timeline-details.
    ══════════════════════════════════════════════════════════════════ */
-.projects-page .card.projects-card {
-  width: min(1080px, 96vw);
-  overflow: visible; /* let glows escape the card */
-}
 
-.projects-card { position: relative; }
-
-.projects-hero {
-  padding: 0 0 1.6rem;
-  margin: 0 0 1.8rem;
-  border-bottom: 1px solid rgba(100, 150, 255, 0.1);
-}
-
-.projects-hero h1 {
-  margin: 0.6rem 0 0.8rem;
-  max-width: 26ch;
-}
-
-.projects-stats {
-  display: flex;
-  gap: 0;
-  flex-wrap: wrap;
-  margin-top: 1.4rem;
-  padding-top: 1.2rem;
-  border-top: 1px solid rgba(100, 150, 255, 0.1);
-}
-
-.proj-stat {
-  display: flex;
-  align-items: baseline;
-  gap: 0.55rem;
-  padding: 0 1.4rem 0 0;
-}
-
-.proj-stat + .proj-stat {
-  padding-left: 1.4rem;
-  border-left: 1px solid rgba(100, 150, 255, 0.12);
-}
-
-.proj-stat-num {
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #60a5fa;
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-
-.proj-stat-label {
-  font-size: 0.78rem;
-  color: rgba(200, 225, 255, 0.7);
-  letter-spacing: 0.02em;
-}
-
-.projects-section { margin-top: 2.6rem; }
-.projects-section:first-of-type { margin-top: 0; }
-
-.projects-section-head {
-  margin-bottom: 1.4rem;
-}
-
-.projects-section-eyebrow { margin-bottom: 0.55rem; }
-
-.projects-section-head h2 {
-  margin: 0;
-  font-size: 1.35rem;
-  color: rgba(220, 238, 255, 0.95);
-  letter-spacing: -0.01em;
-}
-
-/* ── Project card grid — 2-column rhythm with a wide span row ─────── */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.1rem;
-  perspective: 1200px; /* enables the magnetic tilt on children */
-}
-
-.project-card--wide { grid-column: 1 / -1; }
-
-@media (max-width: 760px) {
-  .projects-grid { grid-template-columns: 1fr; }
-  .project-card--wide { grid-column: auto; }
-}
-
-/* ── Project card ─────────────────────────────────────────────────── */
-.project-card {
-  --track: #60a5fa;
-  --track-dim: rgba(96, 165, 250, 0.12);
-  --track-glow: rgba(96, 165, 250, 0.45);
-  --mx: 50%;
-  --my: 50%;
-  --rx: 0deg;
-  --ry: 0deg;
-  position: relative;
-  padding: 1.4rem 1.5rem 1.5rem;
-  border-radius: 16px;
-  border: 1px solid rgba(100, 150, 255, 0.18);
-  background:
-    linear-gradient(135deg, var(--track-dim) 0%, rgba(8, 12, 22, 0.55) 75%),
-    rgba(4, 12, 30, 0.7);
-  overflow: hidden;
-  isolation: isolate;
-  transform: perspective(1200px) rotateX(var(--rx)) rotateY(var(--ry));
-  transform-style: preserve-3d;
-  transition:
-    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 220ms ease,
-    box-shadow 320ms ease,
-    opacity 600ms ease;
-  opacity: 0;
-}
-
-/* Reveal-on-scroll */
-.project-card { transform: translateY(18px) perspective(1200px) rotateX(var(--rx)) rotateY(var(--ry)); }
-.project-card.is-visible {
-  opacity: 1;
-  transform: translateY(0) perspective(1200px) rotateX(var(--rx)) rotateY(var(--ry));
-  transition-delay: var(--reveal-delay, 0ms);
-}
-
-.project-card:hover {
-  border-color: var(--track);
-  box-shadow:
-    0 18px 50px rgba(0, 15, 60, 0.6),
-    0 0 0 1px var(--track-glow) inset;
-}
-
-/* Track colour tokens */
-.project-card[data-track="healthcare"]  { --track: #34d399; --track-dim: rgba(52,211,153,0.14);  --track-glow: rgba(52,211,153,0.4); }
-.project-card[data-track="performance"] { --track: #fbbf24; --track-dim: rgba(251,191,36,0.14);  --track-glow: rgba(251,191,36,0.4); }
-.project-card[data-track="ai"]          { --track: #c084fc; --track-dim: rgba(192,132,252,0.16); --track-glow: rgba(192,132,252,0.45); }
-
-/* Pointer-tracked glow — sits ABOVE the background but BELOW content */
-.project-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle 260px at var(--mx) var(--my),
-    var(--track-glow) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity 240ms ease;
-  z-index: 0;
-}
-.project-card:hover::after { opacity: 0.55; }
-
-/* Top accent bar — fills on hover */
-.project-card-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--track), transparent);
-  transform-origin: left center;
-  transform: scaleX(0.18);
-  opacity: 0.7;
-  transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease;
-  z-index: 1;
-}
-.project-card:hover .project-card-bar { transform: scaleX(1); opacity: 1; }
-
-/* Big watermark numeral */
-.project-num {
-  position: absolute;
-  top: 0.6rem;
-  right: 1rem;
-  font-family: var(--font-display);
-  font-size: clamp(3.5rem, 7vw, 5.2rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: var(--track);
-  opacity: 0.08;
-  pointer-events: none;
-  transition: opacity 280ms ease, transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
-  z-index: 0;
-}
-.project-card:hover .project-num {
-  opacity: 0.18;
-  transform: translateY(-3px);
-}
-
-/* Corner glow (static, subtle ambient light) */
-.project-card-glow {
-  position: absolute;
-  top: -50px; right: -50px;
-  width: 180px; height: 180px;
-  background: radial-gradient(circle, var(--track-glow) 0%, transparent 65%);
-  opacity: 0.35;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* All content sits above the glow layers */
-.project-card-head,
-.project-card-body,
-.project-metrics,
-.project-tech { position: relative; z-index: 2; }
-
-.project-card-head {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  margin-bottom: 0.95rem;
-}
-
-.project-card-meta { flex: 1; min-width: 0; }
-
-.project-card-label {
-  margin: 0 0 0.3rem;
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--track);
-  opacity: 0.92;
-}
-
-.project-card-title {
-  margin: 0;
-  font-size: 1.12rem;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  background: linear-gradient(90deg, #ffffff 0%, #ffffff 100%);
-  background-size: 0% 1px;
-  background-repeat: no-repeat;
-  background-position: 0 100%;
-  transition: background-size 380ms ease;
-}
-.project-card:hover .project-card-title {
-  background: linear-gradient(90deg, var(--track) 0%, var(--track) 100%);
-  background-size: 30% 1.5px;
-  background-repeat: no-repeat;
-  background-position: 0 100%;
-}
-
-.project-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.28rem 0.7rem;
-  border-radius: 999px;
-  border: 1px solid var(--track);
-  background: var(--track-dim);
-  color: var(--track);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.badge-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: var(--track);
-  box-shadow: 0 0 8px var(--track);
-  animation: badgePulse 2.4s ease-in-out infinite;
-}
-
-@keyframes badgePulse {
-  0%, 100% { opacity: 0.6; transform: scale(0.9); }
-  50%      { opacity: 1;   transform: scale(1.15); }
-}
-
-.project-card-body {
-  margin: 0 0 1.05rem;
-  font-size: 0.92rem;
-  line-height: 1.65;
-  color: rgba(210, 225, 250, 0.85);
-  max-width: 60ch;
-}
-
-/* Metric chips */
-.project-metrics {
+/* Inline metric chips inside an expanded timeline panel */
+.timeline-details .project-metrics {
   list-style: none;
-  margin: 0 0 1.05rem;
+  margin: 0.9rem 0 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 0.55rem;
 }
 
-.project-metrics li {
+.timeline-details .project-metrics li {
   margin: 0;
   padding: 0.55rem 0.85rem;
   border-radius: 10px;
-  border: 1px solid rgba(100, 150, 255, 0.18);
-  background: rgba(8, 14, 30, 0.65);
+  border: 1px solid color-mix(in srgb, var(--cat) 30%, transparent);
+  background: var(--cat-dim);
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
   min-width: 0;
-  transition: border-color 200ms ease, background 200ms ease, transform 200ms ease;
+  transition: border-color 180ms ease, transform 180ms ease;
 }
-.project-card:hover .project-metrics li {
-  border-color: rgba(255, 255, 255, 0.05);
-}
-.project-metrics li:hover {
-  border-color: var(--track);
-  background: rgba(8, 14, 30, 0.85);
+
+/* Defeat the generic .card li::before bullet inside metric chips */
+.timeline-details .project-metrics li::before { display: none; }
+
+.timeline-details .project-metrics li:hover {
+  border-color: var(--cat);
   transform: translateY(-1px);
 }
 
-/* Defeat the generic .card li::before bullet inside metrics */
-.project-metrics li::before { display: none; }
-
-.metric-value {
+.timeline-details .metric-value {
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 700;
-  color: var(--track);
+  color: var(--cat);
   line-height: 1.1;
   letter-spacing: -0.01em;
 }
 
-.metric-label {
+.timeline-details .metric-label {
   font-size: 0.72rem;
   color: rgba(200, 225, 255, 0.7);
   line-height: 1.3;
 }
 
-/* Tech pills */
-.project-tech {
+/* Tech pills inside an expanded timeline panel */
+.timeline-details .project-tech {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
+  margin-top: 0.9rem;
 }
 
-.tech-pill {
+.timeline-details .tech-pill {
   display: inline-flex;
   align-items: center;
   padding: 0.32rem 0.7rem;
@@ -1640,189 +1364,27 @@ details[open] .timeline-summary::after { transform: rotate(45deg); }
   font-weight: 500;
   letter-spacing: 0.01em;
   white-space: nowrap;
-  transition: border-color 200ms ease, color 200ms ease, background 200ms ease;
+  transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
 }
-.tech-pill:hover {
-  border-color: var(--track);
+
+.timeline-details .tech-pill:hover {
+  border-color: var(--cat);
   color: #ffffff;
-  background: var(--track-dim);
+  background: var(--cat-dim);
 }
 
-/* ── Competitions section ─────────────────────────────────────────── */
-.competitions-section { margin-top: 2.8rem; }
-
-.comp-eyebrow {
+/* On the Projects page, give the Competitions eyebrow a distinct hue
+   (purple, to match .achievement-card's gradient and the AI badge). */
+.projects-page .achievement-eyebrow {
   border-color: rgba(192, 132, 252, 0.4);
   background: rgba(192, 132, 252, 0.1);
   color: #c084fc;
 }
 
-.competition-card-v2 {
-  --comp-color: #c084fc;
-  --comp-glow: rgba(192, 132, 252, 0.45);
-  --mx: 50%;
-  --my: 50%;
-  position: relative;
-  display: grid;
-  grid-template-columns: 88px 1fr;
-  gap: 1.3rem;
-  padding: 1.6rem 1.7rem;
-  border-radius: 18px;
-  border: 1px solid rgba(192, 132, 252, 0.32);
-  background:
-    linear-gradient(135deg,
-      rgba(192, 132, 252, 0.14) 0%,
-      rgba(167, 139, 250, 0.06) 50%,
-      rgba(232, 121, 249, 0.04) 100%),
-    rgba(8, 6, 22, 0.65);
-  overflow: hidden;
-  isolation: isolate;
-  box-shadow: 0 8px 40px rgba(130, 60, 220, 0.18);
-  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 320ms ease,
-              border-color 200ms ease;
-}
-
-.competition-card-v2:hover {
-  transform: translateY(-2px);
-  border-color: var(--comp-color);
-  box-shadow: 0 20px 56px rgba(130, 60, 220, 0.32);
-}
-
-.competition-glow {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle 320px at var(--mx) var(--my),
-    var(--comp-glow) 0%, transparent 60%);
-  opacity: 0.35;
-  z-index: 0;
-}
-
-.competition-trophy {
-  position: relative;
-  z-index: 2;
-  width: 72px;
-  height: 72px;
-  border-radius: 18px;
-  display: grid;
-  place-items: center;
-  color: var(--comp-color);
-  background: rgba(192, 132, 252, 0.16);
-  border: 1px solid rgba(192, 132, 252, 0.4);
-  box-shadow: 0 0 24px rgba(192, 132, 252, 0.3),
-              inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  align-self: start;
-}
-
-.competition-trophy svg {
-  width: 36px;
-  height: 36px;
-  filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.6));
-  animation: trophyFloat 4s ease-in-out infinite;
-}
-
-@keyframes trophyFloat {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-3px); }
-}
-
-.competition-body { position: relative; z-index: 2; }
-
-.competition-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.9rem;
-  margin-bottom: 0.85rem;
-}
-
-.competition-label {
-  margin: 0 0 0.35rem;
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--comp-color);
-  opacity: 0.85;
-}
-
-.competition-title {
-  margin: 0 0 0.2rem;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: -0.01em;
-}
-
-.competition-role {
-  margin: 0;
-  font-size: 0.88rem;
-  color: rgba(220, 200, 255, 0.75);
-}
-
-.competition-badge {
-  flex-shrink: 0;
-}
-
-.competition-text {
-  margin: 0 0 0.95rem;
-  font-size: 0.94rem;
-  line-height: 1.7;
-  color: rgba(220, 210, 250, 0.85);
-  max-width: 64ch;
-}
-
-.competition-highlights {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.competition-highlights li {
-  margin: 0;
-  padding-left: 1.25rem;
-  position: relative;
-  color: rgba(215, 205, 250, 0.85);
-  font-size: 0.92rem;
-  line-height: 1.6;
-}
-
-.competition-highlights li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.65em;
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: var(--comp-color);
-  box-shadow: 0 0 6px var(--comp-glow);
-}
-
-@media (max-width: 640px) {
-  .competition-card-v2 {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 1.3rem 1.3rem;
-  }
-  .competition-trophy { width: 56px; height: 56px; border-radius: 14px; }
-  .competition-trophy svg { width: 28px; height: 28px; }
-  .competition-head { flex-direction: column; align-items: flex-start; }
-}
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .project-card { opacity: 1; transform: none; transition: none; }
-  .project-card.is-visible { transition: none; }
-  .badge-dot, .competition-trophy svg { animation: none; }
-}
-
-@media (max-width: 540px) {
-  .project-card-head { flex-wrap: wrap; }
-  .projects-grid { grid-template-columns: 1fr; }
+.projects-page .achievement-section {
+  /* Re-introduce the divider above the Competitions block so it reads
+     as a section break, the way the Background page handles its
+     Selected Achievement. */
+  border-top: 1px solid rgba(100, 150, 255, 0.1);
+  margin-top: 0.4rem;
 }
