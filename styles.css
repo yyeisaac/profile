@@ -467,7 +467,7 @@ body {
 }
 
 .highlight-value {
-  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-size: clamp(1.25rem, 2.2vw, 1.55rem);
   font-weight: 800;
   color: #60a5fa;
   line-height: 1;
