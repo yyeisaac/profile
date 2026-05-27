@@ -29,7 +29,7 @@
           <p class="eyebrow">Work &amp; Wins</p>
           <h1>Projects I've built and competitions I've led.</h1>
           <p class="section-intro">
-            A walk-through of things I've shipped, broken, and rebuilt — from production healthcare systems to multi-agent RL pipelines under real-world constraints.
+            A walk-through of things I've shipped, broken, and rebuilt — from production healthcare systems to retrieval-grounded LLMs paired with PPO agents.
           </p>
         </div>
 
@@ -39,11 +39,10 @@
             <details class="timeline-panel" open>
               <summary class="timeline-summary">
                 <div class="timeline-summary-main">
-                  <p class="timeline-period">Production · 2024 – 2025</p>
                   <h2>OCR Claims Processing System</h2>
                   <p class="timeline-role">Healthcare claims automation — built and shipped at Alliance Healthcare Group</p>
                 </div>
-                <span class="timeline-badge">Healthcare</span>
+                <span class="timeline-badge">Claims Engine</span>
               </summary>
               <div class="timeline-content timeline-details">
                 <p>
@@ -74,11 +73,10 @@
             <details class="timeline-panel">
               <summary class="timeline-summary">
                 <div class="timeline-summary-main">
-                  <p class="timeline-period">Reliability · 2024 – 2025</p>
                   <h2>Clinic Management Performance Testing</h2>
                   <p class="timeline-role">Load testing and bottleneck remediation under peak clinic traffic</p>
                 </div>
-                <span class="timeline-badge">Performance</span>
+                <span class="timeline-badge">Stress Lab</span>
               </summary>
               <div class="timeline-content timeline-details">
                 <p>
@@ -107,31 +105,31 @@
             <details class="timeline-panel">
               <summary class="timeline-summary">
                 <div class="timeline-summary-main">
-                  <p class="timeline-period">Applied AI · 2025</p>
-                  <h2>Multi-Agent PPO Pipeline</h2>
-                  <p class="timeline-role">Multi-agent reinforcement learning under DSTA simulation constraints</p>
+                  <h2>BrainHack TIL-AI — RAG + PPO Agent</h2>
+                  <p class="timeline-role">A retrieval-grounded LLM stack paired with a PPO agent navigating its environment</p>
                 </div>
-                <span class="timeline-badge">Applied AI</span>
+                <span class="timeline-badge">Agent Stack</span>
               </summary>
               <div class="timeline-content timeline-details">
                 <p>
-                  Designed and optimised a multi-agent reinforcement learning pipeline, with reward shaping and systematic debugging driving the improvements.
+                  Two systems working together: a retrieval-augmented generation pipeline that grounds an LLM in a document corpus, and a PPO-trained agent that learns to move through its environment and act on what the retrieval layer surfaces.
                 </p>
                 <ul class="project-metrics">
-                  <li><span class="metric-value">Team of 5</span><span class="metric-label">led end-to-end</span></li>
-                  <li><span class="metric-value">PPO</span><span class="metric-label">Ray RLlib pipeline</span></li>
-                  <li><span class="metric-value">DSTA</span><span class="metric-label">simulation constraints</span></li>
+                  <li><span class="metric-value">RAG</span><span class="metric-label">retrieval-grounded LLM</span></li>
+                  <li><span class="metric-value">PPO</span><span class="metric-label">navigation &amp; control agent</span></li>
+                  <li><span class="metric-value">2-system</span><span class="metric-label">retrieval + agent stack</span></li>
                 </ul>
                 <ul class="timeline-highlights">
-                  <li>Owned reward design and tuning — the single biggest unlock for performance.</li>
-                  <li>Built a systematic debugging loop to triage agent behaviours faster.</li>
-                  <li>Implemented and optimised the multi-agent PPO pipeline on Ray RLlib.</li>
+                  <li>Built the RAG pipeline: chunking, embedding, retrieval, and grounded prompt assembly.</li>
+                  <li>Trained the PPO agent to navigate the environment and execute the right action given retrieved context.</li>
+                  <li>Owned reward shaping and iteration — the work that took the agent from "moves randomly" to "moves with intent".</li>
                 </ul>
                 <div class="project-tech">
                   <span class="tech-pill">Python</span>
-                  <span class="tech-pill">Ray RLlib</span>
+                  <span class="tech-pill">RAG</span>
+                  <span class="tech-pill">Embeddings</span>
                   <span class="tech-pill">PPO</span>
-                  <span class="tech-pill">Multi-Agent RL</span>
+                  <span class="tech-pill">Reinforcement Learning</span>
                 </div>
               </div>
             </details>
@@ -144,18 +142,18 @@
             <div class="achievement-header">
               <div class="achievement-icon" aria-hidden="true">★</div>
               <div class="achievement-meta">
-                <h2 class="achievement-title">BrainHack TIL-AI 2025</h2>
-                <p class="achievement-role">Multi-Agent Reinforcement Learning · Project Lead</p>
+                <h2 class="achievement-title">BrainHack TIL-AI</h2>
+                <p class="achievement-role">RAG + PPO Agent · DSTA National Competition</p>
               </div>
-              <span class="timeline-badge achievement-badge-ai">Applied AI</span>
+              <span class="timeline-badge achievement-badge-ai">Agent Stack</span>
             </div>
             <p class="achievement-body">
-              Applied AI engineering in a competitive setting by leading a team to design and optimise a multi-agent reinforcement learning system under DSTA's simulation constraints.
+              Applied AI engineering in a competitive setting: built a retrieval-augmented generation pipeline and a PPO agent that navigates its environment, with the two systems working together under DSTA's challenge constraints.
             </p>
             <ul class="achievement-highlights">
-              <li>Led a team of 5 under DSTA simulation constraints.</li>
-              <li>Improved results through reward design, tuning, and systematic debugging.</li>
-              <li>Implemented and optimised a multi-agent PPO pipeline using Ray RLlib.</li>
+              <li>Designed and built the RAG pipeline end-to-end — chunking, embedding, retrieval, grounded prompting.</li>
+              <li>Trained a PPO agent to move through the environment and act on retrieved context.</li>
+              <li>Owned reward shaping and the iteration loop that turned the agent from random to intentional.</li>
             </ul>
           </article>
         </div>
