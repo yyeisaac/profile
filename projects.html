@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projects</title>
+    <title>Projects / Competitions</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body class="content-page">
+  <body class="content-page projects-page">
     <header class="topbar">
       <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open navigation menu">
         <span></span>
@@ -18,28 +18,127 @@
         <a href="about.html">About</a>
         <a href="professional-background.html">Background</a>
         <a href="skills.html">Skills</a>
-        <a href="projects.html" aria-current="page">Projects</a>
+        <a href="projects.html" aria-current="page">Projects / Competitions</a>
       </nav>
     </header>
 
     <main class="page-shell">
-      <article class="card">
-        <p class="eyebrow">Work</p>
-        <h1>Projects</h1>
+      <article class="card tabs-card projects-card">
+        <div class="projects-hero">
+          <p class="eyebrow">Work &amp; Wins</p>
+          <h1>Projects &amp; Competitions</h1>
+          <p class="section-intro">
+            A selection of things I've built, broken, and rebuilt — from production healthcare systems to multi-agent RL pipelines designed under real-world constraints.
+          </p>
+        </div>
 
-        <h2>Featured Projects</h2>
+        <section class="projects-section" aria-labelledby="featured-projects-title">
+          <header class="projects-section-head">
+            <p class="eyebrow projects-section-eyebrow">Featured Projects</p>
+            <h2 id="featured-projects-title">Building, automating, and shipping.</h2>
+          </header>
 
-        <h3>OCR Claims Processing System</h3>
-        <p>Built an OCR-assisted pipeline to extract and process healthcare claims faster with significantly less manual effort.</p>
-        <p><strong>Tech stack:</strong> Python, Azure Document Intelligence, automation workflows</p>
+          <div class="projects-grid">
 
-        <h3>Clinic Management Performance Testing</h3>
-        <p>Designed and ran load tests to surface bottlenecks and improve stability for high-traffic clinic scenarios.</p>
-        <p><strong>Tech stack:</strong> Apache JMeter, Azure Load Testing, analytics and reporting</p>
+            <article class="project-card" data-track="healthcare">
+              <div class="project-card-glow" aria-hidden="true"></div>
+              <div class="project-card-head">
+                <div class="project-card-meta">
+                  <p class="project-card-label">Production · Healthcare</p>
+                  <h3 class="project-card-title">OCR Claims Processing System</h3>
+                </div>
+                <span class="project-badge">Shipped</span>
+              </div>
+              <p class="project-card-body">
+                Built an OCR-assisted pipeline to extract and process healthcare claims faster, cutting manual review effort across GP, dental, and TCM categories.
+              </p>
+              <ul class="project-metrics">
+                <li><span class="metric-value">20–25%</span><span class="metric-label">claims automated</span></li>
+                <li><span class="metric-value">3 days</span><span class="metric-label">manual effort removed</span></li>
+              </ul>
+              <div class="project-tech">
+                <span class="tech-pill">Python</span>
+                <span class="tech-pill">Azure Document Intelligence</span>
+                <span class="tech-pill">C#</span>
+                <span class="tech-pill">Workflow Automation</span>
+              </div>
+            </article>
 
-        <h3>Multi-Agent Reinforcement Learning — BrainHack TIL-AI 2025</h3>
-        <p>Led a team of 5 to design and optimise a multi-agent PPO pipeline under DSTA simulation constraints, improving results through reward shaping and systematic debugging.</p>
-        <p><strong>Tech stack:</strong> Python, Ray RLlib, PPO, multi-agent RL</p>
+            <article class="project-card" data-track="performance">
+              <div class="project-card-glow" aria-hidden="true"></div>
+              <div class="project-card-head">
+                <div class="project-card-meta">
+                  <p class="project-card-label">Reliability · Load Testing</p>
+                  <h3 class="project-card-title">Clinic Management Performance Testing</h3>
+                </div>
+                <span class="project-badge">Shipped</span>
+              </div>
+              <p class="project-card-body">
+                Designed and ran load tests to surface bottlenecks in high-traffic clinic scenarios, then iterated with engineering to improve stability under peak load.
+              </p>
+              <ul class="project-metrics">
+                <li><span class="metric-value">30%</span><span class="metric-label">efficiency improvement</span></li>
+                <li><span class="metric-value">Live</span><span class="metric-label">running in production</span></li>
+              </ul>
+              <div class="project-tech">
+                <span class="tech-pill">Apache JMeter</span>
+                <span class="tech-pill">Azure Load Testing</span>
+                <span class="tech-pill">Analytics &amp; Reporting</span>
+              </div>
+            </article>
+
+            <article class="project-card" data-track="ai">
+              <div class="project-card-glow" aria-hidden="true"></div>
+              <div class="project-card-head">
+                <div class="project-card-meta">
+                  <p class="project-card-label">Applied AI · Multi-Agent RL</p>
+                  <h3 class="project-card-title">Multi-Agent PPO Pipeline</h3>
+                </div>
+                <span class="project-badge">Research</span>
+              </div>
+              <p class="project-card-body">
+                Designed and optimised a multi-agent reinforcement learning pipeline under DSTA simulation constraints, with reward shaping and systematic debugging driving the improvements.
+              </p>
+              <ul class="project-metrics">
+                <li><span class="metric-value">Team of 5</span><span class="metric-label">led end-to-end</span></li>
+                <li><span class="metric-value">PPO</span><span class="metric-label">Ray RLlib pipeline</span></li>
+              </ul>
+              <div class="project-tech">
+                <span class="tech-pill">Python</span>
+                <span class="tech-pill">Ray RLlib</span>
+                <span class="tech-pill">PPO</span>
+                <span class="tech-pill">Multi-Agent RL</span>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <section class="projects-section competitions-section" aria-labelledby="competitions-title">
+          <header class="projects-section-head">
+            <p class="eyebrow projects-section-eyebrow comp-eyebrow">Competitions</p>
+            <h2 id="competitions-title">Putting it on the line, under constraint.</h2>
+          </header>
+
+          <article class="achievement-card competition-card">
+            <div class="achievement-header">
+              <div class="achievement-icon" aria-hidden="true">★</div>
+              <div class="achievement-meta">
+                <h3 class="achievement-title">BrainHack TIL-AI 2025</h3>
+                <p class="achievement-role">Multi-Agent Reinforcement Learning · Project Lead</p>
+              </div>
+              <span class="timeline-badge achievement-badge-ai">Applied AI</span>
+            </div>
+            <p class="achievement-body">
+              Applied AI engineering in a competitive setting by leading a team to design and optimise a multi-agent reinforcement learning system under DSTA's simulation constraints.
+            </p>
+            <ul class="achievement-highlights">
+              <li>Led a team of 5 under DSTA simulation constraints.</li>
+              <li>Improved results through reward design, tuning, and systematic debugging.</li>
+              <li>Implemented and optimised a multi-agent PPO pipeline using Ray RLlib.</li>
+            </ul>
+          </article>
+        </section>
       </article>
     </main>
 
