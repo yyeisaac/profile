@@ -1421,3 +1421,72 @@ details[open] .timeline-summary::after { transform: rotate(45deg); }
   --cat-dim:  rgba(232, 121, 249, 0.18);
   --cat-glow: rgba(232, 121, 249, 0.5);
 }
+
+/* ── Video toggle inside a timeline cell ──────────────────────────────
+   Native <details> styled as a button. Picks up the parent cell's
+   --cat so it matches whichever category the video belongs to. */
+.video-toggle {
+  margin-top: 1.2rem;
+}
+
+.video-toggle-summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 1rem 0.55rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--cat);
+  background: var(--cat-dim);
+  color: var(--cat);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  user-select: none;
+  transition: background 180ms ease, transform 160ms ease, box-shadow 180ms ease;
+}
+
+.video-toggle-summary::-webkit-details-marker { display: none; }
+
+.video-toggle-summary:hover {
+  background: color-mix(in srgb, var(--cat) 22%, transparent);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--cat) 25%, transparent);
+}
+
+.video-toggle-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--cat);
+  color: rgba(8, 4, 18, 0.95);
+  font-size: 0.6rem;
+  line-height: 1;
+  padding-left: 1px; /* nudge the play triangle visually centered */
+  transition: transform 220ms ease;
+}
+
+.video-toggle[open] .video-toggle-icon {
+  transform: rotate(90deg);
+}
+
+.video-toggle-body {
+  margin-top: 0.95rem;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--cat) 35%, transparent);
+  background: rgba(4, 8, 18, 0.7);
+  box-shadow: 0 12px 36px color-mix(in srgb, var(--cat) 20%, transparent);
+}
+
+.video-player {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  background: #000;
+}
