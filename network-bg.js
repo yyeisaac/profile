@@ -16,14 +16,31 @@
   }
 
   function start() {
+    /* Skip the heavy WebGL background if the user prefers reduced motion. */
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
     loadScript('https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js')
       .then(buildScene)
       .catch(function (e) { console.warn('[network-bg] failed to load Three.js', e); });
   }
 
-  document.readyState === 'loading'
-    ? document.addEventListener('DOMContentLoaded', start)
-    : start();
+  /* Defer init until the browser is idle so the page content paints first.
+     Otherwise WebGL context creation + Three.js parse competes with first
+     paint and makes every navigation feel laggy. */
+  function deferStart() {
+    if (typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(start, { timeout: 600 });
+    } else {
+      setTimeout(start, 120);
+    }
+  }
+
+  if (document.readyState === 'complete') {
+    deferStart();
+  } else {
+    window.addEventListener('load', deferStart, { once: true });
+  }
 
   /* ─────────────────────────────────────────────────────────────── */
   function buildScene() {
