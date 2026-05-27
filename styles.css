@@ -1298,6 +1298,14 @@ details[open] .timeline-summary::after { transform: rotate(45deg); }
    live inside .timeline-details.
    ══════════════════════════════════════════════════════════════════ */
 
+/* ── .timeline--bare ──────────────────────────────────────────────────
+   Strips the vertical rail, the dots, and the left indent so the
+   panels stand on their own as a simple stack of cells. */
+.timeline.timeline--bare::before { display: none; }
+.timeline.timeline--bare .timeline-item { padding-left: 0; }
+.timeline.timeline--bare .timeline-dot   { display: none; }
+
+
 /* Inline metric chips inside an expanded timeline panel */
 .timeline-details .project-metrics {
   list-style: none;
