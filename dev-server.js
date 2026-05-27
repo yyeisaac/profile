@@ -38,17 +38,56 @@ const server = http.createServer((req, res) => {
 
     const ext = path.extname(filePath).toLowerCase();
     const contentType = mimeTypes[ext] || 'application/octet-stream';
+    const size = stats.size;
+    const range = req.headers.range;
 
-    fs.readFile(filePath, (readErr, data) => {
-      if (readErr) {
-        res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
-        res.end('Internal server error');
+    // ── Range request: serve partial content so <video>/<audio> can seek ──
+    if (range) {
+      const match = /^bytes=(\d*)-(\d*)$/.exec(range);
+      let start = match && match[1] !== '' ? Number(match[1]) : 0;
+      let end   = match && match[2] !== '' ? Number(match[2]) : size - 1;
+
+      if (
+        !match ||
+        Number.isNaN(start) ||
+        Number.isNaN(end) ||
+        start > end ||
+        end >= size
+      ) {
+        res.writeHead(416, {
+          'Content-Range': `bytes */${size}`,
+          'Content-Type': 'text/plain; charset=utf-8',
+        });
+        res.end('Range Not Satisfiable');
         return;
       }
 
-      res.writeHead(200, { 'Content-Type': contentType });
-      res.end(data);
+      res.writeHead(206, {
+        'Content-Type': contentType,
+        'Content-Length': end - start + 1,
+        'Content-Range': `bytes ${start}-${end}/${size}`,
+        'Accept-Ranges': 'bytes',
+        'Cache-Control': 'no-cache',
+      });
+
+      const stream = fs.createReadStream(filePath, { start, end });
+      stream.on('error', () => {
+        if (!res.headersSent) {
+          res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+        }
+        res.end('Stream error');
+      });
+      stream.pipe(res);
+      return;
+    }
+
+    // ── Full file ────────────────────────────────────────────────────────
+    res.writeHead(200, {
+      'Content-Type': contentType,
+      'Content-Length': size,
+      'Accept-Ranges': 'bytes',
     });
+    fs.createReadStream(filePath).pipe(res);
   });
 });
 
