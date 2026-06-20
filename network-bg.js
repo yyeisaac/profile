@@ -7,10 +7,14 @@
 (function () {
   'use strict';
 
-  function loadScript(src) {
+  function loadScript(src, integrity) {
     return new Promise(function (res, rej) {
       var s = document.createElement('script');
       s.src = src; s.onload = res; s.onerror = rej;
+      if (integrity) {
+        s.integrity = integrity;
+        s.crossOrigin = 'anonymous';
+      }
       document.head.appendChild(s);
     });
   }
@@ -20,7 +24,10 @@
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return;
     }
-    loadScript('https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js')
+    loadScript(
+      'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js',
+      'sha512-334uBDwY0iZ2TklV1OtDtBW9vp7jjP7SWRzT7Ehu1fdtPIjTpCwTSFb8HI/YBau9L1/kRBEOALrS229Kry4yFQ=='
+    )
       .then(buildScene)
       .catch(function (e) { console.warn('[network-bg] failed to load Three.js', e); });
   }
