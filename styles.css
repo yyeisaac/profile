@@ -839,6 +839,9 @@ details[open] .timeline-summary::after { transform: rotate(45deg); }
 .skill-card--cloud       { --sec: #e879f9; --sec-dim: rgba(232,121,249,0.1); --sec-glow: rgba(232,121,249,0.22); }
 .skill-card--strengths   { --sec: #fbbf24; --sec-dim: rgba(251,191,36,0.1);  --sec-glow: rgba(251,191,36,0.22); }
 .skill-card--languages   { --sec: #fb7185; --sec-dim: rgba(251,113,133,0.1); --sec-glow: rgba(251,113,133,0.22); }
+.skill-card--data        { --sec: #5b6fc9; --sec-dim: rgba(91,111,201,0.1);  --sec-glow: rgba(91,111,201,0.22); }
+
+.skill-card--wide { grid-column: 1 / -1; }
 
 .skill-card {
   padding: 1.4rem 1.5rem;
