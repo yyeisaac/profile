@@ -1,0 +1,17 @@
+# Editor / IDE config
+.idea/
+.vscode/
+*.swp
+
+# Claude Code session data and worktrees (can contain full repo copies)
+.claude/
+
+# Dependencies
+node_modules/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
